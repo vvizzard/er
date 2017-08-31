@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.User" table="user">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="iduser">
+            <generator class="increment"/>
+        </id>                
+        <property name="nom" column="nomuser" type="string"/>
+        <property name="prenom" column="prenomuser" type="string"/>
+        <property name="dateNaissance" column="datenaissanceuser" type="string"/>
+        <property name="dateEmbauche" column="dateembaucheuser" type="string"/>
+        <property name="matricule" column="matricule" type="string"/>
+    </class>
+</hibernate-mapping>

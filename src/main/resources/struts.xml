@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+    
+    <package name="default" namespace="/" extends="json-default">       
+        <action name="conversion" class="com.er.erproject.action.ConversionJsonAction" method="load">          
+            <result type="json">
+                <param name="root">
+                    valeur
+                </param>
+            </result>
+        </action>      
+    </package>
+
+
+    <package name="action" namespace="/" extends="struts-default">
+        
+        <action name="" class="com.er.erproject.action.LoginAction" method="load">                 
+            <result name="success">login.jsp</result>
+            <result name="error">login.jsp</result>
+        </action>
+        
+        <action name="lg" class="com.er.erproject.action.LoginAction" method="load">                 
+            <result name="success">login.jsp</result>
+            <result name="error">login.jsp</result>
+        </action>
+        
+        <action name="login" class="com.er.erproject.action.LoginAction" method="execute">
+            <result name="success" type = "redirectAction">
+                <param name="actionName">entree</param>
+            </result>            
+            <result name="error">login.jsp</result>
+        </action>        
+        
+        <action name="entree" class="com.er.erproject.action.EntreeAction" method="load">
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="listeArticle" class="com.er.erproject.action.ArticleAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/choixArticleRecherche.jsp</result>
+            <result name="error">vue/choixArticleRecherche.jsp</result>
+        </action>
+        
+        <action name="listeUser" class="com.er.erproject.action.UserAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/choixEmploye.jsp</result>
+            <result name="error">vue/choixEmploye.jsp</result>
+        </action>
+        
+        <action name="listeFournisseur" class="com.er.erproject.action.FournisseurAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/choixFournisseur.jsp</result>
+            <result name="error">vue/choixFournisseur.jsp</result>
+        </action>
+        
+        <action name="ajoutDemandeur" class="com.er.erproject.action.EntreeAction" method="ajoutDemandeur">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="ajoutArticle" class="com.er.erproject.action.EntreeAction" method="ajoutArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="ajoutFournisseur" class="com.er.erproject.action.EntreeAction" method="ajoutFournisseur">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="ajouter" class="com.er.erproject.action.EntreeAction" method="ajouter">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="enregistrer" class="com.er.erproject.action.EntreeAction" method="enregistrer">                        
+            <interceptor-ref name="fileUpload"> 
+                <param name="maximumSize">2097152</param> 
+                <param name="allowedTypes"> 
+                    image/png,image/gif,image/jpeg,image/pjpeg 
+                </param> 
+            </interceptor-ref> 
+            <interceptor-ref name="defaultStack"></interceptor-ref>             
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="input">vue/achatArticle.jsp</result>
+            <result name="success">vue/achatArticle.jsp</result>
+            <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="etatInventaire" class="com.er.erproject.action.InventaireAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/inventaire.jsp</result>
+            <result name="error">vue/inventaire.jsp</result>
+        </action>
+        
+        <action name="loadSortie" class="com.er.erproject.action.SortieAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="ajoutArticleSortie" class="com.er.erproject.action.SortieAction" method="ajoutArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="ajoutProjetSortie" class="com.er.erproject.action.SortieAction" method="ajoutProjet">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="listeProjet" class="com.er.erproject.action.ProjetAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/choixProjet.jsp</result>
+            <result name="error">vue/choixProjet.jsp</result>
+        </action>
+        
+        <action name="ajouterSortie" class="com.er.erproject.action.SortieAction" method="ajouter">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="enregistrerSortie" class="com.er.erproject.action.SortieAction" method="enregistrer">                        
+            <interceptor-ref name="fileUpload"> 
+                <param name="maximumSize">2097152</param> 
+                <param name="allowedTypes"> 
+                    image/png,image/gif,image/jpeg,image/pjpeg 
+                </param> 
+            </interceptor-ref> 
+            <interceptor-ref name="defaultStack"></interceptor-ref>             
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="input">vue/sortieArticle.jsp</result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="ajoutDemandeurSortie" class="com.er.erproject.action.SortieAction" method="ajoutDemandeur">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/sortieArticle.jsp</result>
+            <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="journal" class="com.er.erproject.action.JournalAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/journal.jsp</result>
+            <result name="error">vue/journal.jsp</result>
+        </action>
+        
+        <action name="newArticle" class="com.er.erproject.action.ArticleAction" method="newArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/nouvelArticle.jsp</result>
+            <result name="error">vue/nouvelArticle.jsp</result>
+        </action>
+        
+        <action name="ficheArticle" class="com.er.erproject.action.ArticleAction" method="ficheArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/ficheArticle.jsp</result>
+            <result name="error">vue/ficheArticle.jsp</result>
+        </action>
+        
+        <action name="addFourisseurArticle" class="com.er.erproject.action.ArticleAction" method="addFournisseur">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/ficheArticle.jsp</result>
+            <result name="error">vue/ficheArticle.jsp</result>
+        </action>
+        
+        <action name="addArticle" class="com.er.erproject.action.ArticleAction" method="addArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success" type = "redirectAction">
+                <param name="actionName">listeArticle</param>
+            </result>
+            <result name="error">vue/nouvelArticle.jsp</result>
+        </action>            
+        
+        <action name="deleteArticle" class="com.er.erproject.action.ArticleAction" method="deleteArticle">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success" type = "redirectAction">
+                <param name="actionName">listeArticle</param>
+            </result>
+            <result name="error">vue/choixArticleRecherche.jsp</result>
+        </action>  
+        
+          <action name="deleteFournisseurArticle" class="com.er.erproject.action.ArticleAction" method="deleteFournisseur">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/ficheArticle.jsp</result>
+            <result name="error">vue/ficheArticle.jsp</result>
+        </action>    
+        
+        <action name="etatFamille" class="com.er.erproject.action.FamilleAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/famille.jsp</result>
+            <result name="error">vue/famille.jsp</result>
+        </action>
+        
+        <action name="addFamille" class="com.er.erproject.action.FamilleAction" method="addFamille">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/famille.jsp</result>
+            <result name="error">vue/famille.jsp</result>
+        </action>
+        
+        <action name="deleteFamille" class="com.er.erproject.action.FamilleAction" method="deleteFamille">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/famille.jsp</result>
+            <result name="error">vue/famille.jsp</result>
+        </action>
+        
+        <action name="etatUnite" class="com.er.erproject.action.UniteAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/unite.jsp</result>
+            <result name="error">vue/unite.jsp</result>
+        </action>
+        
+        <action name="addUnite" class="com.er.erproject.action.UniteAction" method="addUnite">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/unite.jsp</result>
+            <result name="error">vue/unite.jsp</result>
+        </action>
+        
+        <action name="deleteUnite" class="com.er.erproject.action.UniteAction" method="deleteUnite">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/unite.jsp</result>
+            <result name="error">vue/unite.jsp</result>
+        </action>
+        
+        <action name="loadUser" class="com.er.erproject.action.UserAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/user.jsp</result>
+            <result name="error">vue/user.jsp</result>
+        </action>
+        
+        <action name="addUser" class="com.er.erproject.action.UserAction" method="save">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success" type = "redirectAction">
+                <param name="actionName">listeUser</param>
+            </result>            
+            <result name="error">vue/user.jsp</result>
+        </action>
+        
+        <action name="listeUser" class="com.er.erproject.action.UserAction" method="liste">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>            
+            <result name="success">vue/listeUser.jsp</result>
+            <result name="error">vue/listeUser.jsp</result>
+        </action>
+        
+        <action name="deleteUser" class="com.er.erproject.action.UserAction" method="delete">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>            
+            <result name="success" type = "redirectAction">
+                <param name="actionName">listeUser</param>
+            </result>            
+            <result name="error">vue/listeUser.jsp</result>
+        </action>
+        
+        <action name="loadDepartement" class="com.er.erproject.action.DepartementAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/departement.jsp</result>
+            <result name="error">vue/departement.jsp</result>
+        </action>
+        
+        <action name="addDepartement" class="com.er.erproject.action.DepartementAction" method="addDepartement">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/departement.jsp</result>
+            <result name="error">vue/departement.jsp</result>
+        </action>
+        
+        <action name="deleteDepartement" class="com.er.erproject.action.DepartementAction" method="deleteDepartement">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/departement.jsp</result>
+            <result name="error">vue/departement.jsp</result>
+        </action>
+        
+        <action name="etatFournisseur" class="com.er.erproject.action.FournisseursAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/fournisseur.jsp</result>
+            <result name="error">vue/fournisseur.jsp</result>
+        </action>
+        
+        <action name="addFournisseur" class="com.er.erproject.action.FournisseursAction" method="save">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/fournisseur.jsp</result>
+            <result name="error">vue/fournisseur.jsp</result>
+        </action>
+        
+        <action name="deleteFournisseur" class="com.er.erproject.action.FournisseursAction" method="delete">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/fournisseur.jsp</result>
+            <result name="error">vue/fournisseur.jsp</result>
+        </action>
+    </package>
+    
+</struts>

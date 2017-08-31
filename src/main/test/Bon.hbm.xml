@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.Bon" table="bon">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="confirme" column="confirme" type="date"/>
+        <property name="valide" column="valide" type="date"/>
+        <property name="date" column="date" type="date"/>
+        <property name="type" column="type" type="string"/>
+        <set name="demandeur" table="user"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="com.er.erproject.User" />
+        </set>
+        <set name="projet" table="projet"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="com.er.erproject.Projet" />
+        </set>
+    </class>
+</hibernate-mapping>

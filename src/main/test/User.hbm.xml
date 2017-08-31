@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.Inventaire" table="inventaire">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>                
+        <set name="article" table="article"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="com.er.erproject.Article" />
+        </set>
+        <property name="nombre" column="nombre" type="double"/>
+        <set name="unite" table="unite"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="com.er.erproject.Unite" />
+        </set>
+        <property name="valeur" column="valeur" type="double"/>   
+        <set name="departement" table="departement"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="com.er.erproject.Departement" />
+        </set>     
+    </class>
+</hibernate-mapping>

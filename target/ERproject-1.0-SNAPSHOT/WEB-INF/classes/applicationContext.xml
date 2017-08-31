@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans 
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+    <!-- Database Configuration -->
+    <import resource="config/spring/DataSource.xml"/>
+    <import resource="config/spring/HibernateSessionFactory.xml"/>
+    <!-- Beans Declaration -->    
+    <!--<import resource="com/er/erproject/spring/BaseBean.xml"/>-->
+    <import resource="com/er/erproject/spring/BaseServiceBean.xml"/>    
+    <import resource="com/er/erproject/spring/ArticleActionBean.xml"/>
+    <import resource="com/er/erproject/spring/FournisseurActionBean.xml"/>
+    <import resource="com/er/erproject/spring/BonBean.xml"/>
+    <import resource="com/er/erproject/spring/InventaireBean.xml"/>
+    <import resource="com/er/erproject/spring/UniteBean.xml"/>
+    <import resource="com/er/erproject/spring/UtileBean.xml"/>
+    <import resource="com/er/erproject/spring/ConversionBean.xml"/>
+    <import resource="com/er/erproject/spring/UserBean.xml"/>
+    <!--<import resource="com/er/erproject/spring/LoginBean.xml"/>-->
+    <!--<import resource="com/er/erproject/spring/AchatArticleBean.xml"/>-->
+</beans>

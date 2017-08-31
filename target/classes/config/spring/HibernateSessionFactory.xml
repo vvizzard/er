@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+    <!-- Hibernate session factory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
+                </prop>
+                <prop key="hibernate.show_sql">true
+                </prop>
+            </props>
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>com/er/erproject/hibernate/Article.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Bon.hbm.xml</value>        
+                <value>com/er/erproject/hibernate/Departement.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Famille.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Fournisseur.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Inventaire.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Projet.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Unite.hbm.xml</value>
+                <value>com/er/erproject/hibernate/User.hbm.xml</value>
+                <value>com/er/erproject/hibernate/AssociationArticleUnite.hbm.xml</value>
+                <value>com/er/erproject/hibernate/AssociationArticleFournisseur.hbm.xml</value>
+                <value>com/er/erproject/hibernate/AssociationArticleBon.hbm.xml</value>
+                <value>com/er/erproject/hibernate/Barcode.hbm.xml</value>
+                <value>com/er/erproject/hibernate/VueArticleFournisseur.hbm.xml</value>
+                <value>com/er/erproject/hibernate/VueListeArticle.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hbdao" class="com.er.erproject.dao.HibernateDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="baseAction" class="com.er.erproject.action.BaseAction">
+        <property name="hbdao" ref="hbdao" />
+    </bean>
+    
+    <bean id="associationService" class="com.er.erproject.service.AssociationService">
+        <property name="hbdao" ref="hbdao" />
+    </bean>  
+
+    <bean id="entreeAction" class="com.er.erproject.action.EntreeAction">
+        <property name="bonService" ref="bonService" />
+    </bean>
+    <!--
+    
+    <bean id="fournisseurAction" class="com.er.erproject.action.FournisseurAction">
+        <property name="articleService" ref="articleService" />
+    </bean>-->
+</beans>

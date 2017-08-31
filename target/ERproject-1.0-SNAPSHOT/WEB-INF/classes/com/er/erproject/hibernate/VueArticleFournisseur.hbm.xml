@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.modele.VueArticleFournisseur" table="vueartf">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="idFournisseur" column="id_fournisseur" type="int"/>
+        <property name="fournisseur" column="fournisseur" type="string"/>        
+        <property name="idArticle" column="id_article" type="int"/>        
+        <property name="article" column="article" type="string"/>
+        <property name="montant" column="montant" type="double"/>
+        <property name="commentaire" column="commentaire" type="string"/>
+    </class>
+</hibernate-mapping>

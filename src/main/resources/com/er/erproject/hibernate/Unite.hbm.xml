@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.modele.Unite" table="unite">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>                
+        <property name="designation" column="designation" type="string"/>
+        <property name="defaut" column="defaut" type="int"/>
+        <property name="idReference" column="reference" type="integer"/>
+        <property name="difference" column="difference" type="double"/>
+        <many-to-one name="reference" class="com.er.erproject.modele.Unite"
+                     column="reference" not-null="true" fetch="select"
+                     insert="false" update="false"/>       
+    </class>
+</hibernate-mapping>

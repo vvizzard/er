@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.modele.AssociationArticleBon" table="associationarticlebon">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="id1" column="id_article" type="int"/>
+        <property name="id2" column="id_bon" type="int"/>
+        <property name="montant" column="montant" type="double"/>
+        <property name="commentaire" column="commentaire" type="string"/>   
+        <property name="idUnite" column="id_unite" type="int"/>        
+        <many-to-one name="article" class="com.er.erproject.modele.Article"
+                     column="id_article" not-null="true" fetch="select"
+                     insert="false" update="false"/>       
+        <many-to-one name="bon" class="com.er.erproject.modele.Bon"
+                     column="id_bon" not-null="true" fetch="select"
+                     insert="false" update="false"/>     
+        <many-to-one name="unite" class="com.er.erproject.modele.Unite"
+                     column="id_unite" not-null="true" fetch="select"
+                     insert="false" update="false"/>       
+    </class>
+</hibernate-mapping>
