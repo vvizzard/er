@@ -28,7 +28,7 @@
                     <li><a href="etatInventaire"><i class="fa fa-list-alt" aria-hidden="true"></i> Inventaire </a></li>
                     <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Bon d'entrée </a></li>
                     <li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Bon de sortie </a></li>
-                    <li><a href="journal"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
+                    <li><a href="historiqueProjet"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
                 </ul>
             </div>
             <div class="menu_section">

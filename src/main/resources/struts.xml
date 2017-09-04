@@ -377,6 +377,23 @@
             <result name="success">vue/fournisseur.jsp</result>
             <result name="error">vue/fournisseur.jsp</result>
         </action>
+        
+        <action name="historiqueProjet" class="com.er.erproject.action.ListeHistoriqueAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/historiqueProjet.jsp</result>
+            <result name="error">vue/historiqueProjet.jsp</result>
+        </action>
+        
+        <action name="listeBon" class="com.er.erproject.action.JournalAction" method="listeBon">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/journal.jsp</result>
+            <result name="error">vue/journal.jsp</result>
+        </action>
+        
     </package>
     
 </struts>

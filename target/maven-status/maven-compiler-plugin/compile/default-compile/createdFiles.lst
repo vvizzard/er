@@ -18,6 +18,7 @@ com\er\erproject\action\ProjetAction.class
 com\er\erproject\action\UserAction.class
 com\er\erproject\action\EntreeAction.class
 com\er\erproject\dao\HibernateDao.class
+com\er\erproject\modele\VueHistoriqueProjet.class
 com\er\erproject\service\UtilService.class
 com\er\erproject\modele\Barcode.class
 com\er\erproject\service\BonService.class
@@ -38,6 +39,7 @@ com\er\erproject\service\PdfService.class
 com\er\erproject\modele\Inventaire.class
 com\er\erproject\modele\Famille.class
 com\er\erproject\modele\Fournisseur.class
+com\er\erproject\action\ListeHistoriqueAction.class
 com\er\erproject\modele\Projet.class
 com\er\erproject\service\ArticleService.class
 com\er\erproject\action\NouvelArticleAction.class
