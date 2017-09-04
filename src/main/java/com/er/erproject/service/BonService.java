@@ -36,7 +36,7 @@ public class BonService extends BaseService {
     public void save(Bon bon) throws Exception {
         String cheminPhoto = "E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/";
         hbdao.save(bon);
-        UtilService.saveImg(bon.getFilePhoto(), cheminPhoto, "photo"+bon.getId()+".jpg");
+        if(bon.getFilePhoto()!=null) UtilService.saveImg(bon.getFilePhoto(), cheminPhoto, "photo"+bon.getId()+".jpg");
         bon.setPhoto("preuveEntree/photo"+bon.getId()+".jpg");
         hbdao.update(bon);        
         List<ArticleBon> bonTemp = bon.getListeArticle();

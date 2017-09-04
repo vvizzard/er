@@ -11,6 +11,8 @@
     <bean id="articleService" class="com.er.erproject.service.ArticleService">
         <property name="hbdao" ref="hbdao" />
         <property name="associationService" ref="associationService" />
+        <property name="uniteService" ref="uniteService" />
+        <property name="inventaireService" ref="inventaireService" />
     </bean>
     
     <bean id="vueArticleFournisseurService" class="com.er.erproject.service.VueArticleFournisseurService">

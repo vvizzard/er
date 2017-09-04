@@ -13,7 +13,7 @@
         <property name="id1" column="id_article" type="int"/>
         <property name="id2" column="id_unite" type="int"/>
         <property name="montant" column="nombre" type="double"/>
-        <property name="valeur" column="valeur" type="double"/>               
+        <property name="valeur" column="valeur" type="double"/>                 
         <many-to-one name="article" class="com.er.erproject.modele.Article"
                      column="id_article" not-null="true" fetch="select"
                      insert="false" update="false"/>               

@@ -13,6 +13,7 @@ import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
 import com.er.erproject.service.ArticleService;
 import com.er.erproject.service.BonService;
+import com.er.erproject.service.UniteService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
@@ -47,10 +48,13 @@ public class EntreeAction extends BaseAction {
     private double nombre;
     private String coms;
     private BonService bonService;
-    private File photos;
+    private File photos = null;
     private String myFileContentType;
     private String myFileFileName;
     private String dateToday = "";
+    private String facture = "";
+    private UniteService uniteService;
+    private List<Unite> listeU;
 //    private List<Inventaire> alertes;
     //private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
 
@@ -130,6 +134,10 @@ public class EntreeAction extends BaseAction {
             if (idDernierFournisseur != 0) {
                 loadFournisseur();
             }
+            //  unite
+            Unite tempp = new Unite(articleEnCours.getIdUnite());
+            hbdao.findById(tempp);
+            listeU = uniteService.getEquivalent(tempp);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -160,6 +168,10 @@ public class EntreeAction extends BaseAction {
             if (idDernierFournisseur != 0) {
                 loadFournisseur();
             }
+            //  unite
+            Unite tempp = new Unite(articleEnCours.getIdUnite());
+            hbdao.findById(tempp);
+            listeU = uniteService.getEquivalent(tempp);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -225,8 +237,14 @@ public class EntreeAction extends BaseAction {
                 bon.setDate(dateToday);
             }
             //  add photos to bon
-            bon.setFilePhoto(photos);
-            String extension = FilenameUtils.getExtension(photos.getName());
+            if (photos != null) {
+                bon.setFilePhoto(photos);
+                String extension = FilenameUtils.getExtension(photos.getName());
+            }
+            if (facture.compareTo("") == 0) {
+                throw new Exception();
+            }
+            bon.setFacture(facture);
             //  save bon                        
             bonService.save(bon);
 //            session = ActionContext.getContext().getSession();            
@@ -307,7 +325,9 @@ public class EntreeAction extends BaseAction {
     }
 
     private void setUnites(ArticleBon ab) throws Exception {
-        List<Unite> temp = ab.getUnites();
+        Unite tp = new Unite(ab.getIdUnite());
+        List<Unite> temp = uniteService.getEquivalent(tp);
+        temp.add(tp);
         for (Unite u : temp) {
             if (u.getDesignation().compareToIgnoreCase(unite) == 0) {
                 ab.setUnite(u);
@@ -502,4 +522,28 @@ public class EntreeAction extends BaseAction {
 //    public void setAlertes(List<Inventaire> alertes) {
 //        this.alertes = alertes;
 //    }
+    public String getFacture() {
+        return facture;
+    }
+
+    public void setFacture(String facture) {
+        this.facture = facture;
+    }
+
+    public UniteService getUniteService() {
+        return uniteService;
+    }
+
+    public void setUniteService(UniteService uniteService) {
+        this.uniteService = uniteService;
+    }
+
+    public List<Unite> getListeU() {
+        return listeU;
+    }
+
+    public void setListeU(List<Unite> listeU) {
+        this.listeU = listeU;
+    }
+
 }

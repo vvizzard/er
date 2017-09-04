@@ -18,6 +18,7 @@ import com.er.erproject.service.BonService;
 import com.er.erproject.service.CodeBarreService;
 import com.er.erproject.service.InventaireService;
 import com.er.erproject.service.PdfService;
+import com.er.erproject.service.UniteService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
@@ -58,6 +59,9 @@ public class SortieAction extends BaseAction {
     private String dateToday = "";
     private double disponible;
     private InventaireService inventaireService;
+    private String facture = "";
+    private UniteService uniteService;
+    private List<Unite> listeU;
     //private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
 
     public String load() {
@@ -113,24 +117,24 @@ public class SortieAction extends BaseAction {
 
     public String ajoutProjet() {
         try {
-        //  check session
+            //  check session
             if (!sessionCheck()) {
                 return Action.ERROR;
             }
             bon = (Bon) session.get("bon");
-        //  loadProjet
+            //  loadProjet
             loadProjet();
-        //  load article en cours
+            //  load article en cours
             loadArticleEnCours();
-        //  demandeur
+            //  demandeur
             demandeur();
-        //  listeArticle
+            //  listeArticle
             listeArticle();
-        //  Article en cours
+            //  Article en cours
             if (idDernierArticle != 0) {
                 loadArticleEnCours();
             }
-        //  loadProjet
+            //  loadProjet
             if (idDernierProjet != 0) {
                 loadProjet();
             }
@@ -164,6 +168,9 @@ public class SortieAction extends BaseAction {
             if (idDernierProjet != 0) {
                 loadProjet();
             }
+            Unite tempp = new Unite(articleEnCours.getIdUnite());
+            hbdao.findById(tempp);
+            listeU = uniteService.getEquivalent(tempp);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -214,44 +221,48 @@ public class SortieAction extends BaseAction {
 
     public String enregistrer() {
         try {
-        //  check session
+            //  check session
             if (!sessionCheck()) {
                 return Action.ERROR;
             }
-        //  get bon
+            //  get bon
             bon = (Bon) session.get("bon");
-        //  add demandeur to bon
+            //  add demandeur to bon
             User demandeur = new User(idDemandeur);
             hbdao.findById(demandeur);
             bon.setDemandeur(demandeur);
-        //  add date to bon
+            //  add date to bon
             if (dateToday.compareTo("") != 0) {
                 bon.setDate(dateToday);
             }
-        //  add projet to bon
+            //  add projet to bon
             setProjet(bon);
-        //  add photos to bon
-            bon.setFilePhoto(photos);
-            String extension = FilenameUtils.getExtension(photos.getName());                    
-        //  save bon
+            //  add photos to bon
+//            bon.setFilePhoto(photos);
+//            String extension = FilenameUtils.getExtension(photos.getName());              
+            if (facture.compareTo("") == 0) {
+                throw new Exception();
+            }
+            bon.setFacture(facture);
+            //  save bon
             bonService.save(bon);
-        //  codeBarre
+            //  codeBarre
             //  inserer dans la base - generer png
-            for(ArticleBon abon : bon.getListeArticle()) {
-                for(int i = 0; i < abon.getNombre(); i++) {
+            for (ArticleBon abon : bon.getListeArticle()) {
+                for (int i = 0; i < abon.getNombre(); i++) {
                     Barcode b = new Barcode();
                     b.setIdArticle(abon.getId());
                     b.setIdBon(bon.getId());
                     hbdao.save(b);
-                    CodeBarreService.generate(bon.getProjet().getDesignation()+"_"+abon.getDesignation()+i, Integer.toString(b.getId()));
+                    CodeBarreService.generate(bon.getProjet().getDesignation() + "_" + abon.getDesignation() + i, Integer.toString(b.getId()));
                 }
             }
-            
-            PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(),"er","telma");
+
+            PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(), "er", "telma");
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
-        }        
+        }
         bon = new Bon();
         bon.setType("entree");
         bon.setDate(Calendar.getInstance().getTime());
@@ -527,6 +538,29 @@ public class SortieAction extends BaseAction {
     public void setInventaireService(InventaireService inventaireService) {
         this.inventaireService = inventaireService;
     }
-    
-    
+
+    public String getFacture() {
+        return facture;
+    }
+
+    public void setFacture(String facture) {
+        this.facture = facture;
+    }
+
+    public UniteService getUniteService() {
+        return uniteService;
+    }
+
+    public void setUniteService(UniteService uniteService) {
+        this.uniteService = uniteService;
+    }
+
+    public List<Unite> getListeU() {
+        return listeU;
+    }
+
+    public void setListeU(List<Unite> listeU) {
+        this.listeU = listeU;
+    }
+
 }

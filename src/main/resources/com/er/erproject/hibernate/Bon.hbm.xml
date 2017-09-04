@@ -17,6 +17,7 @@
         <property name="idDemandeur" column="id_user" type="int"/>
         <property name="idProjet" column="id_projet" type="int"/>
         <property name="photo" column="photo" type="string"/>
+        <property name="facture" column="facture" type="string"/>
 <!--        <many-to-one name="demandeur" class="com.er.erproject.modele.User"
                      column="id_demandeur" not-null="true" fetch="select"
                      insert="false" update="false"/>        

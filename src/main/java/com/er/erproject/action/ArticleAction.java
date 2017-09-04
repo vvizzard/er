@@ -181,13 +181,15 @@ public class ArticleAction extends BaseAction {
             toSave.setDesignation(designation);
             toSave.setEmplacement(emplacement);
             toSave.setLimite(limite);
+            unites = (List<Unite>) (List<?>) hbdao.findAll(new Unite());
+            for(Unite u : unites) if(u.getDesignation().compareToIgnoreCase(designationUnite)==0)toSave.setIdUnite(u.getId());
 //            setAssociationArticleFournisseur(toSave);
 //            setAssociationArticleUnite(toSave);
             if(idArticle != 0) {
                 toSave.setId(idArticle);
-                hbdao.update(toSave);
+                articleService.update(toSave, "inventaire");
             }
-            else hbdao.save(toSave);
+            else articleService.save(toSave,"inventaire");
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;

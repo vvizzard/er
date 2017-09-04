@@ -27,6 +27,7 @@ public class Bon extends BaseModele {
     private List<ArticleBon> listeArticle;//
     private String photo;//
     private File filePhoto;
+    private String facture;
 
     public Bon() {
     }
@@ -154,4 +155,12 @@ public class Bon extends BaseModele {
     public void setFilePhoto(File filePhoto) {
         this.filePhoto = filePhoto;
     }   
+
+    public String getFacture() {
+        return facture;
+    }
+
+    public void setFacture(String facture) {
+        this.facture = facture;
+    }        
 }

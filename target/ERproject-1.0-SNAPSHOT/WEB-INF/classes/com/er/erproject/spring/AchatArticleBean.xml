@@ -27,9 +27,15 @@
     
     <bean id = "entreeActionBean" class="com.er.erproject.action.EntreeAction">
         <property name="bonService" ref="bonService" />
+        <property name="uniteService" ref="uniteService" />
     </bean>
     
     <bean id = "sortieActionBean" class="com.er.erproject.action.SortieAction">
         <property name="inventaireService" ref="inventaireService" />
+        <property name="uniteService" ref="uniteService" />
+    </bean>
+    
+    <bean id = "uniteService" class="com.er.erproject.action.UniteService">
+        <property name="inventaireService" ref="uniteService" />
     </bean>    
 </beans>
