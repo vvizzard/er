@@ -128,8 +128,13 @@
                                                                     <input type="hidden" id="pres" value="<s:property value="articleEnCours.getUnite().getDesignation()"/>">
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
                                                                         <select onchange='updateUnity("montant", "designation", "montant", "pres")' id="designation" class="form-control col-md-7 col-xs-12" name="unite">                                                                        
-                                                                            <s:iterator value="getListeU()">                                                                                
-                                                                                <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            <s:iterator value="getListeU()">   
+                                                                                <s:if test="%{unite==getDesignationUnite()}">
+                                                                                    <option value="<s:property value="getDesignation()" />" selected><s:property value="getDesignation()" /></option>
+                                                                                </s:if>
+                                                                                <s:else>
+                                                                                    <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                                </s:else>
                                                                             </s:iterator>                                                                                                                                                                    
                                                                         </select>
                                                                     </div>

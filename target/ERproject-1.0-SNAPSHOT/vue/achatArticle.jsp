@@ -97,7 +97,86 @@
 
                                                             <div class="x_content" style="margin-top: -15px;">
                                                                 <br />
+                                                            
+                                                            <div class="col-md-10 col-sm-10">
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Article <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <s:if test="%{codeDernierArticle != ''}">
+                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
+                                                                        </s:else>
+
+                                                                        <div class="input-group-btn">
+                                                                            <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeArticle?type=1&idDemandeur=<s:property value="%{idDemandeur}"></s:property>'>...</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Fournisseur <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">                                                                        
+                                                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="dernierFournisseur" value="<s:property value="%{dernierFournisseur}"></s:property>">
+                                                                            <div class="input-group-btn">
+                                                                                <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeFournisseur?idDernierArticle=<s:property value="%{idDernierArticle}"></s:property>&type=1'>...</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group" style="margin-bottom: -9px;">
+                                                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
+                                                                        <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                            <select id="first-name" class="form-control col-md-7 col-xs-12" name="unite">
+                                                                            <s:iterator value="getListeU()">
+                                                                                <s:if test="%{unite==getDesignationUnite()}">
+                                                                                    <option selected value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                                </s:if>
+                                                                                <s:else>
+                                                                                    <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                                </s:else>
+                                                                            </s:iterator>                                                                                                                                                                    
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Nombre <span class="">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <input type="number" step="0.1" id="first-name" class="form-control col-md-7 col-xs-12" name="nombre">
+                                                                    </div>
+                                                                </div>                              
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Prix unitaire <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <input type="number" step="0.1" id="first-name" class="form-control col-md-7 col-xs-12" value="<s:property value="%{prixSelonFournisseur}" />" name="prixSelonFournisseur">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Commentaire <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <textarea id="commentaire" class="form-control" data-parsley-trigger="keyup" data-parsley-maxlength="100"
+                                                                                  data-parsley-validation-threshold="10" name="coms"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <s:hidden name="idDernierArticle" value="%{idDernierArticle}"></s:hidden>
+                                                                <s:hidden name="idDernierFournisseur" value="%{idDernierFournisseur}"></s:hidden>
+                                                                <s:hidden name="idDemandeur" value="%{idDemandeur}"></s:hidden>
+                                                            </div>
+                                                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                                                <button type="button" class="btn btn-default form-control add">Ajouter</button>
+                                                                <div class="clearfix"></div>
+                                                                <div class="ln_solid"></div>
+                                                                <input style="margin-bottom: 5px;" class="form-control" type="text" name="facture" placeholder="N°facture">
+                                                                <input style="display:none; cursor: pointer;" type="file" name="photos" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected"
+                                                                       multiple="">
+                                                                <label class="btn btn-default form-control" for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Support</span></label>
+                                                                
+                                                                <button class="btn btn-primary form-control" type="submit" >Enregistrer</button>
+                                                                <button class="btn btn-danger form-control" type="button">Annuler</button>
+                                                            </div>
+                                                            
                                                             <s:if test="%{checkList!=''}">
+                                                                <div class="clearfix"></div>
+                                                            <div class="ln_solid"></div>
                                                                 <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                                                     <div class="row">
                                                                         <div class="col-sm-12">
@@ -136,78 +215,8 @@
                                                                 </div>
                                                             </s:if>
 
-                                                            <div class="clearfix"></div>
-                                                            <div class="ln_solid"></div>
-                                                            <div class="col-md-10 col-sm-10">
-                                                                <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Article <span class="required">*</span></label>
-                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <s:if test="%{codeDernierArticle != ''}">
-                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
-                                                                        </s:if>
-                                                                        <s:else>
-                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
-                                                                        </s:else>
-
-                                                                        <div class="input-group-btn">
-                                                                            <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeArticle?type=1&idDemandeur=<s:property value="%{idDemandeur}"></s:property>'>...</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Fournisseur <span class="required">*</span></label>
-                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">                                                                        
-                                                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="dernierFournisseur" value="<s:property value="%{dernierFournisseur}"></s:property>">
-                                                                            <div class="input-group-btn">
-                                                                                <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeFournisseur?idDernierArticle=<s:property value="%{idDernierArticle}"></s:property>&type=1'>...</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group" style="margin-bottom: -9px;">
-                                                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
-                                                                        <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                            <select id="first-name" class="form-control col-md-7 col-xs-12" name="unite">
-                                                                            <s:iterator value="getListeU()">                                                                                
-                                                                                <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
-                                                                            </s:iterator>                                                                                                                                                                    
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Nombre <span class="">*</span></label>
-                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="nombre">
-                                                                    </div>
-                                                                </div>                              
-                                                                <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Prix unitaire <span class="required">*</span></label>
-                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" value="<s:property value="%{prixSelonFournisseur}" />" name="prixSelonFournisseur">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Commentaire <span class="required">*</span></label>
-                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <textarea id="commentaire" class="form-control" data-parsley-trigger="keyup" data-parsley-maxlength="100"
-                                                                                  data-parsley-validation-threshold="10" name="coms"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <s:hidden name="idDernierArticle" value="%{idDernierArticle}"></s:hidden>
-                                                                <s:hidden name="idDernierFournisseur" value="%{idDernierFournisseur}"></s:hidden>
-                                                                <s:hidden name="idDemandeur" value="%{idDemandeur}"></s:hidden>
-                                                            </div>
-                                                            <div class="col-md-2 col-sm-2 col-xs-2">
-                                                                <button type="button" class="btn btn-default form-control add">Ajouter</button>
-                                                                <div class="clearfix"></div>
-                                                                <div class="ln_solid"></div>
-                                                                <input style="margin-bottom: 5px;" class="form-control" type="text" name="facture" placeholder="N°facture">
-                                                                <input style="display:none; cursor: pointer;" type="file" name="photos" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected"
-                                                                       multiple="">
-                                                                <label class="btn btn-default form-control" for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Support</span></label>
-                                                                
-                                                                <button class="btn btn-primary form-control" type="submit" >Enregistrer</button>
-                                                                <button class="btn btn-danger form-control" type="button">Annuler</button>
-                                                            </div>
+                                                            
+                                                            
                                                         </div>
 
                                                     </div>

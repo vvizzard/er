@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib  prefix="s" uri="/struts-tags"%>
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
@@ -8,12 +10,12 @@
 
         <!-- menu profile quick info -->
         <div class="profile clearfix">
-            <div class="profile_pic">
+<!--            <div class="profile_pic">
                 <img src="vue/images/img.jpg" alt="..." class="img-circle profile_img">
-            </div>
+            </div>-->
             <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2><s:property value="getUser().getNom()"/></h2>
             </div>
         </div>
         <!-- /menu profile quick info -->
@@ -26,7 +28,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                     <li><a href="etatInventaire"><i class="fa fa-list-alt" aria-hidden="true"></i> Inventaire </a></li>
-                    <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Bon d'entrée </a></li>
+                    <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Bon d'entrÃ©e </a></li>
                     <li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Bon de sortie </a></li>
                     <li><a href="historiqueProjet"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
                 </ul>
@@ -42,7 +44,7 @@
                         </ul>
                     </li>
                     <li><a href="etatFournisseur"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Fournisseurs </a></li>
-                    <li><a href="etatUnite"><i class="fa fa-gg-circle" aria-hidden="true"></i> Unités </a></li>
+                    <li><a href="etatUnite"><i class="fa fa-gg-circle" aria-hidden="true"></i> UnitÃ©s </a></li>
                     <li><a href="etatFamille"><i class="fa fa-object-group" aria-hidden="true"></i> Familles </a></li>
                 </ul>
             </div>
@@ -56,7 +58,7 @@
                         </ul>
                     </li>
                     <!--<li><a href="loadUser"><i class="fa fa-ticket" aria-hidden="true"></i> Utilisateurs </a></li>-->
-                    <li><a href="loadDepartement"><i class="fa fa-building-o" aria-hidden="true"></i> Départements </a></li>                    
+                    <li><a href="loadDepartement"><i class="fa fa-building-o" aria-hidden="true"></i> DÃ©partements </a></li>                    
                 </ul>
             </div>
         </div>
@@ -92,7 +94,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="images/img.jpg" alt="">John Doe
+                        <img src="images/img.jpg" alt=""><s:property value="getUser().getNom()"/>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -128,7 +130,7 @@
                                         <span class="time">En dessous de la limite</span>
                                     </span>
                                     <span class="message">
-                                        Veuiller réaprovisionner le stock
+                                        Veuiller rÃ©aprovisionner le stock
                                     </span>
                                 </a>
                             </li>

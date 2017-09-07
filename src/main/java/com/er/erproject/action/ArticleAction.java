@@ -151,12 +151,22 @@ public class ArticleAction extends BaseAction {
                 return "tolog";
             }
             //  envoyer associations dans la session
-            associationArticleUnite = new ArrayList<>();
-            associationArticleFournisseur = new ArrayList<>();
+//            associationArticleUnite = new ArrayList<>();
+//            associationArticleFournisseur = new ArrayList<>();
             //  bon.setListeArticle(listeArticle);
             //session.put("unite", associationArticleUnite);
             //session.put("fournisseur", associationArticleFournisseur);
-            //  load all fournisseur
+            //  load all fournisseur            
+            Article art = new Article(idArticle);
+            articleService.find(art);
+            codeArticle = art.getCode();
+            designation = art.getDesignation();
+//            idFamille = art.getIdFamille();
+            designationFamille = art.getFamille().getDesignation();
+            designationUnite = art.getUnite().getDesignation();
+            emplacement = art.getEmplacement();
+            limite = art.getLimite();
+            
             fournisseurs = (List<Fournisseur>) (List<?>) hbdao.findAll(new Fournisseur());
             familles = (List<Famille>) (List<?>) hbdao.findAll(new Famille());
             unites = (List<Unite>) (List<?>) hbdao.findAll(new Unite());

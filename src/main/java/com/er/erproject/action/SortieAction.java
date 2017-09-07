@@ -171,6 +171,8 @@ public class SortieAction extends BaseAction {
             Unite tempp = new Unite(articleEnCours.getIdUnite());
             hbdao.findById(tempp);
             listeU = uniteService.getEquivalent(tempp);
+            listeU.add(tempp);
+            unite = tempp.getDesignation();
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -287,7 +289,7 @@ public class SortieAction extends BaseAction {
         try {
             articleService.find(temporaire);
             articleEnCours = new ArticleBon(temporaire);
-            codeDernierArticle = articleEnCours.getCode();  //  Afficher code article en cours        
+            codeDernierArticle = articleEnCours.getDesignation();  //  Afficher code article en cours        
             Inventaire inventaireTemp = inventaireService.findByArticle(temporaire);
             this.disponible = inventaireTemp.getMontant();
             //articleService.completeLoad(articleEnCours);
@@ -335,7 +337,9 @@ public class SortieAction extends BaseAction {
     }
 
     private void setUnites(ArticleBon ab) throws Exception {
-        List<Unite> temp = ab.getUnites();
+        Unite tp = new Unite(ab.getIdUnite());
+        List<Unite> temp = uniteService.getEquivalent(tp);
+        temp.add(tp);
         for (Unite u : temp) {
             if (u.getDesignation().compareToIgnoreCase(unite) == 0) {
                 ab.setUnite(u);

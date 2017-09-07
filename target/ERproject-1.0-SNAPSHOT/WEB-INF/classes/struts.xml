@@ -22,6 +22,9 @@
         
         <action name="" class="com.er.erproject.action.LoginAction" method="load">                 
             <result name="success">login.jsp</result>
+            <result name="noLog" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>            
             <result name="error">login.jsp</result>
         </action>
         

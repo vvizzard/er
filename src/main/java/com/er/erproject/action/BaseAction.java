@@ -10,6 +10,7 @@ import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.User;
 import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,25 @@ public class BaseAction extends ActionSupport {
     protected User user;
     protected HibernateDao hbdao;
     protected List<Inventaire> alertes;
+    protected List<String> trace;
+    protected int refTrace;
+//    protected int refSit
+    
+    public BaseAction() {
+//        trace = new ArrayList<>();
+//        trace.add("etatInventaire");
+//        trace.add("entree");
+//        trace.add("loadSortie");
+//        trace.add("historiqueProjet");
+//        trace.add("newArticle");
+//        trace.add("listeArticle");
+//        trace.add("etatFournisseur");
+//        trace.add("etatUnite");
+//        trace.add("etatFamille");
+//        trace.add("loadUser");
+//        trace.add("listeUser");
+//        trace.add("loadDepartement");
+    }
     
     public boolean checkUser() throws Exception {
         alertes = UtilService.listeAlerte();

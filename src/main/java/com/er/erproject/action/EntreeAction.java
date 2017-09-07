@@ -172,6 +172,8 @@ public class EntreeAction extends BaseAction {
             Unite tempp = new Unite(articleEnCours.getIdUnite());
             hbdao.findById(tempp);
             listeU = uniteService.getEquivalent(tempp);
+            listeU.add(tempp);
+            unite = tempp.getDesignation();
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -279,7 +281,7 @@ public class EntreeAction extends BaseAction {
         try {
             articleService.find(temporaire);
             articleEnCours = new ArticleBon(temporaire);
-            codeDernierArticle = articleEnCours.getCode();  //  Afficher code article en cours        
+            codeDernierArticle = articleEnCours.getDesignation();  //  Afficher code article en cours        
             //articleService.completeLoad(articleEnCours);
         } catch (org.hibernate.ObjectNotFoundException ex) {
             Logger.getLogger(EntreeAction.class.getName()).log(Level.SEVERE, null, ex);

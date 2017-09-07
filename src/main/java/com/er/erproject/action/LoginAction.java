@@ -8,6 +8,7 @@ package com.er.erproject.action;
 import com.er.erproject.dao.HibernateDao;
 import com.er.erproject.modele.Departement;
 import com.er.erproject.modele.User;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class LoginAction extends BaseAction {
     private HibernateDao hbdao;
     private String id;
     private String pw;
+    private Map session;
     
     @Override
     public String execute() {
@@ -40,16 +42,33 @@ public class LoginAction extends BaseAction {
     }
     
     public String load() {
-        return Action.SUCCESS;
+        try {               
+            if(sessionCheck()) {
+                return "noLog";
+            } else {
+                return Action.SUCCESS;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return Action.ERROR;
+        }        
     }
     
     private void findUser(String id, String pw) {        
         try {
-            Departement temp = new Departement();
-            temp =(Departement)hbdao.findAll(temp).get(0);
-            User tempUser = new User();
+            User tempUser = new User(1);
+            hbdao.findById(tempUser);
+            Departement temp = new Departement(tempUser.getIdDepartement());
+            hbdao.findById(temp);
             tempUser.setDepartement(temp);
             this.setUser(tempUser);
+//            hbdao.Soustraction();
+//            Departement t = new Departement(1);
+//            hbdao.findById(t);
+//            User tempUser = new User(1);
+//            tempUser.setNom("test");
+//            tempUser.setDepartement(t);
         } catch (Exception ex) {
             Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -79,5 +98,19 @@ public class LoginAction extends BaseAction {
 
     public void setPw(String pw) {
         this.pw = pw;
-    }          
+    }      
+
+    private boolean sessionCheck() throws Exception {
+        session = ActionContext.getContext().getSession();
+        if (session == null || session.isEmpty()) {
+            return false;
+        }
+        user = (User) session.get("user");
+        if (user == null) {
+            return false;
+        }
+        boolean val = checkUser();
+        alertes = UtilService.listeAlerte();
+        return val;
+    }
 }

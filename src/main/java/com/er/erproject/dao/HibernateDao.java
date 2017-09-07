@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -144,7 +145,7 @@ public class HibernateDao {
         }
         return list;
     }
-    
+
     public List<BaseModele> findAllEqCriteria(BaseModele obj, List<String[]> critere) throws Exception {
         Session session = null;
         List<BaseModele> list = null;
@@ -164,6 +165,19 @@ public class HibernateDao {
             }
         }
         return list;
+    }
+
+    public List<Object> Soustraction() {
+        Session session = getSessionFactory().openSession();
+        String qry = "select artb.id_article, sum(artb.montant) nombre, sum(artb.montant*prixu) as valeur from bon b "
+                + "join associationarticlebon artb "
+                + "on b.id = artb.id_bon "
+                + "where b.date > '21/08/2017' "
+                + "group by artb.id_article";        
+        Query query = session.createSQLQuery(qry);
+        List<Object> val = query.list();
+//        Query query = session.createSQLQuery("select s.stock_code from stock s where s.stock_code = :stockCode").setParameter("stockCode", "7277");
+        return val;
     }
 
     public SessionFactory getSessionFactory() {

@@ -14,7 +14,8 @@
         <property name="id2" column="id_bon" type="int"/>
         <property name="montant" column="montant" type="double"/>
         <property name="commentaire" column="commentaire" type="string"/>   
-        <property name="idUnite" column="id_unite" type="int"/>        
+        <property name="idUnite" column="id_unite" type="int"/>       
+        <property name="prixu" column="prixu" type="double"/> 
         <many-to-one name="article" class="com.er.erproject.modele.Article"
                      column="id_article" not-null="true" fetch="select"
                      insert="false" update="false"/>       

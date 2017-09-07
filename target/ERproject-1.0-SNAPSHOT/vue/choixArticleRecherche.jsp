@@ -89,24 +89,24 @@
                                                     });
                                                 </script>
                                                 <s:hidden name="idDemandeur" value="%{idDemandeur}"></s:hidden>
-                                                <div class="col-sm-12">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped jambo_table bulk_action">
-                                                            <thead>
-                                                                <tr class="headings">
-                                                                    <th class="column-title">Id </th>
-                                                                    <th class="column-title">Reference</th>
-                                                                    <th class="column-title">Designation </th>
-                                                                    <th class="column-title">Famille </th>
-                                                                    <th class="column-title">Unitée </th>
-                                                                    <th class="column-title">Limite </th>
-                                                                    <th class="column-title">Emplacement </th>
-                                                                    <!--<th class="column-title" style="text-align: right;">Prix unitaire </th>-->
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                                    <div class="col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped jambo_table bulk_action">
+                                                                <thead>
+                                                                    <tr class="headings">
+                                                                        <th class="column-title">Id </th>
+                                                                        <th class="column-title">Reference</th>
+                                                                        <th class="column-title">Designation </th>
+                                                                        <th class="column-title">Famille </th>
+                                                                        <th class="column-title">Unitée </th>
+                                                                        <th class="column-title">Limite </th>
+                                                                        <th class="column-title">Emplacement </th>
+                                                                        <!--<th class="column-title" style="text-align: right;">Prix unitaire </th>-->
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
                                                                 <s:iterator value="listeArticle">
                                                                     <s:if test="%{type == 1}">
                                                                         <tr class="odd pointer">
@@ -118,8 +118,8 @@
                                                                             <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
                                                                             <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                                                                                                       
                                                                         </tr>
-                                                                        </s:if>
-                                                                        <s:if test="%{type == -1}">
+                                                                    </s:if>
+                                                                    <s:elseif test="%{type == -1}">
                                                                         <tr class="odd pointer">
                                                                             <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getId()" /></td>
                                                                             <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getCode()" /></td> 
@@ -128,22 +128,22 @@
                                                                             <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getUnite()" /></td>
                                                                             <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
                                                                             <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                           
-                                                                        </tr>
-                                                                        </s:if>
-                                                                        <s:else>
+                                                                            </tr>
+                                                                    </s:elseif>
+                                                                    <s:else>
                                                                         <tr class="odd pointer">
-                                                                        </s:else>
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getIdFamille()" />&emplacement=<s:property value="getEmplacement()" />&limite=<s:property value="getLimite()" />' ><s:property value="getId()" /></td>
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getIdFamille()" />&emplacement=<s:property value="getEmplacement()" />&limite=<s:property value="getLimite()" />' ><s:property value="getCode()" /></td> 
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getIdFamille()" />&emplacement=<s:property value="getEmplacement()" />&limite=<s:property value="getLimite()" />' ><s:property value="getDesignation()" /></td>                         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getIdFamille()" />&emplacement=<s:property value="getEmplacement()" />&limite=<s:property value="getLimite()" />' ><s:property value="getFamille()" /></td>         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>' ><s:property value="getUnite()" /></td>
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getIdFamille()" />&emplacement=<s:property value="getEmplacement()" />&limite=<s:property value="getLimite()" />' ><s:property value="getLimite()" /></td>                         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>&codeArticle=<s:property value="getCode()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idFamille=<s:property value="getFamille().getId()" />&emplacement=<s:property value="getEmplacement()" />&prixUnitaire=<s:property value="getPrixUnitaire()" />' ><s:property value="getEmplacement()" /></td>               
-                                                                            
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getId()" /></td>
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getCode()" /></td> 
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getDesignation()" /></td>                         
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getFamille()" /></td>         
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getUnite()" /></td>
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getLimite()" /></td>                         
+                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getEmplacement()" /></td>               
+
                                                                             <td style="padding: 0px;"><i class=" btn btn-xs fa fa-trash-o fa-2x del" data-href="deleteArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
                                                                             <td style="padding: 0px;"><i class=" btn btn-xs fa fa-angle-double-right fa-2x del" data-href="ficheArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
                                                                         </tr>
+                                                                    </s:else>                                                                            
                                                                 </s:iterator>                                                                        
                                                             </tbody>
                                                         </table>

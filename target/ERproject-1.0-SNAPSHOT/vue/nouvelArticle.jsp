@@ -100,12 +100,17 @@
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group"> 
                                                                         <select id="first-name" class="form-control col-md-7 col-xs-12" name="designationFamille">
                                                                         <s:iterator value="getFamilles()">
-                                                                            <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            <s:if test="%{designation==getDesignationFamille()}">
+                                                                                <option value="<s:property value="getDesignation()" />" selected><s:property value="getDesignation()" /></option>
+                                                                            </s:if>
+                                                                            <s:else>
+                                                                                <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            </s:else>
                                                                         </s:iterator>                                                                                                                                                                    
                                                                     </select>
                                                                 </div>
                                                             </div> 
-                                                                        <input type="hidden" name="idArticle" value="<s:property value="getIdArticle()"/>">
+                                                            <input type="hidden" name="idArticle" value="<s:property value="getIdArticle()"/>">
                                                             <!--                                                            <div class="form-group" style="margin-bottom: -9px;">
                                                                                                                             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Fournisseur <span class="">*</span></label>
                                                                                                                             <div class="col-md-10 col-sm-10 col-xs-12 input-group"> 
@@ -121,7 +126,12 @@
                                                                 <div class="col-md-10 col-sm-10 col-xs-12 input-group"> 
                                                                     <select id="first-name" class="form-control col-md-7 col-xs-12" name="designationUnite">
                                                                         <s:iterator value="getUnites()">
-                                                                            <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            <s:if test="%{designation==getDesignationUnite()}">
+                                                                                <option value="<s:property value="getDesignation()" />" selected><s:property value="getDesignation()" /></option>
+                                                                            </s:if>
+                                                                            <s:else>
+                                                                                <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            </s:else>
                                                                         </s:iterator>                                                                                                                                                                    
                                                                     </select>
                                                                 </div>

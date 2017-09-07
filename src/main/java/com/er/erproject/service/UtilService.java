@@ -7,11 +7,14 @@ package com.er.erproject.service;
 
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
+import com.er.erproject.modele.VueListeArticle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -26,9 +29,9 @@ public class UtilService {
     }
     
     public static List<Inventaire> listeAlerte() throws Exception {        
-        List<Inventaire> listeTotale = inventaireService.findAll();        
+//        List<VueListeArticle> listeTotale = (List<VueListeArticle>)(List<?>)inventaireService.getHbdao().findAll(new VueListeArticle());
         List<Inventaire> valiny = new ArrayList<>();
-        for(Inventaire i : listeTotale) if(i.getMontant()<i.getArticle().getLimite()) valiny.add(i);
+//        for(Inventaire i : listeTotale) if(i.getMontant()<i.getArticle().getLimite()) valiny.add(i);
         return valiny;
     }
     
@@ -75,6 +78,20 @@ public class UtilService {
             exception.printStackTrace();
             throw exception;
         }
+    }
+    
+    public static String crypterHashage(String password) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes());
+
+        byte byteData[] = md.digest();
+
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }        
+        return sb.toString();
     }
 
     public static InventaireService getInventaireService() {

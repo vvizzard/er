@@ -7,6 +7,7 @@ package com.er.erproject.service;
 
 import com.er.erproject.dao.HibernateDao;
 import com.er.erproject.modele.Unite;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -63,6 +64,7 @@ public class UniteService {
     public List<Unite> getEquivalent(Unite uniteDefaut) {
         Session session = null;
         List<Unite> list = null;
+        if(uniteDefaut.getDesignation().compareTo("none")==0)return new ArrayList<>();
         try {
             session = hbdao.getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(new Unite().getClass());            

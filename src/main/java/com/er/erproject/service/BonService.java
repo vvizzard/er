@@ -52,6 +52,7 @@ public class BonService extends BaseService {
             temporaire.setId2(bon.getId());
             temporaire.setIdUnite(ab.getUnite().getId());
             temporaire.setMontant(ab.getNombre());
+            temporaire.setPrixu(ab.getPrixUnitaire());
             hbdao.save(temporaire);
             inventaireService.updateInventaireForArticle(ab);
         }
