@@ -44,9 +44,9 @@ public class AssociationService extends BaseAssociation {
                 Hibernate.initialize(ba.getBm1());
                 Hibernate.initialize(ba.getBm2());
             }
-            for (BaseAssociation ba : valiny) {
-                completeBaseAssociation(ba);
-            }
+//            for (BaseAssociation ba : valiny) {
+//                completeBaseAssociation(ba);
+//            }
             return valiny;
         } catch (Exception e) {
             throw e;
@@ -74,13 +74,22 @@ public class AssociationService extends BaseAssociation {
     }
 
     public List<BaseModele> findBm(BaseAssociation ass, int idCondition, String attributCondition, String attributGoal) throws Exception {
-        Session session = hbdao.getSessionFactory().openSession();
-        String sql = "select but from " + ass.getClass().getSimpleName() + " a join a." + attributCondition + " but join a." + attributGoal + " condition where condition.id = :id";
-        Query query = session.createQuery(sql);
-        query.setParameter("id", idCondition);
-        List<BaseModele> list = query.list();
-        session.close();
-        return list;
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String sql = "select but from " + ass.getClass().getSimpleName() + " a join a." + attributCondition + " but join a." + attributGoal + " condition where condition.id = :id";
+            Query query = session.createQuery(sql);
+            query.setParameter("id", idCondition);
+            List<BaseModele> list = query.list();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public List<BaseAssociation> findAll(BaseAssociation ass, String condition, int idCondition) throws Exception {
@@ -96,11 +105,13 @@ public class AssociationService extends BaseAssociation {
                 Hibernate.initialize(ba.getBm2());
             }
             return list;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw ex;
         } finally {
-            if(session != null) session.close();
-        }               
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public HibernateDao getHbdao() {

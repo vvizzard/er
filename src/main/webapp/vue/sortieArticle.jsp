@@ -125,11 +125,11 @@
                                                                 </div>                                                                
                                                                 <div class="form-group" style="margin-bottom: -9px;">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
-                                                                    <input type="hidden" id="pres" value="<s:property value="articleEnCours.getUnite().getDesignation()"/>">
+<!--                                                                    <input type="hidden" id="pres" value="<s:property value="articleEnCours.getUnite().getDesignation()"/>">-->
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
                                                                         <select onchange='updateUnity("montant", "designation", "montant", "pres")' id="designation" class="form-control col-md-7 col-xs-12" name="unite">                                                                        
                                                                             <s:iterator value="getListeU()">   
-                                                                                <s:if test="%{unite==getDesignationUnite()}">
+                                                                                <s:if test="%{unite==getDesignation()}">
                                                                                     <option value="<s:property value="getDesignation()" />" selected><s:property value="getDesignation()" /></option>
                                                                                 </s:if>
                                                                                 <s:else>

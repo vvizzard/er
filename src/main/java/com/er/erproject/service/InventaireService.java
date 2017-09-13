@@ -7,10 +7,12 @@ package com.er.erproject.service;
 
 import com.er.erproject.modele.Article;
 import com.er.erproject.modele.ArticleBon;
-import com.er.erproject.modele.Famille;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 
 /**
  *
@@ -56,14 +58,30 @@ public class InventaireService extends AssociationService {
 
     public List<Inventaire> findAll() throws Exception {
         List<Inventaire> valiny = (List<Inventaire>)(List<?>)super.findAll(new Inventaire());        
-        for(Inventaire temp : valiny) {
-            temp.setArticle((Article)temp.getBm1());
-            Famille fTemp = new Famille(temp.getArticle().getIdFamille());
-            hbdao.findById(fTemp);
-            temp.getArticle().setFamille(fTemp);
-            temp.setUnite((Unite)temp.getBm2());
-        }
         return valiny;
+    }
+    
+    public List<Inventaire> findAll(Inventaire b) throws Exception {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            Criteria criteria = session.createCriteria(Inventaire.class);
+            List<Inventaire> valiny = criteria.list();
+            for (Inventaire ba : valiny) {
+                Hibernate.initialize(ba.getBm1());
+                ba.setArticle((Article)ba.getBm1());
+                Hibernate.initialize(ba.getBm2());
+                ba.setUnite((Unite)ba.getBm2());
+            }
+            
+            return valiny;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public UniteService getUniteService() {

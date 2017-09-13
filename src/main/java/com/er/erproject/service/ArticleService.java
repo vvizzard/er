@@ -11,7 +11,10 @@ import com.er.erproject.modele.AssociationArticleUnite;
 import com.er.erproject.modele.Famille;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
+import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -89,7 +92,7 @@ public class ArticleService extends BaseService {
 //            hbdao.findById(uTemp);
             iTemp.setId2(a.getIdUnite());
             inventaireService.update(iTemp);
-        } catch(IndexOutOfBoundsException ioobe) {
+        } catch (IndexOutOfBoundsException ioobe) {
             Inventaire iTemp = new Inventaire();
             iTemp.setArticle(a);
             iTemp.setId1(a.getId());
@@ -97,9 +100,9 @@ public class ArticleService extends BaseService {
             iTemp.setValeur(0);
             iTemp.setMontant(0);
             inventaireService.save(iTemp);
-        }                
+        }
     }
-    
+
     public void completeLoad(Article a) throws Exception {
         Famille f = new Famille();
         f.setId(a.getIdFamille());
@@ -135,6 +138,27 @@ public class ArticleService extends BaseService {
 //        int t = 0;
     }
 
+    public List<String> find(String nom) {
+        Session session = null;
+        try {            
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select designation from article where designation ilike :aa order by designation asc";
+            Query query = session.createSQLQuery(qry);
+            query.setParameter("aa", nom);
+            List<Object> val = query.list();
+            List<String> farany = new ArrayList<>();
+            for (Object o : val) {
+                farany.add(o.toString());
+            }
+            return farany;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(session != null) session.close();
+        }        
+    }
+
     public AssociationService getAssociationService() {
         return associationService;
     }
@@ -159,5 +183,4 @@ public class ArticleService extends BaseService {
         this.inventaireService = inventaireService;
     }
 
-    
 }

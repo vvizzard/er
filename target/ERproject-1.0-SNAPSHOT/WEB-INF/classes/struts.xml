@@ -14,6 +14,27 @@
                     valeur
                 </param>
             </result>
+        </action>
+        <action name="listeArticleAutocomplete" class="com.er.erproject.action.ConversionJsonAction" method="getListeArticleJson">          
+            <result type="json">
+                <param name="root">
+                    listeArticle
+                </param>
+            </result>
+        </action>
+        <action name="listeFournisseurAutocomplete" class="com.er.erproject.action.ConversionJsonAction" method="getListeFournisseurJson">          
+            <result type="json">
+                <param name="root">
+                    listeFournisseur
+                </param>
+            </result>
+        </action>
+        <action name="idArticleJson" class="com.er.erproject.action.ConversionJsonAction" method="getIdArticleJson">          
+            <result type="json">
+                <param name="root">
+                    idDernierArticle
+                </param>
+            </result>
         </action>      
     </package>
 

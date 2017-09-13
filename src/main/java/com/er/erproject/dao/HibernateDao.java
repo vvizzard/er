@@ -179,6 +179,25 @@ public class HibernateDao {
 //        Query query = session.createSQLQuery("select s.stock_code from stock s where s.stock_code = :stockCode").setParameter("stockCode", "7277");
         return val;
     }
+    
+    public int find(String nomTable, String designation) {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            String qry = "select id from "+nomTable+" where designation = :aa";
+            Query query = session.createSQLQuery(qry);
+            query.setParameter("aa", designation);            
+            List<Object> val = query.list();
+            return Integer.parseInt(val.get(0).toString());            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;

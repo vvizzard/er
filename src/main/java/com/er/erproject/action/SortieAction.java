@@ -230,8 +230,14 @@ public class SortieAction extends BaseAction {
             //  get bon
             bon = (Bon) session.get("bon");
             //  add demandeur to bon
-            User demandeur = new User(idDemandeur);
-            hbdao.findById(demandeur);
+            User demandeur = null;
+            if (idDemandeur != 0) demandeur = new User(idDemandeur);
+            else if(nomPrenomDemandeur.compareTo("")!=0) {
+                String[] np = nomPrenomDemandeur.split(" ");
+                List<User> listeUs = (List<User>)(List<?>)hbdao.findAll(new User());
+                for(User u : listeUs) if(u.getNom().compareTo(np[0])==0&&u.getPrenom().compareTo(np[1])==0) demandeur = u;
+            }
+//            hbdao.findById(demandeur);
             bon.setDemandeur(demandeur);
             //  add date to bon
             if (dateToday.compareTo("") != 0) {
@@ -250,15 +256,15 @@ public class SortieAction extends BaseAction {
             bonService.save(bon);
             //  codeBarre
             //  inserer dans la base - generer png
-            for (ArticleBon abon : bon.getListeArticle()) {
-                for (int i = 0; i < abon.getNombre(); i++) {
-                    Barcode b = new Barcode();
-                    b.setIdArticle(abon.getId());
-                    b.setIdBon(bon.getId());
-                    hbdao.save(b);
-                    CodeBarreService.generate(bon.getProjet().getDesignation() + "_" + abon.getDesignation() + i, Integer.toString(b.getId()));
-                }
-            }
+//            for (ArticleBon abon : bon.getListeArticle()) {
+////                for (int i = 0; i < abon.getNombre(); i++) {
+//////                    Barcode b = new Barcode();
+//////                    b.setIdArticle(abon.getId());
+//////                    b.setIdBon(bon.getId());
+//////                    hbdao.save(b);
+//////                    CodeBarreService.generate(bon.getProjet().getDesignation() + "_" + abon.getDesignation() + i, Integer.toString(b.getId()));
+////                }
+//            }
 
             PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(), "er", "telma");
         } catch (Exception ex) {
@@ -337,7 +343,9 @@ public class SortieAction extends BaseAction {
     }
 
     private void setUnites(ArticleBon ab) throws Exception {
+        int idu = ab.getIdUnite();
         Unite tp = new Unite(ab.getIdUnite());
+        hbdao.findById(tp);
         List<Unite> temp = uniteService.getEquivalent(tp);
         temp.add(tp);
         for (Unite u : temp) {

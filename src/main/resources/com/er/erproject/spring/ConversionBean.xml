@@ -8,6 +8,9 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">       
          
-    
+    <bean id="conversionAction" class="com.er.erproject.action.ConversionJsonAction">
+        <property name="uniteService" ref="uniteService" />
+        <property name="articleService" ref="articleService" />
+    </bean>
        
 </beans>

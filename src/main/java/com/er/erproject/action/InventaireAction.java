@@ -32,8 +32,7 @@ public class InventaireAction extends BaseAction {
             if (!checkUser()) {
                 return "tolog";
             }
-            listeInventaire = inventaireService.findAll();
-            List<Unite> test = uniteService.getEquivalent(listeInventaire.get(2).getUnite());
+            listeInventaire = inventaireService.findAll();            
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
