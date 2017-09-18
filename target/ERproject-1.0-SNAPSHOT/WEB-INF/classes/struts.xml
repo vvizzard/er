@@ -32,7 +32,14 @@
         <action name="idArticleJson" class="com.er.erproject.action.ConversionJsonAction" method="getIdArticleJson">          
             <result type="json">
                 <param name="root">
-                    idDernierArticle
+                    listeFournisseursComplet
+                </param>
+            </result>
+        </action>    
+        <action name="idFournisseurJson" class="com.er.erproject.action.ConversionJsonAction" method="getIdFournisseurJson">
+            <result type="json">
+                <param name="root">
+                    listeFournisseursComplet
                 </param>
             </result>
         </action>      

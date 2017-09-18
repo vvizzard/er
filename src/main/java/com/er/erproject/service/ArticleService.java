@@ -110,8 +110,9 @@ public class ArticleService extends BaseService {
         a.setFamille(f);
         Unite u = new Unite();
         u.setId(a.getIdUnite());
-        hbdao.findById(u);
+        uniteService.find(u);
         a.setUnite(u);
+        int t = 0;
 //        AssociationArticleUnite aau = new AssociationArticleUnite();
 //        aau.setTable("AssociationArticleUnite");
 //        a.setUnites((List<Unite>)(List<?>)associationService.findBm(aau, a.getId(), "unite", "article"));
@@ -151,6 +152,23 @@ public class ArticleService extends BaseService {
                 farany.add(o.toString());
             }
             return farany;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(session != null) session.close();
+        }        
+    }
+    
+    public String findNombreDisponible(int idArticle) {
+        Session session = null;
+        try {            
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select nombre from inventaire where id_article = :aa";
+            Query query = session.createSQLQuery(qry);
+            query.setParameter("aa", idArticle);
+            List<Object> val = query.list();
+            return val.get(0).toString();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

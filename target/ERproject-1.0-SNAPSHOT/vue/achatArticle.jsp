@@ -118,7 +118,7 @@
                                                                     <div class="form-group" style="margin-bottom: -9px;">
                                                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Fournisseur <span class="required">*</span></label>
                                                                         <div class="col-md-10 col-sm-10 col-xs-12 input-group">                                                                        
-                                                                            <input type="text" id="dernierFournisseur" class="form-control col-md-7 col-xs-12 typeaheadd" name="dernierFournisseur" value="<s:property value="%{dernierFournisseur}"></s:property>">
+                                                                            <input type="text" id="dernierFournisseur" onblur="updateIdFournisseur()" class="form-control col-md-7 col-xs-12 typeaheadd" name="dernierFournisseur" value="<s:property value="%{dernierFournisseur}"></s:property>">
                                                                             <div class="input-group-btn">
                                                                                 <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeFournisseur?idDernierArticle=<s:property value="%{idDernierArticle}"></s:property>&type=1'>...</button>
                                                                             </div>
@@ -342,9 +342,11 @@
                         dataType: JSON
                     },
                     function (json) {
-                        console.log(json);
-                        $('[name="idDernierArticle"]').val(json);
+                        console.log(json[0]);
+                        $('[name="idDernierArticle"]').val(json[0]);
                         console.log($('[name="idDernierArticle"]').val());
+                        console.log(json[1]);
+                        $("#listeUnite").fillValues({datas:json[1]});
                     });
         }
         $('.typeaheadd').typeahead({
@@ -364,6 +366,22 @@
                     });
             }
         });
+        function updateIdFournisseur() {
+            console.log(document.getElementById("designationArticle").value);
+            $.post("idFournisseurJson",
+                    {
+                        designationArticle: document.getElementById("dernierFournisseur").value,
+                        idDernierArticle: $('[name="idDernierArticle"]').val(),
+                        dataType: JSON
+                    },
+                    function (json) {
+                        console.log(json[0]);
+                        $('[name="idDernierFournisseur"]').val(json[0]);
+                        console.log($('[name="idDernierFournisseur"]').val());
+                        console.log(json[1]);
+                        $('[name="prixSelonFournisseur"]').val(json[1]);                        
+                    });
+        }
     </script>
 
 </body>

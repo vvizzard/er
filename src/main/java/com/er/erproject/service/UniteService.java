@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -28,8 +29,10 @@ public class UniteService {
             session = hbdao.getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(new Unite().getClass());
             List<Unite> valiny = criteria.list();
-            for (Unite ba : valiny) {                
-                if(ba.getReference()!=null) Hibernate.initialize(ba.getReference());                
+            for (Unite ba : valiny) {
+                if (ba.getReference() != null) {
+                    Hibernate.initialize(ba.getReference());
+                }
             }
             return valiny;
         } catch (Exception ex) {
@@ -41,7 +44,7 @@ public class UniteService {
             }
         }
     }
-    
+
     public Unite findByName(String name) {
         Session session = null;
         List<Unite> list = null;
@@ -49,8 +52,10 @@ public class UniteService {
             session = hbdao.getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(new Unite().getClass());
             criteria.add(Restrictions.like("designation", name));
-            list = criteria.list();
-            return (Unite)list.get(0);
+            list = criteria.list(); 
+            Unite valiny = (Unite) list.get(0);
+            Hibernate.initialize(valiny.getReference());
+            return valiny;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -60,16 +65,19 @@ public class UniteService {
             }
         }
     }
-    
+
     public List<Unite> getEquivalent(Unite uniteDefaut) {
         Session session = null;
         List<Unite> list = null;
-        if(uniteDefaut.getDesignation().compareTo("none")==0)return new ArrayList<>();
+        if (uniteDefaut.getDesignation().compareTo("none") == 0) {
+            return new ArrayList<>();
+        }
         try {
             session = hbdao.getSessionFactory().openSession();
-            Criteria criteria = session.createCriteria(new Unite().getClass());            
-            criteria.add(Restrictions.sqlRestriction("this_.reference = "+uniteDefaut.getId()));
+            Criteria criteria = session.createCriteria(new Unite().getClass());
+            criteria.add(Restrictions.sqlRestriction("this_.reference = " + uniteDefaut.getId()));
             list = criteria.list();
+            for(Unite u : list) u.setReference(uniteDefaut);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -80,14 +88,14 @@ public class UniteService {
         }
         return list;
     }
-    
+
     public List<Unite> findDefauts() throws Exception {
         Session session = null;
         List<Unite> list = null;
         try {
             session = hbdao.getSessionFactory().openSession();
-            Criteria criteria = session.createCriteria(new Unite().getClass());            
-            criteria.add(Restrictions.sqlRestriction("this_.defaut != -1"));            
+            Criteria criteria = session.createCriteria(new Unite().getClass());
+            criteria.add(Restrictions.sqlRestriction("this_.defaut != -1"));
             list = criteria.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,16 +127,50 @@ public class UniteService {
         try {
             double temp = obj.getDifference();
             hbdao.save(obj);
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             obj.setDifference(0.0);
             hbdao.save(obj);
-        }        
+        }
     }
-    
+
+    public List<String> findUniteStringByIdArticle(int idArticle) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select unite.designation from unite "
+                    + "where unite.id = ("
+                    + "	select u.id as idunite from unite u "
+                    + "	left join article a "
+                    + "	on a.id_unite = u.id "
+                    + "	where a.id = :idArticle"
+                    + "	) "
+                    + "or unite.reference = ("
+                    + "	select u.id as idunite from unite u "
+                    + "	left join article a "
+                    + "	on a.id_unite = u.id " +
+            "	where a.id = :idArticle)";
+            Query query = session.createSQLQuery(qry);            
+            query.setParameter("idArticle", idArticle);
+            List<Object> val = query.list();
+            List<String> farany = new ArrayList<>();
+            for (Object o : val) {
+                farany.add(o.toString());
+            }
+            return farany;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public void update(Unite obj) throws Exception {
         hbdao.update(obj);
     }
-    
+
     public void delete(Unite obj) throws Exception {
         hbdao.delete(obj);
     }
@@ -140,6 +182,5 @@ public class UniteService {
     public void setHbdao(HibernateDao hbdao) {
         this.hbdao = hbdao;
     }
-    
-    
+
 }

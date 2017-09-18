@@ -33,6 +33,7 @@
 
         <!-- Custom Theme Style -->
         <link href="build/css/custom.min.css" rel="stylesheet">
+        <link href="build/css/mine.css" rel="stylesheet">
 
         <script>
             (function (e, t, n) {
@@ -112,10 +113,10 @@
                                                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Article <span class="required">*</span></label>
                                                                         <div class="col-md-10 col-sm-10 col-xs-12 input-group">
                                                                         <s:if test="%{codeDernierArticle != ''}">
-                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
+                                                                            <input type="text" onblur="updateIdArticle()" id="designationArticle" class="form-control col-md-7 col-xs-12 typeahead" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
                                                                         </s:if>
                                                                         <s:else>
-                                                                            <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
+                                                                            <input type="text" onblur="updateIdArticle()" id="designationArticle" class="form-control col-md-7 col-xs-12 typeahead" name="codeDernierArticle" value="<s:property value="%{codeDernierArticle}"></s:property>">
                                                                         </s:else>
 
                                                                         <div class="input-group-btn">
@@ -127,7 +128,7 @@
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
 <!--                                                                    <input type="hidden" id="pres" value="<s:property value="articleEnCours.getUnite().getDesignation()"/>">-->
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <select onchange='updateUnity("montant", "designation", "montant", "pres")' id="designation" class="form-control col-md-7 col-xs-12" name="unite">                                                                        
+                                                                        <select onchange='updateUnity("montant", "designation", "montant", "pres")' id="listeUnite" class="form-control col-md-7 col-xs-12" name="unite">                                                                        
                                                                             <s:iterator value="getListeU()">   
                                                                                 <s:if test="%{unite==getDesignation()}">
                                                                                     <option value="<s:property value="getDesignation()" />" selected><s:property value="getDesignation()" /></option>
@@ -279,6 +280,11 @@
     <script src="build/js/custom.min.js"></script>
 
     <script src="vue/js/custom-file-input.js"></script>
+    
+    <script src="vendors/typeahead/bloodhound.js"></script>
+    <script src="vendors/typeahead/typeahead.bundle.min.js"></script>
+    <script src="vendors/typeahead/typeahead.bundle.js"></script>
+    <script src="vendors/typeahead/typeahead.jquery.js"></script>
 
     <script>
                                                                             jQuery(document).ready(function ($) {
@@ -293,7 +299,7 @@
 
     <script>
         function updateUnity(montant, designation, destination, select) {
-            var param = document.getElementById(designation).value;
+            var param = document.getElementById("designationArticle").value;
             console.log(param);
             var ancienNombre = document.getElementById("montant").value;
             console.log(ancienNombre);
@@ -319,6 +325,76 @@
 //            console.log($('#'+ select).val());
                     });
         }
+        (function ($) {
+            $.fn.fillValues = function (options) {
+                var settings = $.extend({
+                    datas: null,
+                    complete: null
+                }, options);
+
+                this.each(function () {
+                    var datas = settings.datas;
+                    if (datas != null) {
+                        $(this).empty();
+                        for (var key in datas) {
+                            $(this).append('<option value="' + key + '"+>' + datas[key] + '</option>');
+                        }
+                    }
+                    if ($.isFunction(settings.complete)) {
+                        settings.complete.call(this);
+                    }
+                });
+            };
+        }(jQuery));
+        $('.typeahead').typeahead({
+            hint: true,
+            highlight: true
+        },
+        {
+            source: function (query, processSync, processAsync) {
+                $.post("listeArticleAutocomplete",
+                        {
+                            debutArticle: "%" + document.getElementById("designationArticle").value + "%",
+                            dataType: JSON
+                        },
+                        function (json) {
+                            return processAsync(json);
+                        });
+            }
+        });
+        function updateIdArticle() {
+            console.log(document.getElementById("designationArticle").value);
+            $.post("idArticleJson",
+                    {
+                        designationArticle: document.getElementById("designationArticle").value,
+                        dataType: JSON
+                    },
+                    function (json) {
+                        console.log(json[0]);
+                        $('[name="idDernierArticle"]').val(json[0]);
+                        console.log($('[name="idDernierArticle"]').val());
+                        console.log(json[1]);
+                        $("#listeUnite").fillValues({datas:json[1]});
+                        $("#montant").val(json[2]);
+                    });
+        }
+        $('.typeaheadd').typeahead({
+            hint: true,
+            highlight: true
+        },
+        {
+            source: function (query, processSync, processAsync) {
+                $.post("listeFournisseurAutocomplete",
+                    {
+                        debutArticle: "%" + document.getElementById("dernierFournisseur").value + "%",
+                        idDernierArticle: $('[name="idDernierArticle"]').val(),
+                        dataType: JSON
+                    },
+                    function (json) {
+                        return processAsync(json);
+                    });
+            }
+        });
     </script>
 
 </body>

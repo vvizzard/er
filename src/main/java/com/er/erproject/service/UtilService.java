@@ -128,6 +128,28 @@ public class UtilService {
         }
     }
 
+    public static String findMontantByArticleFournisseur(int idFournisseur, int idArticle, HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select montant from vueartf "
+                    + "where id_article = :idArticle "
+                    + "and id_fournisseur = :idFournisseur";
+            Query query = session.createSQLQuery(qry);
+            query.setParameter("idArticle", idArticle);
+            query.setParameter("idFournisseur", idFournisseur);
+            List<Object> val = query.list();            
+            return val.get(0).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public static InventaireService getInventaireService() {
         return inventaireService;
     }

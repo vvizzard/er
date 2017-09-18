@@ -198,6 +198,25 @@ public class HibernateDao {
             }
         }
     }
+    
+    public int find(String aPrendre, String nomTable, String critere, String valeurCritere) {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            String qry = "select "+aPrendre+" from "+nomTable+" where "+critere+" = :aa";
+            Query query = session.createSQLQuery(qry);
+            query.setParameter("aa", valeurCritere);            
+            List<Object> val = query.list();
+            return Integer.parseInt(val.get(0).toString());            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;

@@ -9,6 +9,7 @@ import com.er.erproject.service.ArticleService;
 import com.er.erproject.service.UniteService;
 import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,8 +30,11 @@ public class ConversionJsonAction extends BaseAction {
     
     private List<String> listeFournisseur;
     private int idDernierArticle;
+    private int idFournisseur;
     
     private String designationArticle;
+    
+    private List<List<String>> listeFournisseursComplet;
 
     public String load() {        
         try {            
@@ -43,7 +47,7 @@ public class ConversionJsonAction extends BaseAction {
     
     public String getListeArticleJson() {
         try {            
-            listeArticle = articleService.find(debutArticle);
+            listeArticle = articleService.find(debutArticle);            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +56,7 @@ public class ConversionJsonAction extends BaseAction {
     
     public String getListeFournisseurJson() {
         try {            
-            listeFournisseur = UtilService.find(debutArticle, idDernierArticle, hbdao);
+            listeFournisseur = UtilService.find(debutArticle, idDernierArticle, hbdao);            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +66,32 @@ public class ConversionJsonAction extends BaseAction {
     public String getIdArticleJson() {
         try {            
             idDernierArticle = hbdao.find("article", designationArticle);
+            List<String> test = new ArrayList<>();
+            test.add(Integer.toString(idDernierArticle));
+            listeFournisseur = uniteService.findUniteStringByIdArticle(idDernierArticle);   
+            List<String> temp3 = new ArrayList<>();
+            temp3.add(articleService.findNombreDisponible(idDernierArticle));
+            listeFournisseursComplet = new ArrayList<>();
+            listeFournisseursComplet.add(test);            
+            listeFournisseursComplet.add(listeFournisseur);            
+            listeFournisseursComplet.add(temp3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Action.SUCCESS;
+    }        
+    
+    public String getIdFournisseurJson() {
+        try {            
+            idFournisseur = hbdao.find("id", "fournisseur", "nom", designationArticle);
+            List<String> test = new ArrayList<>();
+            test.add(Integer.toString(idFournisseur));
+            listeFournisseur = new ArrayList<>();
+            String test2 = UtilService.findMontantByArticleFournisseur(idFournisseur, idDernierArticle, hbdao);
+            listeFournisseur.add(test2);
+            listeFournisseursComplet = new ArrayList<>();
+            listeFournisseursComplet.add(test);            
+            listeFournisseursComplet.add(listeFournisseur);            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,6 +184,22 @@ public class ConversionJsonAction extends BaseAction {
 
     public void setDesignationArticle(String designationArticle) {
         this.designationArticle = designationArticle;
+    }
+
+    public List<List<String>> getListeFournisseursComplet() {
+        return listeFournisseursComplet;
+    }
+
+    public void setListeFournisseursComplet(List<List<String>> listeFournisseursComplet) {
+        this.listeFournisseursComplet = listeFournisseursComplet;
+    }
+
+    public int getIdFournisseur() {
+        return idFournisseur;
+    }
+
+    public void setIdFournisseur(int idFournisseur) {
+        this.idFournisseur = idFournisseur;
     }
     
     

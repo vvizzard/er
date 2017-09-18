@@ -31,7 +31,9 @@ public class ArticleBon extends Article {
         super.setIdFamille(article.getIdFamille());
         super.setFamille(article.getFamille());
         super.setId(article.getId());
-        super.setUnites(article.getUnites());
+        super.setUnites(article.getUnites());        
+        super.setUnite(article.getUnite());
+        this.unite = article.getUnite();
         super.setIdUnite(article.getIdUnite());
     }
 

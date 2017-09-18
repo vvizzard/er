@@ -327,9 +327,9 @@ public class EntreeAction extends BaseAction {
     }
 
     private void setUnites(ArticleBon ab) throws Exception {
-        Unite tp = new Unite(ab.getIdUnite());
-        List<Unite> temp = uniteService.getEquivalent(tp);
-        temp.add(tp);
+//        Unite tp = new Unite(ab.getIdUnite());
+        List<Unite> temp = uniteService.getEquivalent(ab.getUnite());
+        temp.add(ab.getUnite());
         for (Unite u : temp) {
             if (u.getDesignation().compareToIgnoreCase(unite) == 0) {
                 ab.setUnite(u);
