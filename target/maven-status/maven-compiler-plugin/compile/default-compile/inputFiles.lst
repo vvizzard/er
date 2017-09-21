@@ -12,6 +12,7 @@ E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\BaseA
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\Departement.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\UserAction.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\FournisseursAction.java
+E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\VueInventaire.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\service\UtilService.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\Bon.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\ArticleBon.java
@@ -42,9 +43,11 @@ E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\Nouve
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\Unite.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\service\AssociationArticleBonService.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\VueArticleFournisseur.java
+E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\HistoriqueArticle.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\Fournisseur.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\service\AssociationService.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\InventaireAction.java
+E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\HistoriqueArticleAction.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\VueHistoriqueProjet.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\modele\Projet.java
 E:\vvizard\Projet en cours\ERproject\src\main\java\com\er\erproject\action\LoginAction.java

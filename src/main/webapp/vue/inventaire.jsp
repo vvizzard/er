@@ -104,17 +104,17 @@
                                                             <tbody>
                                                                 <s:iterator value="listeInventaire">
                                                                     <tr class="odd pointer" id="tr<s:property value="getId()" />">                                                                        
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getId()" /></td>
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getArticle().getCode()" /></td> 
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getArticle().getDesignation()" /></td>  
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getArticle().getFamille().getDesignation()"/></td>
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getArticle().getEmplacement()"/></td>
-                                                                        <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'  id="mt<s:property value="getId()" />" value="<s:property value="getMontant()" />" ><s:property value="getMontant()" /></td>                         
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getId()" /></td>
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getCode()" /></td> 
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getArticle()" /></td>  
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getFamille()"/></td>
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getEmplacement()"/></td>
+                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'  id="mt<s:property value="getId()" />" value="<s:property value="getNombre()" />" ><s:property value="getNombre()" /></td>                         
                                                                         <td>
-                                                                            <input type="hidden" id="preselected<s:property value="getId()" />" value="<s:property value="getUnite().getDesignation()" />">
+                                                                            <input type="hidden" id="preselected<s:property value="getId()" />" value="<s:property value="getUnite()" />">
                                                                             <select onchange='updateUnity("tr<s:property value="getId()" />","ut<s:property value="getId()" />","mt<s:property value="getId()" />","preselected<s:property value="getId()" />")' id="ut<s:property value="getId()" />">
                                                                                 <option>
-                                                                                    <s:property value="getUnite().getDesignation()" />
+                                                                                    <s:property value="getUnite()" />
                                                                                 </option>
                                                                                 <s:iterator value="getUniteService().getEquivalent(getUnite())">
                                                                                     <option><s:property value="getDesignation()" /></option>

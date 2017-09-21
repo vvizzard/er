@@ -39,6 +39,8 @@
                 <value>com/er/erproject/hibernate/VueArticleFournisseur.hbm.xml</value>
                 <value>com/er/erproject/hibernate/VueListeArticle.hbm.xml</value>
                 <value>com/er/erproject/hibernate/VueHistoriqueProjet.hbm.xml</value>
+                <value>com/er/erproject/hibernate/VueInventaire.hbm.xml</value>
+                <value>com/er/erproject/hibernate/HistoriqueArticle.hbm.xml</value>
             </list>
         </property>
     </bean>

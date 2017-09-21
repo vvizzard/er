@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.er.erproject.modele.HistoriqueArticle" table="historiquearticle">
+        <meta attribute="class-description">
+            This class contains the categorie detail.
+        </meta>
+        <id name="id" type="int" column="id_bon">
+            <generator class="increment"/>
+        </id>
+        <property name="nom" column="nomuser" type="string"/>
+        <property name="prenom" column="prenomuser" type="string"/>
+        <property name="projet" column="projet" type="string"/>
+        <property name="date" column="date" type="date"/>                 
+        <property name = "facture" column="facture" type="string"/>
+        <property name = "photo" column="photo" type="string"/>
+        <property name = "idArticle" column="id_article" type="int"/>
+        <property name = "unite" column="unite" type="string"/>
+        <property name = "montant" column="montant" type="double"/>
+        <property name = "prixU" column="prixu" type="double"/>
+    </class>
+</hibernate-mapping>

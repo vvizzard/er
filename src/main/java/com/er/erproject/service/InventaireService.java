@@ -49,6 +49,13 @@ public class InventaireService extends AssociationService {
         Inventaire temp = findByArticle(a);
         double nombreDansLaBase = temp.getMontant();
         double aAjouter = a.getNombre();
+        if(a.getUnite().getIdReference()!=0) {
+            Unite ute = new Unite(a.getUnite().getIdReference());
+            hbdao.findById(ute);
+            a.getUnite().setReference(ute);
+        } else {
+            a.getUnite().setReference(null);
+        }
         aAjouter = UtilService.conversion(a.getUnite(), aAjouter, a.getUnite().getReference());
         nombreDansLaBase += aAjouter;
         temp.setMontant(nombreDansLaBase);

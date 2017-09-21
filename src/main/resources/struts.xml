@@ -425,6 +425,14 @@
             <result name="error">vue/journal.jsp</result>
         </action>
         
+        <action name="historiqueArticle" class="com.er.erproject.action.HistoriqueArticleAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/historiquearticle.jsp</result>
+            <result name="error">vue/historiquearticle.jsp</result>
+        </action>
+        
     </package>
     
 </struts>

@@ -166,6 +166,25 @@ public class HibernateDao {
         }
         return list;
     }
+    
+    public List<BaseModele> findAllByIdCriteria(BaseModele obj, String critere, int idCriteria) throws Exception {
+        Session session = null;
+        List<BaseModele> list = null;
+        try {
+            session = getSessionFactory().openSession();
+            Criteria criteria = session.createCriteria(obj.getClass());            
+            criteria.add(Restrictions.eqOrIsNull(critere, idCriteria));            
+            list = criteria.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return list;
+    }
 
     public List<Object> Soustraction() {
         Session session = getSessionFactory().openSession();

@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -78,6 +79,33 @@ public class UniteService {
             criteria.add(Restrictions.sqlRestriction("this_.reference = " + uniteDefaut.getId()));
             list = criteria.list();
             for(Unite u : list) u.setReference(uniteDefaut);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return list;
+    }
+    
+    public List<Unite> getEquivalent(String uniteDefaut) {
+        Session session = null;
+        List<Unite> list = null;
+        if (uniteDefaut.compareTo("none") == 0) {
+            return new ArrayList<>();
+        }
+        try {
+            session = hbdao.getSessionFactory().openSession();
+//            Query query = session.createSQLQuery("select id from unite u where u.designation = :des").addEntity(Unite.class);
+//            query.setParameter("des", uniteDefaut);
+            Criteria tempC = session.createCriteria(new Unite().getClass());
+            tempC.add(Restrictions.ilike("designation", uniteDefaut));
+            List<Unite> tempU = tempC.list();
+            Criteria criteria = session.createCriteria(new Unite().getClass());
+            criteria.add(Restrictions.sqlRestriction("this_.reference = " + tempU.get(0).getId()));
+            list = criteria.list();            
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

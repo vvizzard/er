@@ -6,8 +6,8 @@
 package com.er.erproject.action;
 
 import com.er.erproject.modele.Inventaire;
-import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
+import com.er.erproject.modele.VueInventaire;
 import com.er.erproject.service.InventaireService;
 import com.er.erproject.service.UniteService;
 import com.opensymphony.xwork2.Action;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class InventaireAction extends BaseAction {
 
-    private List<Inventaire> listeInventaire;
+    private List<VueInventaire> listeInventaire;
     private InventaireService inventaireService;
     private UniteService uniteService;
 
@@ -32,7 +32,7 @@ public class InventaireAction extends BaseAction {
             if (!checkUser()) {
                 return "tolog";
             }
-            listeInventaire = inventaireService.findAll();            
+            listeInventaire = (List<VueInventaire>)(List<?>)hbdao.findAll(new VueInventaire());            
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -40,11 +40,11 @@ public class InventaireAction extends BaseAction {
         }
     }
 
-    public List<Inventaire> getListeInventaire() {
+    public List<VueInventaire> getListeInventaire() {
         return listeInventaire;
     }
 
-    public void setListeInventaire(List<Inventaire> listeInventaire) {
+    public void setListeInventaire(List<VueInventaire> listeInventaire) {
         this.listeInventaire = listeInventaire;
     }
 

@@ -75,7 +75,9 @@ public class UtilService {
                 return montant * convertirEn.getDifference();
             } catch (NullPointerException nullConvertirEnDifference) {
                 try {
-                    return montant / aConvertir.getDifference();
+                    double val = montant / aConvertir.getDifference();
+                    if(Double.isInfinite(val)) throw new NullPointerException();
+                    return val;
                 } catch (NullPointerException allNull) {
                     return montant;
                 } catch (Exception e) {
