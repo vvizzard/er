@@ -20,5 +20,6 @@
         <property name = "unite" column="unite" type="string"/>
         <property name = "montant" column="montant" type="double"/>
         <property name = "prixU" column="prixu" type="double"/>
+        <property name = "nbrDisponible" column="nbrdisponible" type="double"/>
     </class>
 </hibernate-mapping>

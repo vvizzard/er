@@ -42,7 +42,7 @@
             <div class="main_container">
                 <%@include file="header.jsp"%>
 
-                
+
 
                 <!-- page content -->
                 <div class="right_col" role="main">
@@ -61,76 +61,93 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="x_content">
-                                        <br />
-                                        <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                            <div class="row">
-                                                <div class="col-sm-6 col-sm-offset-6">
-                                                    <div id="datatable_filter" class="dataTables_filter">
-                                                        <select class="form-control input-sm" placeholder="Categorie" aria-controls="datatable">
-                                                            <option>Famille</option>
-                                                            <option>Fournisseur</option>
-                                                        </select>
-                                                        <select class="form-control input-sm" placeholder="Emplacement" aria-controls="datatable">
-                                                            <option>Emplacement</option>
-                                                            <option>Test</option>
-                                                        </select>
+                                        <form method="get" action="rechercheInventaire">
+                                            <br />
+                                            <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-sm-offset-6">
+                                                        <div id="datatable_filter" class="dataTables_filter">
+                                                            <select class="form-control input-sm" name="famille" placeholder="Categorie" aria-controls="datatable">
+                                                                <option>Famille</option>
+                                                                <s:iterator value="listeFamille" status="inc">
+                                                                    <s:if test="%{famille==listeFamille.get(#inc.index)}">
+                                                                        <option selected="true"><s:property/></option>
+                                                                    </s:if>
+                                                                    <s:else>
+                                                                        <option><s:property/></option>
+                                                                    </s:else>
+                                                                </s:iterator>
+                                                            </select>
+                                                            <select class="form-control input-sm" name="emplacement" placeholder="Emplacement" aria-controls="datatable">
+                                                                <option>Emplacement</option>
+                                                                <s:iterator value="listeEmplacement" status="inc">
+                                                                    <s:if test="%{emplacement==listeEmplacement.get(#inc.index)}">
+                                                                        <option selected="true"><s:property/></option>
+                                                                    </s:if>
+                                                                    <s:else>
+                                                                        <option><s:property/></option>
+                                                                    </s:else>
+                                                                </s:iterator>
+                                                            </select>
+                                                        </div>
+                                                        <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <input type="search" class="form-control input-sm" placeholder="" name="critere" aria-controls="datatable" value="<s:property value="critere"/>"></label></div>                                                        
                                                     </div>
-                                                    <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable"></label></div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <script>
-                                                    jQuery(document).ready(function ($) {
-                                                        $(".clickable-row").click(function () {
-                                                            window.location = $(this).data("href");
-                                                        });                                                        
-                                                    });
-                                                </script>
-                                                <div class="col-sm-12">
-                                                    <div class="table-responsive">
-                                                        <table id="table" class="table table-striped jambo_table bulk_action">
-                                                            <thead>
-                                                                <tr class="headings">
-                                                                    <th class="column-title">Id </th>
-                                                                    <th class="column-title">Reference</th>
-                                                                    <th class="column-title">Designation </th>
-                                                                    <th class="column-title">Famille</th>
-                                                                    <th class="column-title">Emplacement</th>
-                                                                    <th class="column-title">Nombre </th>
-                                                                    <th class="column-title">Unite </th>
-                                                                    <th class="column-title" style="text-align: right;">Valeur </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <s:iterator value="listeInventaire">
-                                                                    <tr class="odd pointer" id="tr<s:property value="getId()" />">                                                                        
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getId()" /></td>
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getCode()" /></td> 
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getArticle()" /></td>  
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getFamille()"/></td>
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getEmplacement()"/></td>
-                                                                        <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'  id="mt<s:property value="getId()" />" value="<s:property value="getNombre()" />" ><s:property value="getNombre()" /></td>                         
-                                                                        <td>
-                                                                            <input type="hidden" id="preselected<s:property value="getId()" />" value="<s:property value="getUnite()" />">
-                                                                            <select onchange='updateUnity("tr<s:property value="getId()" />","ut<s:property value="getId()" />","mt<s:property value="getId()" />","preselected<s:property value="getId()" />")' id="ut<s:property value="getId()" />">
-                                                                                <option>
-                                                                                    <s:property value="getUnite()" />
-                                                                                </option>
-                                                                                <s:iterator value="getUniteService().getEquivalent(getUnite())">
-                                                                                    <option><s:property value="getDesignation()" /></option>
-                                                                                </s:iterator>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td style="text-align: right;" class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getValeur()" /></td>                                                                         
+                                                <div class="row">
+                                                    <script>
+                                                        jQuery(document).ready(function ($) {
+                                                            $(".clickable-row").click(function () {
+                                                                window.location = $(this).data("href");
+                                                            });
+                                                        });
+                                                    </script>
+                                                    <div class="col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table id="table" class="table table-striped jambo_table bulk_action">
+                                                                <thead>
+                                                                    <tr class="headings">
+                                                                        <th class="column-title">Id </th>
+                                                                        <th class="column-title">Reference</th>
+                                                                        <th class="column-title">Designation </th>
+                                                                        <th class="column-title">Famille</th>
+                                                                        <th class="column-title">Emplacement</th>
+                                                                        <th class="column-title">Nombre </th>
+                                                                        <th class="column-title">Unite </th>
+                                                                        <th class="column-title" style="text-align: right;">Valeur </th>
                                                                     </tr>
-                                                                </s:iterator>                                                                        
-                                                            </tbody>
-                                                        </table>                                                        
+                                                                </thead>
+                                                                <tbody>
+                                                                    <s:iterator value="listeInventaire">
+                                                                        <tr class="odd pointer" id="tr<s:property value="getId()" />">                                                                        
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getId()" /></td>
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getCode()" /></td> 
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getArticle()" /></td>  
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getFamille()"/></td>
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getEmplacement()"/></td>
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'  id="mt<s:property value="getId()" />" value="<s:property value="getNombre()" />" ><s:property value="getNombre()" /></td>                         
+                                                                                <td>
+                                                                                    <input type="hidden" id="preselected<s:property value="getId()" />" value="<s:property value="getUnite()" />">
+                                                                                <select onchange='updateUnity("tr<s:property value="getId()" />", "ut<s:property value="getId()" />", "mt<s:property value="getId()" />", "preselected<s:property value="getId()" />")' id="ut<s:property value="getId()" />">
+                                                                                    <option>
+                                                                                        <s:property value="getUnite()" />
+                                                                                    </option>
+                                                                                    <s:iterator value="getUniteService().getEquivalent(getUnite())">
+                                                                                        <option><s:property value="getDesignation()" /></option>
+                                                                                    </s:iterator>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td style="text-align: right;" class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'><s:property value="getValeur()" /></td>                                                                         
+                                                                            </tr>
+                                                                    </s:iterator>                                                                        
+                                                                </tbody>
+                                                            </table>                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br>
+                                            <br>
+                                            <input type="submit" style="display: none">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -182,31 +199,31 @@
 <!-- Custom Theme Scripts -->
 <script src="build/js/custom.min.js"></script>
 <script>
-    function updateUnity(montant, designation, destination, select) {
-        var param = document.getElementById(designation).value;      
-        var rowUtile = $('#'+montant);
-        var ancienNombre = $(rowUtile).find('td').eq(5).text();   
-        var valeurActuel = $('#'+ select).val();//$(rowUtile).find('td').eq(6).text();
+                                                                                    function updateUnity(montant, designation, destination, select) {
+                                                                                        var param = document.getElementById(designation).value;
+                                                                                        var rowUtile = $('#' + montant);
+                                                                                        var ancienNombre = $(rowUtile).find('td').eq(5).text();
+                                                                                        var valeurActuel = $('#' + select).val();//$(rowUtile).find('td').eq(6).text();
 //        console.log(valeurActuel);
 
-        $.post("conversion",
-        {
-            existant: ancienNombre,
-            uniteSelectionnee: param,
-            valeurActuel: valeurActuel,
-            dataType:JSON
-        },
-        function (data, status) {
-            if (data != null) {
+                                                                                        $.post("conversion",
+                                                                                                {
+                                                                                                    existant: ancienNombre,
+                                                                                                    uniteSelectionnee: param,
+                                                                                                    valeurActuel: valeurActuel,
+                                                                                                    dataType: JSON
+                                                                                                },
+                                                                                                function (data, status) {
+                                                                                                    if (data != null) {
 //                console.log(data);
-                document.getElementById(destination).innerHTML = data;
-            } else {
-                alert("le client est encore en appel");
-            }
-            $('#'+ select).val(param);
+                                                                                                        document.getElementById(destination).innerHTML = data;
+                                                                                                    } else {
+                                                                                                        alert("le client est encore en appel");
+                                                                                                    }
+                                                                                                    $('#' + select).val(param);
 //            console.log($('#'+ select).val());
-        });
-    }
+                                                                                                });
+                                                                                    }
 </script>
 </body>
 

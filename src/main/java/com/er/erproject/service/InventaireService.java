@@ -59,7 +59,8 @@ public class InventaireService extends AssociationService {
         aAjouter = UtilService.conversion(a.getUnite(), aAjouter, a.getUnite().getReference());
         nombreDansLaBase += aAjouter;
         temp.setMontant(nombreDansLaBase);
-        temp.setValeur(a.getPrixTotal()+temp.getValeur());
+        if(a.getPt()>0 || a.getPt()<0) temp.setValeur(a.getPt()+temp.getValeur());
+        else temp.setValeur(a.getPrixTotal()+temp.getValeur());
         update(temp);
     }
 

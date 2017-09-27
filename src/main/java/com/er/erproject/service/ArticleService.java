@@ -11,6 +11,7 @@ import com.er.erproject.modele.AssociationArticleUnite;
 import com.er.erproject.modele.Famille;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
+import com.er.erproject.modele.VueListeArticle;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -175,6 +176,40 @@ public class ArticleService extends BaseService {
         } finally {
             if(session != null) session.close();
         }        
+    }
+    
+    public List<VueListeArticle> filtreArticle(String critere, String famille, String emplacement) {
+        Session session = null;
+        int check = 0;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qryP1 = "select * from vuelistearticle "
+                    + " where designation ilike :critere ";
+            String qryP2 = " or code ilike :critere ";
+            if (famille.compareTo("Famille") != 0) {
+                qryP1 += " and famille = :fm";
+                qryP2 += " and famille = :fm";
+                check+=1;
+            }
+            if (emplacement.compareTo("Emplacement") != 0) {
+                qryP1 += " and emplacement = :ep";
+                qryP2 += " and emplacement = :ep";
+                check+=2;
+            }
+            String qry = qryP1+qryP2;
+            Query query = session.createSQLQuery(qry).addEntity(Article.class);
+            query.setParameter("critere", "%" + critere + "%");
+            if(check == 1 || check == 3)query.setParameter("fm", famille);
+            if(check == 2 || check == 3)query.setParameter("ep", emplacement);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public AssociationService getAssociationService() {

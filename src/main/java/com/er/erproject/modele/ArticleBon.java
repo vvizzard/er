@@ -13,7 +13,8 @@ public class ArticleBon extends Article {
     private double nombre;
     private Unite unite;
     private Fournisseur fournisseur;
-    private double prixUnitaire;
+    private double prixUnitaire;    
+    private double pt;
 
     public ArticleBon() {
     }
@@ -71,5 +72,15 @@ public class ArticleBon extends Article {
     
     public double getPrixTotal() {
         return prixUnitaire*nombre;
+    }    
+
+    public double getPt() {
+        return pt;
     }
+
+    public void setPt(double pt) {
+        this.pt = pt;
+    }
+    
+    
 }

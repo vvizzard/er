@@ -110,7 +110,7 @@ public class LoginAction extends BaseAction {
             return false;
         }
         boolean val = checkUser();
-        alertes = UtilService.listeAlerte();
+        alertes = UtilService.listeAlerte(hbdao);
         return val;
     }
 }

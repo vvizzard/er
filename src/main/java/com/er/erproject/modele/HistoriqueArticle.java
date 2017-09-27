@@ -23,6 +23,7 @@ public class HistoriqueArticle extends BaseModele {
     private String unite;
     private Double montant;
     private Double prixU;
+    private Double nbrDisponible;
 
     public HistoriqueArticle() {
     }
@@ -99,9 +100,7 @@ public class HistoriqueArticle extends BaseModele {
     public double getMontant() {
         return montant;
     }
-
-    
-    
+        
     public void setMontant(Double montant) {
         this.montant = montant;
     }
@@ -109,10 +108,16 @@ public class HistoriqueArticle extends BaseModele {
     public double getPrixU() {
         return prixU;
     }
-
-    
-    
+        
     public void setPrixU(Double prixU) {
         this.prixU = prixU;
     }
+
+    public Double getNbrDisponible() {
+        return nbrDisponible;
+    }
+
+    public void setNbrDisponible(Double nbrDisponible) {
+        this.nbrDisponible = nbrDisponible;
+    }        
 }

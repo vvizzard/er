@@ -23,6 +23,7 @@ public class BonService extends BaseService {
 
     private AssociationService associationService;
     private InventaireService inventaireService;
+    private AssociationArticleBonService associationArticleBonService;
 
     public void find(Bon bon) throws Exception {
         hbdao.findById(bon);
@@ -53,6 +54,26 @@ public class BonService extends BaseService {
             temporaire.setIdUnite(ab.getUnite().getId());
             temporaire.setMontant(ab.getNombre());
             temporaire.setPrixu(ab.getPrixUnitaire());
+            if(bon.getType().compareTo("entree")==0)temporaire.setNbrDisponible(ab.getNombre());
+            else {
+                List<AssociationArticleBon> listeAAB = associationArticleBonService.getListAABDateDesc(ab.getId());
+                double nombre = ab.getNombre(), prix = 0;
+                for(AssociationArticleBon b : listeAAB) {
+                    double test = b.getNbrDisponible() - nombre;
+                    if(test>=0) {
+                        prix += nombre*b.getPrixu();
+                        b.setNbrDisponible(test);
+                        hbdao.update(b);                        
+                        break; 
+                    }
+                    else {
+                        prix += b.getNbrDisponible()*b.getPrixu();
+                        b.setNbrDisponible(0);
+                        hbdao.update(b);
+                    }                    
+                }
+                ab.setPt(prix);
+            }
             hbdao.save(temporaire);
             inventaireService.updateInventaireForArticle(ab);
         }
@@ -107,5 +128,15 @@ public class BonService extends BaseService {
     public void setInventaireService(InventaireService inventaireService) {
         this.inventaireService = inventaireService;
     }
+
+    public AssociationArticleBonService getAssociationArticleBonService() {
+        return associationArticleBonService;
+    }
+
+    public void setAssociationArticleBonService(AssociationArticleBonService associationArticleBonService) {
+        this.associationArticleBonService = associationArticleBonService;
+    }
+    
+    
 
 }

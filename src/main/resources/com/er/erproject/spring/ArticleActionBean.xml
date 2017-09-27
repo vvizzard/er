@@ -25,4 +25,8 @@
         <property name="associationService" ref="associationService" />
     </bean>        
     
+    <bean id="associationArticleBonService" class="com.er.erproject.service.AssociationArticleBonService">
+        <property name="hbdao" ref="hbdao" />        
+    </bean>        
+    
 </beans>

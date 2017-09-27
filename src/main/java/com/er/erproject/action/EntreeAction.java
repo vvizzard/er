@@ -11,9 +11,11 @@ import com.er.erproject.modele.Bon;
 import com.er.erproject.modele.Fournisseur;
 import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
+import com.er.erproject.modele.VueInventaire;
 import com.er.erproject.service.ArticleService;
 import com.er.erproject.service.BonService;
 import com.er.erproject.service.UniteService;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
@@ -54,9 +56,8 @@ public class EntreeAction extends BaseAction {
     private String dateToday = "";
     private String facture = "";
     private UniteService uniteService;
-    private List<Unite> listeU;
-//    private List<Inventaire> alertes;
-    //private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
+    private List<Unite> listeU;    
+    private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
 
     public String load() {
         try {
@@ -78,6 +79,11 @@ public class EntreeAction extends BaseAction {
             ex.printStackTrace();
             return Action.ERROR;
         }
+    }
+    
+    public String annuler() {
+        clean();
+        return Action.SUCCESS;
     }
 
     public String ajoutDemandeur() {
@@ -269,7 +275,7 @@ public class EntreeAction extends BaseAction {
     private boolean sessionCheck() throws Exception {
         session = ActionContext.getContext().getSession();
         user = (User) session.get("user");
-//        alertes = UtilService.listeAlerte();
+        alertes = UtilService.listeAlerte(hbdao);
         return checkUser();
     }
 
@@ -517,13 +523,6 @@ public class EntreeAction extends BaseAction {
         this.myFileFileName = myFileFileName;
     }
 
-//    public List<Inventaire> getAlertes() {
-//        return alertes;
-//    }
-//
-//    public void setAlertes(List<Inventaire> alertes) {
-//        this.alertes = alertes;
-//    }
     public String getFacture() {
         return facture;
     }

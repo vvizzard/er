@@ -10,9 +10,9 @@
 
         <!-- menu profile quick info -->
         <div class="profile clearfix">
-<!--            <div class="profile_pic">
-                <img src="vue/images/img.jpg" alt="..." class="img-circle profile_img">
-            </div>-->
+            <!--            <div class="profile_pic">
+                            <img src="vue/images/img.jpg" alt="..." class="img-circle profile_img">
+                        </div>-->
             <div class="profile_info">
                 <span>Welcome,</span>
                 <h2><s:property value="getUser().getNom()"/></h2>
@@ -121,20 +121,27 @@
                         </s:else>
                     </a>
                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <s:iterator value="alertes">
-                            <li>
-                                <a href="ajoutArticle?idDernierArticle=<s:property value=" getArticle().getId() "></s:property>">
-                                    <span class="image"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:rgb(191, 178, 0);"></i></span>
-                                    <span>
-                                        <span><s:property value="getArticle().getDesignation()"/></span>
-                                        <span class="time">En dessous de la limite</span>
-                                    </span>
-                                    <span class="message">
-                                        Veuiller réaprovisionner le stock
-                                    </span>
-                                </a>
-                            </li>
-                        </s:iterator>
+                        <s:set var="rowPrinted" value="0"/>
+                        
+                            <s:iterator value="alertes">
+                                <s:if test="#rowPrinted < 10">
+                                <li>
+                                    <a href="ajoutArticle?idDernierArticle=<s:property value=" getArticle().getId() "></s:property>">
+                                            <span class="image"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:rgb(191, 178, 0);"></i></span>
+                                            <span>
+                                                <span><s:property value="getArticle().getDesignation()"/></span>
+                                            <span class="time">En dessous de la limite</span>
+                                        </span>
+                                        <span class="message">
+                                            Veuiller réaprovisionner le stock
+                                        </span>
+                                    </a>
+                                </li>
+                                <s:set var="rowPrinted" value="%{#rowPrinted + 1}"/>
+                                </s:if>
+                            </s:iterator>
+                            
+                        
                         <li>
                             <div class="text-center">
                                 <a>

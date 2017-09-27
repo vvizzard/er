@@ -15,6 +15,7 @@ public class AssociationArticleBon extends BaseAssociation {
     private int idUnite;
     private Unite unite;
     private double prixu;
+    private double nbrDisponible;
     
     public AssociationArticleBon() {
     }
@@ -67,6 +68,14 @@ public class AssociationArticleBon extends BaseAssociation {
 
     public void setPrixu(double prixu) {
         this.prixu = prixu;
+    }
+
+    public double getNbrDisponible() {
+        return nbrDisponible;
+    }
+
+    public void setNbrDisponible(double nbrDisponible) {
+        this.nbrDisponible = nbrDisponible;
     }
 
     

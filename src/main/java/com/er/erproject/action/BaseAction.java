@@ -8,9 +8,8 @@ package com.er.erproject.action;
 import com.er.erproject.dao.HibernateDao;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.User;
-import com.er.erproject.service.UtilService;
+import com.er.erproject.modele.VueInventaire;
 import com.opensymphony.xwork2.ActionSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ public class BaseAction extends ActionSupport {
     
     protected User user;
     protected HibernateDao hbdao;
-    protected List<Inventaire> alertes;
+    protected List<VueInventaire> alertes;
     protected List<String> trace;
     protected int refTrace;
 //    protected int refSit
@@ -43,7 +42,7 @@ public class BaseAction extends ActionSupport {
     }
     
     public boolean checkUser() throws Exception {
-        alertes = UtilService.listeAlerte();
+//        alertes = UtilService.listeAlerte();
         return user != null && user.getDepartement()!=null;        
     }
 
@@ -63,11 +62,11 @@ public class BaseAction extends ActionSupport {
         this.hbdao = hbdao;
     }
 
-    public List<Inventaire> getAlertes() {
+    public List<VueInventaire> getAlertes() {
         return alertes;
     }
 
-    public void setAlertes(List<Inventaire> alertes) {
+    public void setAlertes(List<VueInventaire> alertes) {
         this.alertes = alertes;
     }
         

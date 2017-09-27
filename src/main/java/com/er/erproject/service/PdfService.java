@@ -108,61 +108,61 @@ public class PdfService {
     }
     
     private void addContent(Document document, String er, String telma) throws Exception {
-//        PdfPTable table = new PdfPTable(3);
-//        table.setWidthPercentage(100);
-//        table.setWidths(new float[]{(float) 3 / 2, 5, (float) 3 / 2});
-//
-//        PdfPCell cell;
-//
-//        cell = new PdfPCell(Image.getInstance("C:/Users/diary/Documents/Develeppoment/Logo/telma.jpg"));
-//        cell.setRowspan(5);
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase(20, "Document " + offre.getTypeOffre().getNom(), boltTableFont));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase("Version \n 1.0", normalBoldTableFont));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        cell.setRowspan(5);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase("PROCES VERBAL DE RECEPETION DEFINITIVE \n \n " + this.offre.getTicket() + " \n", boltTableFont));
-//        cell.setRowspan(4);
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        document.add(table);
-        document.add(addTitle());
+        PdfPTable table = new PdfPTable(3);
+        table.setWidthPercentage(100);
+        table.setWidths(new float[]{(float) 3 / 2, 5, (float) 3 / 2});
+
+        PdfPCell cell;
+
+        cell = new PdfPCell(new Phrase(20, "BON DE SORTIEjhlkhljkh", boltTableFont)/**Image.getInstance("C:/Users/diary/Documents/Develeppoment/Logo/telma.jpg")*/);
+        cell.setRowspan(5);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(20, "BON DE SORTIE", boltTableFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(this.bon.getDateString()+"\n\n", normalBoldTableFont));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setRowspan(5);
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase(this.bon.getProjet().getDesignation()+"\n"+this.bon.getFacture() , boltTableFont));
+        cell.setRowspan(4);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        document.add(table);
+//        document.add(addTitle());
         Chunk underline;
         Paragraph information = new Paragraph();
-        addEmptyLine(information, 1);
-        
-        underline = new Chunk("Date", boldFont);
-        underline.setUnderline(0.1f, -2f);
-        information.add(underline);
-
-        information.add(new Paragraph(" :              " + this.bon.getDateString(), normalFont));
-        addEmptyLine(information, 1);
-
-        underline = new Chunk("Projet", boldFont);
-        underline.setUnderline(0.1f, -2f);
-        information.add(underline);
-
-        information.add(new Paragraph(" :           " + this.bon.getProjet().getDesignation(), normalFont));
-        addEmptyLine(information, 1);
-
-        underline = new Chunk("Ticket", boldFont);
-        underline.setUnderline(0.1f, -2f); //0.1 thick, -2 y-location
-        information.add(underline);
-
-        information.add(new Paragraph(" :           "+"ACD000256", normalFont));
-        addEmptyLine(information, 1);       
+//        addEmptyLine(information, 1);
+//        
+//        underline = new Chunk("Date", boldFont);
+//        underline.setUnderline(0.1f, -2f);
+//        information.add(underline);
+//
+//        information.add(new Paragraph(" :              " + this.bon.getDateString(), normalFont));
+//        addEmptyLine(information, 1);
+//
+//        underline = new Chunk("Projet", boldFont);
+//        underline.setUnderline(0.1f, -2f);
+//        information.add(underline);
+//
+//        information.add(new Paragraph(" :           " + this.bon.getProjet().getDesignation(), normalFont));
+//        addEmptyLine(information, 1);
+//
+//        underline = new Chunk("Ticket", boldFont);
+//        underline.setUnderline(0.1f, -2f); //0.1 thick, -2 y-location
+//        information.add(underline);
+//
+//        information.add(new Paragraph(" :           "+"ACD000256", normalFont));
+//        addEmptyLine(information, 1);       
         
         underline = new Chunk("Demandeur", boldFont);
         underline.setUnderline(0.1f, -2f); //0.1 thick, -2 y-location
@@ -191,7 +191,7 @@ public class PdfService {
         addEmptyLine(information, 1);
         document.add(information);
 
-        PdfPTable table;
+//        PdfPTable table;
         table = new PdfPTable(7);
 
         table.setWidthPercentage(100);

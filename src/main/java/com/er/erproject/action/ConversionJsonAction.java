@@ -5,6 +5,7 @@
  */
 package com.er.erproject.action;
 
+import com.er.erproject.modele.VueInventaire;
 import com.er.erproject.service.ArticleService;
 import com.er.erproject.service.UniteService;
 import com.er.erproject.service.UtilService;
@@ -35,6 +36,8 @@ public class ConversionJsonAction extends BaseAction {
     private String designationArticle;
     
     private List<List<String>> listeFournisseursComplet;
+    
+    private List<VueInventaire> listeInventaire;
 
     public String load() {        
         try {            
@@ -62,6 +65,15 @@ public class ConversionJsonAction extends BaseAction {
         }
         return Action.SUCCESS;
     }
+    
+//    public String getListeInventaireJson() {
+//        try {            
+//            listeInventaire = UtilService.filtreInventaire("a", hbdao);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return Action.SUCCESS;
+//    }
     
     public String getIdArticleJson() {
         try {            
@@ -200,6 +212,14 @@ public class ConversionJsonAction extends BaseAction {
 
     public void setIdFournisseur(int idFournisseur) {
         this.idFournisseur = idFournisseur;
+    }
+
+    public List<VueInventaire> getListeInventaire() {
+        return listeInventaire;
+    }
+
+    public void setListeInventaire(List<VueInventaire> listeInventaire) {
+        this.listeInventaire = listeInventaire;
     }
     
     

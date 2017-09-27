@@ -65,6 +65,9 @@ public class ArticleAction extends BaseAction {
     private int idFournisseurArticle;
     private double limite;
     private int idDemandeur;
+    private String critere;
+    private String searchFamille;
+    private String searchEmplacement;
 
     public String load() {
         try {
@@ -73,6 +76,20 @@ public class ArticleAction extends BaseAction {
                 return "tolog";
             }
             listeArticle = (List<VueListeArticle>)(List<?>)hbdao.findAll(new VueListeArticle());
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+    
+    public String recherche() {
+        try {
+            //  check session
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            listeArticle = articleService.filtreArticle(critere, searchFamille, searchEmplacement);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -246,7 +263,7 @@ public class ArticleAction extends BaseAction {
             return false;
         }
         boolean val = checkUser();
-        alertes = UtilService.listeAlerte();
+        alertes = UtilService.listeAlerte(hbdao);
         return val;
     }
 
@@ -524,6 +541,28 @@ public class ArticleAction extends BaseAction {
     public void setIdDemandeur(int idDemandeur) {
         this.idDemandeur = idDemandeur;
     }
-    
-    
+
+    public String getCritere() {
+        return critere;
+    }
+
+    public void setCritere(String critere) {
+        this.critere = critere;
+    }
+
+    public String getSearchFamille() {
+        return searchFamille;
+    }
+
+    public void setSearchFamille(String searchFamille) {
+        this.searchFamille = searchFamille;
+    }
+
+    public String getSearchEmplacement() {
+        return searchEmplacement;
+    }
+
+    public void setSearchEmplacement(String searchEmplacement) {
+        this.searchEmplacement = searchEmplacement;
+    }        
 }

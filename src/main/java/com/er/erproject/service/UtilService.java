@@ -8,6 +8,7 @@ package com.er.erproject.service;
 import com.er.erproject.dao.HibernateDao;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
+import com.er.erproject.modele.VueInventaire;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,7 +77,9 @@ public class UtilService {
             } catch (NullPointerException nullConvertirEnDifference) {
                 try {
                     double val = montant / aConvertir.getDifference();
-                    if(Double.isInfinite(val)) throw new NullPointerException();
+                    if (Double.isInfinite(val)) {
+                        throw new NullPointerException();
+                    }
                     return val;
                 } catch (NullPointerException allNull) {
                     return montant;
@@ -140,8 +143,90 @@ public class UtilService {
             Query query = session.createSQLQuery(qry);
             query.setParameter("idArticle", idArticle);
             query.setParameter("idFournisseur", idFournisseur);
-            List<Object> val = query.list();            
+            List<Object> val = query.list();
             return val.get(0).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<VueInventaire> filtreInventaire(String critere, String famille, String emplacement, HibernateDao hbdao) {
+        Session session = null;
+        int check = 0;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qryP1 = "select * from vueinventaire "
+                    + " where article ilike :critere ";
+            String qryP2 = " or code ilike :critere ";                    
+            if (famille.compareTo("Famille") != 0) {
+                qryP1 += " and famille = :fm";
+                qryP2 += " and famille = :fm";
+                check+=1;
+            }
+            if (emplacement.compareTo("Emplacement") != 0) {
+                qryP1 += " and emplacement = :ep";
+                qryP2 += " and emplacement = :ep";
+                check+=2;
+            }
+            String qry = qryP1+qryP2;
+            Query query = session.createSQLQuery(qry).addEntity(VueInventaire.class);
+            query.setParameter("critere", "%" + critere + "%");
+            if(check == 1 || check == 3)query.setParameter("fm", famille);
+            if(check == 2 || check == 3)query.setParameter("ep", emplacement);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<VueInventaire> listeAlerte(HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = " SELECT i.id, "
+                    + "    i.id_article, "
+                    + "    a.code, "
+                    + "    a.designation AS article, "
+                    + "    f.designation AS famille, "
+                    + "    a.emplacement, "
+                    + "    i.nombre, "
+                    + "    i.valeur, "
+                    + "    i.id_unite, "
+                    + "    u.designation AS unite "
+                    + "   FROM inventaire i "
+                    + "     JOIN article a ON a.id = i.id_article "
+                    + "     JOIN unite u ON u.id = i.id_unite "
+                    + "     JOIN famille f ON f.id = a.id_famille "
+                    + "   WHERE a.limite >= i.nombre";            
+            Query query = session.createSQLQuery(qry).addEntity(VueInventaire.class);            
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<String> listeString(String table, String critere, HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select distinct " + critere + " from " + table;
+            Query query = session.createSQLQuery(qry);
+            return query.list();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

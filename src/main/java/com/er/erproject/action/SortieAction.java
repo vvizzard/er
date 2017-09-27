@@ -83,6 +83,11 @@ public class SortieAction extends BaseAction {
             return Action.ERROR;
         }
     }
+    
+    public String annuler() {
+        clean();
+        return Action.SUCCESS;
+    }
 
     public String ajoutDemandeur() {
         try {
@@ -267,6 +272,7 @@ public class SortieAction extends BaseAction {
 //            }
 
             PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(), "er", "telma");
+            clean();
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;

@@ -43,6 +43,13 @@
                 </param>
             </result>
         </action>      
+        <action name="listeInventaireJson" class="com.er.erproject.action.ConversionJsonAction" method="getListeInventaireJson">
+            <result type="json">
+                <param name="root">
+                    listeInventaire
+                </param>
+            </result>
+        </action>      
     </package>
 
 
@@ -71,6 +78,10 @@
         <action name="entree" class="com.er.erproject.action.EntreeAction" method="load">
             <result name="success">vue/achatArticle.jsp</result>
             <result name="error">vue/achatArticle.jsp</result>
+        </action>
+        
+        <action name="annulerEntree" class="com.er.erproject.action.EntreeAction" method="annuler">
+            <result name="success">vue/achatArticle.jsp</result>            
         </action>
         
         <action name="listeArticle" class="com.er.erproject.action.ArticleAction" method="load">
@@ -153,6 +164,14 @@
             <result name="error">vue/inventaire.jsp</result>
         </action>
         
+        <action name="rechercheInventaire" class="com.er.erproject.action.InventaireAction" method="recherche">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/inventaire.jsp</result>
+            <result name="error">vue/inventaire.jsp</result>
+        </action>
+        
         <action name="loadSortie" class="com.er.erproject.action.SortieAction" method="load">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
@@ -175,6 +194,10 @@
             </result>
             <result name="success">vue/sortieArticle.jsp</result>
             <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="annulerSortie" class="com.er.erproject.action.SortieAction" method="annuler">            
+            <result name="success">vue/sortieArticle.jsp</result>
         </action>
         
         <action name="listeProjet" class="com.er.erproject.action.ProjetAction" method="load">
