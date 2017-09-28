@@ -23,7 +23,7 @@ public class UserAction extends BaseAction {
     private List<User> listeUser;
     private UserService userService;
     
-    private String nom, prenom, cin, matricule, identifiant, pw, dateNaissance, dateEmbauche, departement="";
+    private String nom, prenom, cin, matricule, identifiant, pw, dateNaissance, dateEmbauche, departement="", critere;
     private Date dateDeNaissance, dateDEmbauche;       
     private List<Departement> departements;
     private int id = 0;
@@ -88,6 +88,23 @@ public class UserAction extends BaseAction {
                 return "tolog";
             }
             listeUser = userService.findAll();
+            departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+    
+    public String recherche() {
+        try {
+            Map session = ActionContext.getContext().getSession();
+            user = (User)session.get("user");
+            if (!checkUser()) {
+                return "tolog";
+            }
+            listeUser = userService.recherche(critere,departement);
+            departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -237,6 +254,14 @@ public class UserAction extends BaseAction {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getCritere() {
+        return critere;
+    }
+
+    public void setCritere(String critere) {
+        this.critere = critere;
     }
 
     

@@ -14,7 +14,7 @@
                             <img src="vue/images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>-->
             <div class="profile_info">
-                <span>Welcome,</span>
+                <span><s:property value="getUser().getPrenom()"/></span>
                 <h2><s:property value="getUser().getNom()"/></h2>
             </div>
         </div>
@@ -27,9 +27,9 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a href="etatInventaire"><i class="fa fa-list-alt" aria-hidden="true"></i> Inventaire </a></li>
-                    <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Bon d'entrée </a></li>
-                    <li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Bon de sortie </a></li>
+                    <li><a href="etatInventaire"><i class="fa fa-list-alt" aria-hidden="true"></i> Stock </a></li>
+                    <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Entrée </a></li>
+                    <li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Sortie </a></li>
                     <li><a href="historiqueProjet"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
                 </ul>
             </div>
@@ -120,36 +120,23 @@
                             <span class="badge bg-red"><s:property value="getAlertes().size()"></s:property></span>
                         </s:else>
                     </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <s:set var="rowPrinted" value="0"/>
-                        
-                            <s:iterator value="alertes">
-                                <s:if test="#rowPrinted < 10">
-                                <li>
-                                    <a href="ajoutArticle?idDernierArticle=<s:property value=" getArticle().getId() "></s:property>">
-                                            <span class="image"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:rgb(191, 178, 0);"></i></span>
-                                            <span>
-                                                <span><s:property value="getArticle().getDesignation()"/></span>
-                                            <span class="time">En dessous de la limite</span>
-                                        </span>
-                                        <span class="message">
-                                            Veuiller réaprovisionner le stock
-                                        </span>
-                                    </a>
-                                </li>
-                                <s:set var="rowPrinted" value="%{#rowPrinted + 1}"/>
-                                </s:if>
-                            </s:iterator>
-                            
-                        
-                        <li>
-                            <div class="text-center">
-                                <a>
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
+                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="max-height: 400px; overflow-y: scroll;">
+                        <s:set var="rowPrinted" value="0"/>                        
+                        <s:iterator value="alertes">                                
+                            <li>
+                                <a href="ajoutArticle?idDernierArticle=<s:property value=" getArticle().getId() "></s:property>">
+                                        <span class="image"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:rgb(191, 178, 0);"></i></span>
+                                        <span>
+                                            <span><s:property value="getArticle().getDesignation()"/></span>
+                                        <span class="time">En dessous de la limite</span>
+                                    </span>
+                                    <span class="message">
+                                        Veuiller réaprovisionner le stock
+                                    </span>
                                 </a>
-                            </div>
-                        </li>
+                            </li>
+                            <s:set var="rowPrinted" value="%{#rowPrinted + 1}"/>                                
+                        </s:iterator>                                                                            
                     </ul>
                 </li>
             </ul>

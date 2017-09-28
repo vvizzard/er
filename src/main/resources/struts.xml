@@ -92,6 +92,14 @@
             <result name="error">vue/choixArticleRecherche.jsp</result>
         </action>
         
+        <action name="rechercheArticle" class="com.er.erproject.action.ArticleAction" method="recherche">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/choixArticleRecherche.jsp</result>
+            <result name="error">vue/choixArticleRecherche.jsp</result>
+        </action>
+        
         <action name="listeUser" class="com.er.erproject.action.UserAction" method="load">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
@@ -374,6 +382,14 @@
             <result name="error">vue/listeUser.jsp</result>
         </action>
         
+        <action name="rechercheUser" class="com.er.erproject.action.UserAction" method="recherche">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>            
+            <result name="success">vue/listeUser.jsp</result>
+            <result name="error">vue/listeUser.jsp</result>
+        </action>
+        
         <action name="deleteUser" class="com.er.erproject.action.UserAction" method="delete">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
@@ -449,6 +465,14 @@
         </action>
         
         <action name="historiqueArticle" class="com.er.erproject.action.HistoriqueArticleAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/historiquearticle.jsp</result>
+            <result name="error">vue/historiquearticle.jsp</result>
+        </action>
+        
+        <action name="rechercheHistoriqueArticle" class="com.er.erproject.action.HistoriqueArticleAction" method="recherche">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>

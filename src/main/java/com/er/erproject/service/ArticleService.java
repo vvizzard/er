@@ -197,7 +197,7 @@ public class ArticleService extends BaseService {
                 check+=2;
             }
             String qry = qryP1+qryP2;
-            Query query = session.createSQLQuery(qry).addEntity(Article.class);
+            Query query = session.createSQLQuery(qry).addEntity(VueListeArticle.class);
             query.setParameter("critere", "%" + critere + "%");
             if(check == 1 || check == 3)query.setParameter("fm", famille);
             if(check == 2 || check == 3)query.setParameter("ep", emplacement);

@@ -6,6 +6,7 @@
 package com.er.erproject.service;
 
 import com.er.erproject.dao.HibernateDao;
+import com.er.erproject.modele.HistoriqueArticle;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.VueInventaire;
@@ -16,6 +17,8 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -179,6 +182,44 @@ public class UtilService {
             if(check == 1 || check == 3)query.setParameter("fm", famille);
             if(check == 2 || check == 3)query.setParameter("ep", emplacement);
             return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public static List<HistoriqueArticle> filtreHistoriqueArticle(String debut, String fin, HibernateDao hbdao) throws Exception {
+        Session session = null;
+        Date dateDebut = null, dateFin = null;
+        int check = 0;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from historiquearticle "
+                    + " where 1<2 ";            
+            if (debut.compareTo("") != 0) {
+                qry+=" and date >= :debut";
+                check += 1;
+                dateDebut = formatter.parse(debut);
+            }
+            if (fin.compareTo("") != 0) {
+                qry+=" and date <= :fin";
+                check += 2;
+                dateFin = formatter.parse(fin);
+            }            
+            Query query = session.createSQLQuery(qry).addEntity(HistoriqueArticle.class);            
+            if(check == 1 || check == 3) {
+                query.setParameter("debut", dateDebut);
+            }
+            if(check == 2 || check == 3) {
+                query.setParameter("fin", dateFin);
+            }
+            List<HistoriqueArticle> valiny = query.list();
+            return valiny;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

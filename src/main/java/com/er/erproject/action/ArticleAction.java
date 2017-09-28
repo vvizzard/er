@@ -68,6 +68,9 @@ public class ArticleAction extends BaseAction {
     private String critere;
     private String searchFamille;
     private String searchEmplacement;
+    
+    private List<String> listeFamille;
+    private List<String> listeEmplacement;
 
     public String load() {
         try {
@@ -76,6 +79,8 @@ public class ArticleAction extends BaseAction {
                 return "tolog";
             }
             listeArticle = (List<VueListeArticle>)(List<?>)hbdao.findAll(new VueListeArticle());
+            listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
+            listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -90,6 +95,8 @@ public class ArticleAction extends BaseAction {
                 return "tolog";
             }
             listeArticle = articleService.filtreArticle(critere, searchFamille, searchEmplacement);
+            listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
+            listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -565,4 +572,22 @@ public class ArticleAction extends BaseAction {
     public void setSearchEmplacement(String searchEmplacement) {
         this.searchEmplacement = searchEmplacement;
     }        
+
+    public List<String> getListeFamille() {
+        return listeFamille;
+    }
+
+    public void setListeFamille(List<String> listeFamille) {
+        this.listeFamille = listeFamille;
+    }
+
+    public List<String> getListeEmplacement() {
+        return listeEmplacement;
+    }
+
+    public void setListeEmplacement(List<String> listeEmplacement) {
+        this.listeEmplacement = listeEmplacement;
+    }
+    
+    
 }

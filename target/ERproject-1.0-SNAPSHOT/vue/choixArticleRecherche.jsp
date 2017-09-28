@@ -60,98 +60,116 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="x_content">
-                                        <br />
-                                        <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                            <div class="row">
-                                                <div class="col-sm-6 col-sm-offset-6">
-                                                    <div id="datatable_filter" class="dataTables_filter">
-                                                        <select class="form-control input-sm" placeholder="Categorie" aria-controls="datatable">
-                                                            <option>Famille</option>
-                                                            <option>Fournisseur</option>
-                                                        </select>
-                                                        <select class="form-control input-sm" placeholder="Emplacement" aria-controls="datatable">
-                                                            <option>Emplacement</option>
-                                                            <option>Test</option>
-                                                        </select>
-                                                    </div>
-                                                    <div id="datatable_filter" class="dataTables_filter"><label><input type="search" class="form-control input-sm" placeholder="Rechercher" aria-controls="datatable"></label></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <script>
-                                                    jQuery(document).ready(function ($) {
-                                                        $(".clickable-row").click(function () {
-                                                            window.location = $(this).data("href");
-                                                        });
-                                                        $(".del").click(function () {
-                                                            window.location = $(this).data("href");
-                                                        });
-                                                    });
-                                                </script>
-                                                <s:hidden name="idDemandeur" value="%{idDemandeur}"></s:hidden>
-                                                    <div class="col-sm-12">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped jambo_table bulk_action">
-                                                                <thead>
-                                                                    <tr class="headings">
-                                                                        <th class="column-title">Id </th>
-                                                                        <th class="column-title">Reference</th>
-                                                                        <th class="column-title">Designation </th>
-                                                                        <th class="column-title">Famille </th>
-                                                                        <th class="column-title">Unitée </th>
-                                                                        <th class="column-title">Limite </th>
-                                                                        <th class="column-title">Emplacement </th>
-                                                                        <!--<th class="column-title" style="text-align: right;">Prix unitaire </th>-->
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <s:iterator value="listeArticle">
-                                                                    <s:if test="%{type == 1}">
-                                                                        <tr class="odd pointer">
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getId()" /></td>
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getCode()" /></td> 
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getDesignation()" /></td>                         
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getFamille()" /></td>
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getUnite()" /></td>
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
-                                                                            <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                                                                                                       
-                                                                        </tr>
+                                        <form method="get" action="rechercheArticle">
+                                            <br />
+                                            <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-sm-offset-6">
+                                                        <div id="datatable_filter" class="dataTables_filter">
+                                                            <select class="form-control input-sm" name="searchFamille" placeholder="Categorie" aria-controls="datatable">
+                                                                <option>Famille</option>
+                                                                <s:iterator value="listeFamille" status="inc">
+                                                                    <s:if test="%{searchFamille==listeFamille.get(#inc.index)}">
+                                                                        <option selected="true"><s:property/></option>
                                                                     </s:if>
-                                                                    <s:elseif test="%{type == -1}">
-                                                                        <tr class="odd pointer">
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getId()" /></td>
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getCode()" /></td> 
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getDesignation()" /></td>                         
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getFamille()" /></td>      
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getUnite()" /></td>
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
-                                                                            <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                           
-                                                                            </tr>
-                                                                    </s:elseif>
                                                                     <s:else>
-                                                                        <tr class="odd pointer">
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getId()" /></td>
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getCode()" /></td> 
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getDesignation()" /></td>                         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getFamille()" /></td>         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getUnite()" /></td>
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getLimite()" /></td>                         
-                                                                            <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getEmplacement()" /></td>               
-
-                                                                            <td style="padding: 0px;"><i class=" btn btn-xs fa fa-trash-o fa-2x del" data-href="deleteArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
-                                                                            <td style="padding: 0px;"><i class=" btn btn-xs fa fa-angle-double-right fa-2x del" data-href="ficheArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
+                                                                        <option><s:property/></option>
+                                                                    </s:else>
+                                                                </s:iterator>
+                                                            </select>
+                                                            <select class="form-control input-sm" name="searchEmplacement" placeholder="Emplacement" aria-controls="datatable">
+                                                                <option>Emplacement</option>
+                                                                <s:iterator value="listeEmplacement" status="inc">
+                                                                    <s:if test="%{searchEmplacement==listeEmplacement.get(#inc.index)}">
+                                                                        <option selected="true"><s:property/></option>
+                                                                    </s:if>
+                                                                    <s:else>
+                                                                        <option><s:property/></option>
+                                                                    </s:else>
+                                                                </s:iterator>
+                                                            </select>
+                                                        </div>
+                                                        <div id="datatable_filter" class="dataTables_filter"><label><input type="search" name="critere" class="form-control input-sm" value="<s:property value="critere"/>" placeholder="Rechercher" aria-controls="datatable"></label></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <script>
+                                                        jQuery(document).ready(function ($) {
+                                                            $(".clickable-row").click(function () {
+                                                                window.location = $(this).data("href");
+                                                            });
+                                                            $(".del").click(function () {
+                                                                window.location = $(this).data("href");
+                                                            });
+                                                        });
+                                                    </script>
+                                                    <s:hidden name="idDemandeur" value="%{idDemandeur}"></s:hidden>
+                                                        <div class="col-sm-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped jambo_table bulk_action">
+                                                                    <thead>
+                                                                        <tr class="headings">
+                                                                            <th class="column-title">Id </th>
+                                                                            <th class="column-title">Reference</th>
+                                                                            <th class="column-title">Designation </th>
+                                                                            <th class="column-title">Famille </th>
+                                                                            <th class="column-title">Unitée </th>
+                                                                            <th class="column-title">Limite </th>
+                                                                            <th class="column-title">Emplacement </th>
+                                                                            <!--<th class="column-title" style="text-align: right;">Prix unitaire </th>-->
+                                                                            <th></th>
+                                                                            <th></th>
                                                                         </tr>
-                                                                    </s:else>                                                                            
-                                                                </s:iterator>                                                                        
-                                                            </tbody>
-                                                        </table>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <s:iterator value="listeArticle">
+                                                                        <s:if test="%{type == 1}">
+                                                                            <tr class="odd pointer">
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getId()" /></td>
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getCode()" /></td> 
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getDesignation()" /></td>                         
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getFamille()" /></td>
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getUnite()" /></td>
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
+                                                                                <td class="clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                                                                                                       
+                                                                                </tr>
+                                                                        </s:if>
+                                                                        <s:elseif test="%{type == -1}">
+                                                                            <tr class="odd pointer">
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getId()" /></td>
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getCode()" /></td> 
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getDesignation()" /></td>                         
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getFamille()" /></td>      
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getUnite()" /></td>
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getLimite()" /></td>                         
+                                                                                <td class="clickable-row" data-href='ajoutArticleSortie?idDernierArticle=<s:property value="getId()"></s:property>&idDemandeur=<s:property value="idDemandeur()"></s:property>' ><s:property value="getEmplacement()" /></td>                                                                                           
+                                                                                </tr>
+                                                                        </s:elseif>
+                                                                        <s:else>
+                                                                            <tr class="odd pointer">
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getId()" /></td>
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getCode()" /></td> 
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getDesignation()" /></td>                         
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getFamille()" /></td>         
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getUnite()" /></td>
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getLimite()" /></td>                         
+                                                                                <td class="clickable-row" data-href='newArticle?idArticle=<s:property value="getId()"></s:property>' ><s:property value="getEmplacement()" /></td>               
+
+                                                                                    <td style="padding: 0px;"><i class=" btn btn-xs fa fa-trash-o fa-2x del" data-href="deleteArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
+                                                                                <td style="padding: 0px;"><i class=" btn btn-xs fa fa-angle-double-right fa-2x del" data-href="ficheArticle?idArticle=<s:property value="getId()"></s:property>"></i></td>
+                                                                                </tr>
+                                                                        </s:else>                                                                            
+                                                                    </s:iterator>                                                                        
+                                                                </tbody>
+                                                            </table>                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br>
+                                            <br>
+                                            <s:hidden name="type" value="%{type}"></s:hidden>
+                                            <input type="submit" style="display: none">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
