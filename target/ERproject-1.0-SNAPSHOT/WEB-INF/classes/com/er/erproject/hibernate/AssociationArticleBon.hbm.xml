@@ -16,6 +16,7 @@
         <property name="commentaire" column="commentaire" type="string"/>   
         <property name="idUnite" column="id_unite" type="int"/>       
         <property name="prixu" column="prixu" type="double"/> 
+        <property name="prixt" column="prixt" type="double"/> 
         <property name="nbrDisponible" column="nbrdisponible" type="double"/> 
         <many-to-one name="article" class="com.er.erproject.modele.Article"
                      column="id_article" not-null="true" fetch="select"

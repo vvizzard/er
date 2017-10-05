@@ -8,6 +8,7 @@ package com.er.erproject.action;
 import com.er.erproject.modele.User;
 import com.er.erproject.modele.VueInventaire;
 import com.er.erproject.service.InventaireService;
+import com.er.erproject.service.PdfService;
 import com.er.erproject.service.UniteService;
 import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
@@ -20,7 +21,7 @@ import java.util.Map;
  * @author vvizard
  */
 public class InventaireAction extends BaseAction {
-
+//    private Map session;
     private List<VueInventaire> listeInventaire;
     private InventaireService inventaireService;
     private UniteService uniteService;
@@ -29,17 +30,22 @@ public class InventaireAction extends BaseAction {
     private String critere = "";
     private List<String> listeFamille;
     private List<String> listeEmplacement;
+    private String totalValeur;
+    private String nbrSM = "0", nbrSA = "0", nbrSS = "0", typeFiltreS = "0", totalArticle = "0";
 
     public String load() {
-        try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
-            listeInventaire = (List<VueInventaire>)(List<?>)hbdao.findAll(new VueInventaire());            
+        try {                        
+            if(!sessionCheck()) return "tolog";
+            listeInventaire = UtilService.listeVueInventaire(hbdao);
             listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
             listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
+            PdfService pdf = new PdfService();
+            pdf.getInventairePdf(listeInventaire);
+            totalValeur = inventaireService.findValeurTotal();
+            nbrSM = inventaireService.findSM();
+            nbrSA = inventaireService.findSA();
+            nbrSS = inventaireService.findSS();
+            totalArticle = inventaireService.findTotal();
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -49,20 +55,23 @@ public class InventaireAction extends BaseAction {
     
     public String recherche() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
-            listeInventaire = (List<VueInventaire>)(List<?>)UtilService.filtreInventaire(critere, famille, emplacement, hbdao);
+            if(!sessionCheck()) return "tolog";
+            listeInventaire = (List<VueInventaire>)(List<?>)UtilService.filtreInventaire(critere, famille, emplacement, typeFiltreS, hbdao);
             listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
             listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
+            totalValeur = inventaireService.findValeurTotal();
+            nbrSM = inventaireService.findSM();
+            nbrSA = inventaireService.findSA();
+            nbrSS = inventaireService.findSS();
+            totalArticle = inventaireService.findTotal();
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
+    
+    
 
     public List<VueInventaire> getListeInventaire() {
         return listeInventaire;
@@ -127,6 +136,62 @@ public class InventaireAction extends BaseAction {
     public void setListeEmplacement(List<String> listeEmplacement) {
         this.listeEmplacement = listeEmplacement;
     }
-    
+
+    public Map getSession() {
+        return session;
+    }
+
+    public void setSession(Map session) {
+        this.session = session;
+    }
+
+    public String getTotalValeur() {
+        return totalValeur;
+    }
+
+    public void setTotalValeur(String totalValeur) {
+        this.totalValeur = totalValeur;
+    }
+
+    public String getNbrSM() {
+        return nbrSM;
+    }
+
+    public void setNbrSM(String nbrSM) {
+        this.nbrSM = nbrSM;
+    }
+
+    public String getNbrSA() {
+        return nbrSA;
+    }
+
+    public void setNbrSA(String nbrSA) {
+        this.nbrSA = nbrSA;
+    }
+
+    public String getNbrSS() {
+        return nbrSS;
+    }
+
+    public void setNbrSS(String nbrSS) {
+        this.nbrSS = nbrSS;
+    }
+
+    public String getTypeFiltreS() {
+        return typeFiltreS;
+    }
+
+    public void setTypeFiltreS(String typeFiltreS) {
+        this.typeFiltreS = typeFiltreS;
+    }
+
+    public String getTotalArticle() {
+        return totalArticle;
+    }
+
+    public void setTotalArticle(String totalArticle) {
+        this.totalArticle = totalArticle;
+    }
+        
     
 }

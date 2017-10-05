@@ -52,11 +52,11 @@
                                 <form role="form" action="login.action" method="post" class="login-form">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Email</label>
-                                        <input type="text" name="login" placeholder="Email" class="form-username form-control" id="form-username">
+                                        <input type="text" name="id" placeholder="identifiant" class="form-username form-control" id="form-username">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-password">Code PIN</label>
-                                        <input type="password" name="password" placeholder="Code PIN" class="form-password form-control" id="form-password">
+                                        <input type="password" name="pw" placeholder="mot de passe" class="form-password form-control" id="form-password">
                                     </div>
                                     <button type="submit" class="btn btn-success">SE CONNECTER</button>
                                 </form>

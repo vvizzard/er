@@ -6,6 +6,7 @@
 package com.er.erproject.service;
 
 import com.er.erproject.dao.HibernateDao;
+import com.er.erproject.modele.Departement;
 import com.er.erproject.modele.User;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -72,6 +73,35 @@ public class UserService {
             }
         }
     }
+    
+    public User login(String id, String pw) throws Exception {
+        Session session = null;        
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from users "
+                    + " where identifiant = :id "
+                    + " and pw = :pw";                        
+            Query query = session.createSQLQuery(qry).addEntity(User.class);
+            query.setParameter("id", id);
+            query.setParameter("pw", UtilService.crypterHashage(pw));
+            List<User> valiny = query.list();
+            for (User ba : valiny) {                
+                if(ba.getDepartement()!=null) {
+                    Departement dt = new Departement(ba.getIdDepartement());
+                    hbdao.findById(dt);
+                    ba.setDepartement(dt);
+                }                
+            }
+            return valiny.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
     public void find(User obj) throws Exception {
         Session session = null;
@@ -89,10 +119,12 @@ public class UserService {
     }
 
     public void save(User obj) throws Exception {        
+        obj.setPw(UtilService.crypterHashage(obj.getPw()));
         hbdao.save(obj);        
     }
     
     public void update(User obj) throws Exception {
+        obj.setPw(UtilService.crypterHashage(obj.getPw()));
         hbdao.update(obj);
     }
     

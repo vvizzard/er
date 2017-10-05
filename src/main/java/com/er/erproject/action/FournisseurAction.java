@@ -7,18 +7,15 @@ package com.er.erproject.action;
 
 import com.er.erproject.modele.AssociationArticleFournisseur;
 import com.er.erproject.modele.Fournisseur;
-import com.er.erproject.modele.User;
 import com.er.erproject.service.AssociationService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author vvizard
  */
-public class FournisseurAction extends BaseAction {
+public class FournisseurAction extends BaseAction {    
     private AssociationService associationService;
     private List<Fournisseur> listeFournisseur;
     private int idDernierArticle;
@@ -27,11 +24,7 @@ public class FournisseurAction extends BaseAction {
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             if(idDernierArticle != 0) {
                 listeFournisseur = (List<Fournisseur>)(List<?>) associationService.findBm(new AssociationArticleFournisseur(), idDernierArticle, "fournisseur", "article");
                 List<AssociationArticleFournisseur> listeTemp = (List<AssociationArticleFournisseur>)(List<?>) associationService.findAll(new AssociationArticleFournisseur(), "article", idDernierArticle);
@@ -44,7 +37,7 @@ public class FournisseurAction extends BaseAction {
             return Action.ERROR;
         }
     }
-
+        
     public List<Fournisseur> getListeFournisseur() {
         return listeFournisseur;
     }

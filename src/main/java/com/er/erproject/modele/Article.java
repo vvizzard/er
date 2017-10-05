@@ -23,6 +23,8 @@ public class Article extends BaseModele {
     private List<Unite> unites;    
     private List<AssociationArticleFournisseur> associationArticleFournisseur;
     private List<AssociationArticleUnite> associationArticleUnite;        
+    private double sm;
+    private double sa;
 
     public Article() {
     }
@@ -125,6 +127,22 @@ public class Article extends BaseModele {
 
     public void setLimite(double limite) {
         this.limite = limite;
+    }
+
+    public double getSm() {
+        return sm;
+    }
+
+    public void setSm(double sm) {
+        this.sm = sm;
+    }
+
+    public double getSa() {
+        return sa;
+    }
+
+    public void setSa(double sa) {
+        this.sa = sa;
     }
     
     

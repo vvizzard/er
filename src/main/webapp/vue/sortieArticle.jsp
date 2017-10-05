@@ -126,7 +126,6 @@
                                                                 </div>                                                                
                                                                 <div class="form-group" style="margin-bottom: -9px;">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
-<!--                                                                    <input type="hidden" id="pres" value="<s:property value="articleEnCours.getUnite().getDesignation()"/>">-->
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
                                                                         <select onchange='updateUnity("montant", "designation", "montant", "pres")' id="listeUnite" class="form-control col-md-7 col-xs-12" name="unite">                                                                        
                                                                             <s:iterator value="getListeU()">   
@@ -143,7 +142,7 @@
                                                                 <div class="form-group" style="margin-bottom: -9px;">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Nombre <span class="">*</span></label>
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="nombre">
+                                                                        <input type="number" step="0.01" id="first-name" class="form-control col-md-7 col-xs-12" name="nombre">
                                                                     </div>
                                                                 </div>                              
                                                                 <div class="form-group" style="margin-bottom: -9px;">
@@ -201,7 +200,7 @@
                                                                                             <tr>                                                                                                                                                                    
                                                                                                 <td><s:property value="getCode()" /></td>
                                                                                                 <td><s:property value="getDesignation()" /></td>
-                                                                                                <td><s:property value="getFamille().getDesignation()" /></td><!--                                                                                                <td class=" "><s:property value="getFournisseur().getNom()" /></td>-->
+                                                                                                <td><s:property value="getFamille().getDesignation()" /></td>
                                                                                                 <td class=" " style="text-align: right;"><s:property value="getPrixUnitaire()" /></td>
                                                                                                 <td class=" " style="text-align: right;"><s:property value="getUnite().getDesignation()" /></td>
                                                                                                 <td class=" " style="text-align: right;"><s:property value="getNombre()" /></td>
@@ -337,7 +336,7 @@
                     if (datas != null) {
                         $(this).empty();
                         for (var key in datas) {
-                            $(this).append('<option value="' + key + '"+>' + datas[key] + '</option>');
+                            $(this).append('<option value="' + datas[key] + '"+>' + datas[key] + '</option>');
                         }
                     }
                     if ($.isFunction(settings.complete)) {

@@ -11,11 +11,9 @@ import com.er.erproject.modele.Bon;
 import com.er.erproject.modele.Fournisseur;
 import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
-import com.er.erproject.modele.VueInventaire;
 import com.er.erproject.service.ArticleService;
 import com.er.erproject.service.BonService;
 import com.er.erproject.service.UniteService;
-import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
@@ -33,7 +31,6 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class EntreeAction extends BaseAction {
 
-    private Map session;
     private Bon bon;
     private int idDernierArticle;
     private String codeDernierArticle = "";
@@ -56,14 +53,14 @@ public class EntreeAction extends BaseAction {
     private String dateToday = "";
     private String facture = "";
     private UniteService uniteService;
-    private List<Unite> listeU;    
+    private List<Unite> listeU;
     private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
 
     public String load() {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             //  envoyer bon dans la session
             bon = new Bon();
@@ -71,6 +68,7 @@ public class EntreeAction extends BaseAction {
             bon.setDate(Calendar.getInstance().getTime());
             bon.setDemandeur(user);
             //bon.setListeArticle(listeArticle);
+            session = ActionContext.getContext().getSession();
             session.put("bon", bon);
             boolean tempo = getAlertes().isEmpty();
             int tester = getAlertes().size();
@@ -80,17 +78,32 @@ public class EntreeAction extends BaseAction {
             return Action.ERROR;
         }
     }
-    
+
     public String annuler() {
-        clean();
-        return Action.SUCCESS;
+        try {
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            clean();
+            session = ActionContext.getContext().getSession();
+            bon = (Bon) session.get("bon");
+            bon = new Bon();
+            bon.setType("entree");
+            bon.setDate(Calendar.getInstance().getTime());
+            bon.setDemandeur(user);
+            session.put("bon", bon);
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            Logger.getLogger(EntreeAction.class.getName()).log(Level.SEVERE, null, ex);
+            return Action.ERROR;
+        }
     }
 
     public String ajoutDemandeur() {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  load demandeur
@@ -121,7 +134,7 @@ public class EntreeAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  loadFournisseur
@@ -161,7 +174,7 @@ public class EntreeAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  load article en cours
@@ -192,7 +205,7 @@ public class EntreeAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
 
             Article temp = new Article();
@@ -232,7 +245,7 @@ public class EntreeAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             //  get bon
             bon = (Bon) session.get("bon");
@@ -272,13 +285,6 @@ public class EntreeAction extends BaseAction {
     }
 
 //  UTILS
-    private boolean sessionCheck() throws Exception {
-        session = ActionContext.getContext().getSession();
-        user = (User) session.get("user");
-        alertes = UtilService.listeAlerte(hbdao);
-        return checkUser();
-    }
-
     private void loadArticleEnCours() {
         articleEnCours = new ArticleBon();
         Article temporaire = new Article();
@@ -338,6 +344,7 @@ public class EntreeAction extends BaseAction {
         temp.add(ab.getUnite());
         for (Unite u : temp) {
             if (u.getDesignation().compareToIgnoreCase(unite) == 0) {
+                uniteService.findCompletLent(u);
                 ab.setUnite(u);
                 break;
             }

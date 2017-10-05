@@ -7,7 +7,6 @@ package com.er.erproject.service;
 
 import com.er.erproject.modele.ArticleBon;
 import com.er.erproject.modele.Bon;
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -19,21 +18,25 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Section;
 import com.itextpdf.text.html.WebColors;
 import com.itextpdf.text.pdf.GrayColor;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import com.er.erproject.modele.VueInventaire;
+import com.itextpdf.text.BadElementException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  *
- * @author diary
+ * @author zacharie
  */
 public class PdfService {
 
@@ -46,6 +49,7 @@ public class PdfService {
     private static final Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
     private static final Font bold = new Font(Font.FontFamily.COURIER, 12, Font.BOLD);
     private static Font smallFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+    private static Font smallFontPliss = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
 
     private static int idBon;
 
@@ -75,6 +79,9 @@ public class PdfService {
         this.bon = offre;
     }
 
+    public PdfService() {        
+    }
+
     public PdfService(Bon bon,Date date, String er, String telma) throws Exception {
         this.bon = bon;
         Document document = new Document();
@@ -84,7 +91,7 @@ public class PdfService {
         addMetaData(document);
         addContent(document,er,telma);
         sautPage(document,1);
-//        addLastPage(document,date,er,telma,lieu);
+//        addLastPage(document,date,er,telma,lieu);78   
         document.close();
     }
 
@@ -94,6 +101,14 @@ public class PdfService {
     private static void addMetaData(Document document) {
         document.addTitle("PDF Generator");
         document.addSubject("Bon");
+        document.addKeywords("Java, PDF, iText");
+        document.addAuthor("E.R Systeme");
+        document.addCreator("E.R Systeme");
+    }
+
+    private static void addMetaData(Document document, String subject) {
+        document.addTitle("PDF Generator");
+        document.addSubject(subject);
         document.addKeywords("Java, PDF, iText");
         document.addAuthor("E.R Systeme");
         document.addCreator("E.R Systeme");
@@ -282,89 +297,7 @@ public class PdfService {
         }         
         document.add(table);
     }
-    
-    
-//    private void addLastPage(Document document,Date date,String er,String telma, String lieu) throws DocumentException, BadElementException, IOException, Exception {
-//        PdfPTable table = new PdfPTable(3);
-//        table.setWidthPercentage(100);
-//        table.setWidths(new float[]{(float) 3 / 2, 5, (float) 3 / 2});
-//
-//        PdfPCell cell;
-//
-//        cell = new PdfPCell(Image.getInstance("C:/Users/diary/Documents/Develeppoment/Logo/telma.jpg"));
-//        cell.setRowspan(5);
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase(20, "Document ", boltTableFont));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase("Version \n 1.0", normalBoldTableFont));
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        cell.setRowspan(5);
-//        table.addCell(cell);
-//
-//        cell = new PdfPCell(new Phrase("PROCES VERBAL DE RECEPETION DEFINITIVE \n \n " + "testsetsetsetsetset" + " \n", boltTableFont));
-//        cell.setRowspan(4);
-//        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//        table.addCell(cell);
-//
-//        document.add(table);
-//        Phrase phrase;
-//        Paragraph paragraphe;
-//        Chunk underline;
-//        Paragraph information = new Paragraph();
-//        addEmptyLine(information, 2);
-//
-//        underline = new Chunk("Reserve(s) :", boldFont);
-//        underline.setUnderline(0.1f, -2f); //0.1 thick, -2 y-location
-//        information.add(underline);
-//        information.add(new Phrase(" Aucun", boldFont));
-//
-//        addEmptyLine(information, 1);
-//        information.add(new Phrase("En foi de quoi, ce procès-verbal est établi pour servir et valoir"
-//                + " ce que de droit", normalFont));
-//        addEmptyLine(information, 2);
-//        information.add(new Phrase("Fait en troi(3) exemplaires", normalFont));
-//        addEmptyLine(information, 2);
-//
-//        paragraphe = new Paragraph();
-//        paragraphe.add(new Phrase("Fait à "+lieu+", le "+"date teststestestsetestestestest", normalFont));
-//        paragraphe.setAlignment(Element.ALIGN_RIGHT);
-//
-//        document.add(information);
-//        document.add(paragraphe);
-//        information = new Paragraph();
-//
-//        underline = new Chunk("Ont signé :", boldFont);
-//        underline.setUnderline(0.1f, -2f); //0.1 thick, -2 y-location
-//        information.add(underline);
-//        addEmptyLine(information, 2);
-//        document.add(information);
-//
-//        Chunk glue = new Chunk(new VerticalPositionMark());
-//        Paragraph p = new Paragraph("Pour Entreprise RANDRIANARISOA",boldFont);
-////        addEmptyLine(p,3);
-//        
-//        p.add(new Chunk(glue));
-//        p.add(new Phrase("Pour telma",boldFont));
-//        p.add(new Chunk(glue));
-//        addEmptyLine(p,6);
-//        
-//        p.add(new Phrase(er,boldFont));
-//        p.add(new Chunk(glue));
-//        p.add(new Phrase(telma,boldFont));
-//        p.add(new Chunk(glue));
-//        
-//       
-//        document.add(p);
-//
-//    }
+        
     private static void sautPage(Document document, int saut) throws DocumentException {
         for (int i = 0; i < saut; i++) {
             document.add(Chunk.NEXTPAGE);
@@ -406,36 +339,179 @@ public class PdfService {
         });
     }
 
-    private static void createTable(Section subCatPart)
-            throws BadElementException {
-        PdfPTable table = new PdfPTable(3);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-
-        table.addCell("1.0");
-        table.addCell("1.1");
-        table.addCell("1.2");
-        table.addCell("2.1");
-        table.addCell("2.2");
-        table.addCell("2.3");
-
-        subCatPart.add(table);
-
-    }
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
+    }
+
+    public void addTable(Document document, List<List<String>> data) throws DocumentException {
+        PdfPTable table = new PdfPTable(data.get(0).size());
+        table.setWidthPercentage(100);        
+        for (int i = 0; i < data.get(0).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(0).get(i), header));
+                table.addCell(cell);
+            }               
+        for (int j = 1; j < data.size(); j++) {
+            for (int i = 0; i < data.get(j).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(j).get(i), smallFont));
+                table.addCell(cell);
+            }               
+        }        
+        document.add(table);       
+    }
+
+    public void addTable(Document document, List<List<String>> data, PdfPTable table) throws DocumentException {
+        table = new PdfPTable(data.get(0).size());
+        table.setWidthPercentage(100);        
+        for (int i = 0; i < data.get(0).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(0).get(i), header));
+                table.addCell(cell);
+            }               
+        for (int j = 1; j < data.size(); j++) {
+            for (int i = 0; i < data.get(j).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(j).get(i), smallFont));
+                table.addCell(cell);
+            }               
+        }        
+        document.add(table);       
+    }
+
+    public void addTable(Document document, List<List<String>> data, PdfPTable table, BaseColor couleurDeFondHeaderTable) throws DocumentException {
+        table = new PdfPTable(data.get(0).size());
+        table.setWidthPercentage(100);        
+        for (int i = 0; i < data.get(0).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(0).get(i), header));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setBackgroundColor(couleurDeFondHeaderTable);
+                table.addCell(cell);
+            }               
+        for (int j = 1; j < data.size(); j++) {
+            for (int i = 0; i < data.get(j).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(j).get(i), smallFont));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                table.addCell(cell);
+            }               
+        }        
+        document.add(table);       
+    }
+
+    public void addTable(Document document, List<List<String>> data, PdfPTable table, BaseColor couleurDeFondHeaderTable, String listeNombre) throws DocumentException {
+        table = new PdfPTable(data.get(0).size());
+        table.setWidthPercentage(100);    
+        table.setWidths(new float[]{(float) 1, 3, 3, 3, 3, 2, 3, 3});
+        for (int i = 0; i < data.get(0).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(0).get(i), header));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setBackgroundColor(couleurDeFondHeaderTable);
+                table.addCell(cell);
+            }               
+        for (int j = 1; j < data.size(); j++) {
+            for (int i = 0; i < data.get(0).size() ; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(data.get(j).get(i), smallFontPliss));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                if(listeNombre.contains(Integer.toString(i))) cell.setHorizontalAlignment(Element.ALIGN_RIGHT);                
+                else cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+            }               
+        }        
+        document.add(table);       
+    }
+    
+    private boolean isPhrase(Object o) {
+        if(o.getClass().getSimpleName().compareTo(new Phrase().getClass().getSimpleName())==0) return true;
+        return false;
+    }
+
+    public void addEntete(Document document, Object aGauche, Object titre, Object aDroite, Object enBas) throws DocumentException {
+        PdfPTable table = new PdfPTable(3);
+        table.setWidthPercentage(100);
+        table.setWidths(new float[]{(float) 3 / 2, 5, (float) 3 / 2});
+
+        PdfPCell cell;
+        
+        if(isPhrase(aGauche)) cell = new PdfPCell((Phrase) aGauche);
+        else cell = new PdfPCell((Image) aGauche);        
+        cell.setRowspan(5);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        if(isPhrase(titre)) cell = new PdfPCell((Phrase) titre);
+        else cell = new PdfPCell((Image) titre);        
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        if(isPhrase(aDroite)) cell = new PdfPCell((Phrase) aDroite);
+        else cell = new PdfPCell((Image) aDroite);        
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setRowspan(5);
+        table.addCell(cell);
+
+        if(isPhrase(enBas)) cell = new PdfPCell((Phrase) enBas);
+        else cell = new PdfPCell((Image) enBas);        
+        cell.setRowspan(4);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        table.addCell(cell);
+
+        document.add(table);
+    }    
+
+    public void addEnteteDefaut(Document document, String titre, String aDroite, String enBas) throws BadElementException, IOException, DocumentException {
+        addEntete(document, new Phrase(20, "ER", boltTableFont), new Phrase(20, titre, boltTableFont), new Phrase(20, aDroite, boltTableFont), new Phrase(20, enBas, boltTableFont));        
+    }
+
+    public void addTableInventaire(Document document, List<VueInventaire> liste) throws IOException, DocumentException {
+//      Entete        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar today = Calendar.getInstance();
+        addEnteteDefaut(document, "Inventaire", formatter.format(today.getTime()), "Etat des articles");
+        
+//      Description        
+        Paragraph information = new Paragraph();            
+        addEmptyLine(information, 1);
+        information.add(new Paragraph("Etat de stock : ", normalFont));
+        addEmptyLine(information, 1);
+        document.add(information);
+
+//      PdfPTable table;
+        List<List<String>> data = new ArrayList<>();
+        List<String> header = new ArrayList<>();
+        header.add("Id");
+        header.add("Reference");
+        header.add("Designation");
+        header.add("Famille");
+        header.add("Emplacement");
+        header.add("Nombre");
+        header.add("Unite");
+        header.add("Valeur");
+        data.add(header);
+        for (int i = 0; i < liste.size(); i++) {
+            List<String> ligne = new ArrayList<>();
+            ligne.add(Integer.toString(liste.get(i).getId()));
+            ligne.add(liste.get(i).getCode());
+            ligne.add(liste.get(i).getArticle());
+            ligne.add(liste.get(i).getFamille());
+            ligne.add(liste.get(i).getEmplacement());
+            ligne.add(Double.toString(liste.get(i).getNombre()));
+            ligne.add(liste.get(i).getUnite());
+            ligne.add(Double.toString(liste.get(i).getValeur()));
+            data.add(ligne);
+        }
+        PdfPTable tableI = new PdfPTable(8);        
+        addTable(document, data, tableI, WebColors.getRGBColor("#693f29"), "057");        
+    }
+
+    public void getInventairePdf(List<VueInventaire> liste) throws Exception {        
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/Inventaire.pdf"));        
+        document.open();
+        addMetaData(document, "Inventaire");
+        addTableInventaire(document, liste);
+        sautPage(document,1);
+        document.close();
     }
 }

@@ -7,6 +7,7 @@ package com.er.erproject.action;
 
 import com.er.erproject.modele.Famille;
 import com.er.erproject.modele.User;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
@@ -41,6 +42,9 @@ public class FamilleAction extends BaseAction {
         try {            
         //  check session
             if(!sessionCheck()) return "tolog";
+            if (!checkLevel(3)) {
+                return "access";
+            }
         //  Instance of the Famille
             Famille toSave = new Famille();
             toSave.setId(idFamille);            
@@ -62,12 +66,16 @@ public class FamilleAction extends BaseAction {
         try {            
         //  check session
             if(!sessionCheck()) return "tolog";
+            if (!checkLevel(3)) {
+                return "access";
+            }
         //  Instance of the Famille
             Famille toSave = new Famille();
             toSave.setId(idFamille);                        
             hbdao.delete(toSave);
         //  load List Famille
             listeFamille = (List<Famille>)(List<?>)hbdao.findAll(new Famille());
+            this.idFamille = 0;
         } catch(Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
@@ -76,11 +84,7 @@ public class FamilleAction extends BaseAction {
     }
     
     //  UTILS
-    private boolean sessionCheck() throws Exception {        
-        session = ActionContext.getContext().getSession();
-        user = (User) session.get("user");
-        return checkUser();
-    }
+    
     
     private void clean() {
         idFamille = -1;

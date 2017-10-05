@@ -42,14 +42,14 @@
             <div class="main_container">
                 <%@include file="header.jsp"%>
 
-                
+
 
                 <!-- page content -->
                 <div class="right_col" role="main">
                     <div class="">
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Matériels</h3>
+                                <h3>Historique</h3>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -62,64 +62,57 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                            <div class="row">
-                                                <div class="col-sm-6 col-sm-offset-6">
-                                                    <div id="datatable_filter" class="dataTables_filter">
-                                                        <select class="form-control input-sm" placeholder="Categorie" aria-controls="datatable">
-                                                            <option>Famille</option>
-                                                            <option>Fournisseur</option>
-                                                        </select>
-                                                        <select class="form-control input-sm" placeholder="Emplacement" aria-controls="datatable">
-                                                            <option>Emplacement</option>
-                                                            <option>Test</option>
-                                                        </select>
+                                        <form method="get" action="rechercherListeBon">
+                                            <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">   
+                                                <div class="row" style="margin-bottom: 5px;">
+                                                    <div class="col-md-1">
+                                                        <input style="width: 100%;" type="text" placeholder="Id" name="valueId">
                                                     </div>
-                                                    <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable"></label></div>
+                                                    <div class="col-md-4">
+                                                        <input style="width: 100%;" type="text" placeholder="Demandeur" name="valueDemandeur">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input style="width: 70%; margin-left: 50px;" type="date" name="valueDate">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input style="width: 30%; margin-left: 50px;" type="submit" value="Rechercher">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <script>
-                                                    jQuery(document).ready(function ($) {
-                                                        $(".clickable-row").dblclick(function () {
-                                                            window.location = $(this).data("href");
+                                                <div class="row">
+                                                    <script>
+                                                        jQuery(document).ready(function ($) {
+                                                            $(".clickable-row").click(function () {
+                                                                window.location = $(this).data("href");
+                                                            });
                                                         });
-                                                    });
-                                                </script>
-                                                <div class="col-sm-12">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped jambo_table bulk_action">
-                                                            <thead>
-                                                                <tr class="headings">
-                                                                    <th class="column-title">Id </th>
-                                                                    <th class="column-title">Demandeur</th>
-                                                                    <th class="column-title">Projet </th>
-                                                                    <th class="column-title">Type</th>
-                                                                    <th class="column-title">Date</th>
-                                                                    <th class="column-title">Validation</th>
-                                                                    <th class="column-title">Confirmation</th>
-                                                                    <th class="column-title">Justification</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <s:iterator value="listeBon">
-                                                                    <tr class="odd pointer clickable-row" data-href='ajoutArticle?idDernierArticle=<s:property value="getId()"></s:property>'>                                                                        
-                                                                        <td><s:property value="getId()" /></td>
-                                                                        <td><s:property value="getUser().getNom()" /> <s:property value="getUser().getPrenom()" /></td> 
-                                                                        <td><s:property value="getProjet().getDesignation()" /></td>  
-                                                                        <td><s:property value="getType()"/></td>
-                                                                        <td><s:property value="getDateString()"/></td>
-                                                                        <td><s:property value="getValidationString()" /></td>                         
-                                                                        <td><s:property value="getConfirmationString()" /></td>                         
-                                                                        <td><a href="<s:property value="getPhoto()" />"><s:property value="getPhoto()" /></a></td>                                                                         
+                                                    </script>
+                                                    <div class="col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped jambo_table bulk_action">
+                                                                <thead>
+                                                                    <tr class="headings">
+                                                                        <th class="column-title">Id </th>
+                                                                        <th class="column-title">Demandeur</th>                                                                    
+                                                                        <th class="column-title">Date</th>
+                                                                        <th class="column-title">Justification</th>
                                                                     </tr>
-                                                                </s:iterator>                                                                        
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <s:iterator value="listeBon">
+                                                                        <tr class="odd pointer clickable-row" data-href='historiqueArticleBon?idBon=<s:property value="getId()"></s:property>'>                                                                        
+                                                                            <td><s:property value="getId()" /></td>
+                                                                            <td><s:property value="getUser().getNom()" /> <s:property value="getUser().getPrenom()" /></td>                                                                                                                                                 
+                                                                            <td><s:property value="getDateString()"/></td>                                                                                                                                                                                            
+                                                                            <td><a href="<s:property value="getPhoto()" />"><s:property value="getPhoto()" /></a></td>                                                                         
+                                                                        </tr>
+                                                                    </s:iterator>                                                                        
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                         <br>
                                     </div>
                                 </div>

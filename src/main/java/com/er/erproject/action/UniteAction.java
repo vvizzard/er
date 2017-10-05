@@ -8,6 +8,7 @@ package com.er.erproject.action;
 import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
 import com.er.erproject.service.UniteService;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
@@ -27,13 +28,15 @@ public class UniteAction extends BaseAction {
     private Double difference;
     private List<Unite> listeUnite;
     private List<Unite> defauts;
+    private List<List<String>> listeUniteString;
     
     public String load() {
         try {            
         //  check session
             if(!sessionCheck()) return "tolog";
         //  load List Unite
-            listeUnite = (List<Unite>)(List<?>)hbdao.findAll(new Unite());
+            listeUnite = uniteService.findAll();
+//            listeUniteString = uniteService.findAllAffichage();
 //            for(Unite u : listeUnite) if(u.getDesignation().compareToIgnoreCase("none")==0) listeUnite.remove(u);
             defauts = uniteService.findDefauts();
             return Action.SUCCESS;
@@ -47,6 +50,9 @@ public class UniteAction extends BaseAction {
         try {            
         //  check session
             if(!sessionCheck()) return "tolog";
+            if (!checkLevel(3)) {
+                return "access";
+            }
         //  load List Unite            
             defauts = uniteService.findDefauts();
         //  Instance of the Unite
@@ -72,6 +78,9 @@ public class UniteAction extends BaseAction {
         try {            
         //  check session
             if(!sessionCheck()) return "tolog";
+            if (!checkLevel(3)) {
+                return "access";
+            }
         //  Instance of the Unite
             Unite toSave = new Unite();
             toSave.setId(idUnite);                        
@@ -80,6 +89,7 @@ public class UniteAction extends BaseAction {
             listeUnite = (List<Unite>)(List<?>)hbdao.findAll(new Unite());
 //            for(Unite u : listeUnite) if(u.getDesignation().compareToIgnoreCase("none")==0) listeUnite.remove(u);
             defauts = uniteService.findDefauts();
+            this.idUnite = 0;
         } catch(Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
@@ -88,11 +98,7 @@ public class UniteAction extends BaseAction {
     }
     
     //  UTILS
-    private boolean sessionCheck() throws Exception {        
-        session = ActionContext.getContext().getSession();
-        user = (User) session.get("user");
-        return checkUser();
-    }
+    
     
     private void clean() {
         idUnite = -1;
@@ -173,6 +179,14 @@ public class UniteAction extends BaseAction {
 
     public void setDifference(Double difference) {
         this.difference = difference;
+    }
+
+    public List<List<String>> getListeUniteString() {
+        return listeUniteString;
+    }
+
+    public void setListeUniteString(List<List<String>> listeUniteString) {
+        this.listeUniteString = listeUniteString;
     }
     
     

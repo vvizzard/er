@@ -164,7 +164,7 @@
                                             </div>
                                         <s:hidden name="idArticle" value="%{idArticle}"/>
                                         <button class="btn btn-primary col-md-offset-9" type="submit" >Ajouter</button>
-                                        <button class="btn btn-danger" type="button">Annuler</button>
+                                        <a href="listeArticle"><button class="btn btn-danger" type="button">Annuler</button></a>
                                     </form>
                                 </div>
                             </div>

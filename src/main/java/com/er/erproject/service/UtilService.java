@@ -6,6 +6,7 @@
 package com.er.erproject.service;
 
 import com.er.erproject.dao.HibernateDao;
+import com.er.erproject.modele.Fournisseur;
 import com.er.erproject.modele.HistoriqueArticle;
 import com.er.erproject.modele.Inventaire;
 import com.er.erproject.modele.Unite;
@@ -73,13 +74,30 @@ public class UtilService {
 
     public static double conversion(Unite aConvertir, double montant, Unite convertirEn) {
         try {
-            return montant / aConvertir.getDifference() * convertirEn.getDifference();
+            if (aConvertir.getDifference() == 0) {
+                aConvertir.setDifference(null);
+            }
+            if (convertirEn.getDifference() == 0) {
+                convertirEn.setDifference(null);
+            }
+            if (aConvertir.getDifference() == 0) {
+                if (convertirEn.getDifference() != 0) {
+                    return montant * convertirEn.getDifferenceD();
+                } else {
+                    return montant;
+                }
+
+            } else if (convertirEn.getDifference() == 0) {
+                return montant / aConvertir.getDifference();
+            } else {
+                return montant / aConvertir.getDifferenceD() * convertirEn.getDifferenceD();
+            }
         } catch (NullPointerException nullAConvertirDifference) {
             try {
-                return montant * convertirEn.getDifference();
+                return montant * convertirEn.getDifferenceD();
             } catch (NullPointerException nullConvertirEnDifference) {
                 try {
-                    double val = montant / aConvertir.getDifference();
+                    double val = montant / aConvertir.getDifferenceD();
                     if (Double.isInfinite(val)) {
                         throw new NullPointerException();
                     }
@@ -158,29 +176,107 @@ public class UtilService {
         }
     }
 
-    public static List<VueInventaire> filtreInventaire(String critere, String famille, String emplacement, HibernateDao hbdao) {
+    public static boolean checkDoublonFournisseur(Fournisseur f, HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from fournisseur where nom = :idFournisseur";
+            Query query = session.createSQLQuery(qry).addEntity(new Fournisseur().getClass());
+            query.setParameter("idFournisseur", f.getNom());
+            List<Fournisseur> val = query.list();
+            Fournisseur fv = val.get(0);
+            if (f.getNom().compareTo(fv.getNom()) == 0) {
+                return false;
+            }
+            return true;
+        } catch (IndexOutOfBoundsException i) {
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<VueInventaire> listeVueInventaire(HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from vueinventaire order by id asc";
+            Query query = session.createSQLQuery(qry).addEntity(new VueInventaire().getClass());
+            List<VueInventaire> val = query.list();
+            return val;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<HistoriqueArticle> listeHistoriqueArticle(int idBon, HibernateDao hbdao) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from historiquearticle where id_bon = :idBon";
+            Query query = session.createSQLQuery(qry).addEntity(new HistoriqueArticle().getClass());
+            query.setParameter("idBon", idBon);
+            List<HistoriqueArticle> val = query.list();
+            return val;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static List<VueInventaire> filtreInventaire(String critere, String famille, String emplacement, String typeFiltreS, HibernateDao hbdao) {
         Session session = null;
         int check = 0;
         try {
             session = hbdao.getSessionFactory().openSession();
             String qryP1 = "select * from vueinventaire "
                     + " where article ilike :critere ";
-            String qryP2 = " or code ilike :critere ";                    
+            String qryP2 = " or code ilike :critere ";
             if (famille.compareTo("Famille") != 0) {
                 qryP1 += " and famille = :fm";
                 qryP2 += " and famille = :fm";
-                check+=1;
+                check += 1;
             }
             if (emplacement.compareTo("Emplacement") != 0) {
                 qryP1 += " and emplacement = :ep";
                 qryP2 += " and emplacement = :ep";
-                check+=2;
+                check += 2;
             }
-            String qry = qryP1+qryP2;
+            if (typeFiltreS.compareTo("sm")==0) {
+                qryP1 += " and nombre < sm and nombre > sa";
+                qryP2 += " and nombre < sm and nombre > sa";
+            }
+            if (typeFiltreS.compareTo("sa")==0) {
+                qryP1 += " and nombre < sa and nombre > ss";
+                qryP2 += " and nombre < sa and nombre > ss";
+            }
+            if (typeFiltreS.compareTo("ss")==0) {
+                qryP1 += " and nombre < ss";
+                qryP2 += " and nombre < ss";
+            }
+            String qry = qryP1 + qryP2;
             Query query = session.createSQLQuery(qry).addEntity(VueInventaire.class);
             query.setParameter("critere", "%" + critere + "%");
-            if(check == 1 || check == 3)query.setParameter("fm", famille);
-            if(check == 2 || check == 3)query.setParameter("ep", emplacement);
+            if (check == 1 || check == 3) {
+                query.setParameter("fm", famille);
+            }
+            if (check == 2 || check == 3) {
+                query.setParameter("ep", emplacement);
+            }
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,7 +287,7 @@ public class UtilService {
             }
         }
     }
-    
+
     public static List<HistoriqueArticle> filtreHistoriqueArticle(String debut, String fin, HibernateDao hbdao) throws Exception {
         Session session = null;
         Date dateDebut = null, dateFin = null;
@@ -200,22 +296,22 @@ public class UtilService {
         try {
             session = hbdao.getSessionFactory().openSession();
             String qry = "select * from historiquearticle "
-                    + " where 1<2 ";            
+                    + " where 1<2 ";
             if (debut.compareTo("") != 0) {
-                qry+=" and date >= :debut";
+                qry += " and date >= :debut";
                 check += 1;
                 dateDebut = formatter.parse(debut);
             }
             if (fin.compareTo("") != 0) {
-                qry+=" and date <= :fin";
+                qry += " and date <= :fin";
                 check += 2;
                 dateFin = formatter.parse(fin);
-            }            
-            Query query = session.createSQLQuery(qry).addEntity(HistoriqueArticle.class);            
-            if(check == 1 || check == 3) {
+            }
+            Query query = session.createSQLQuery(qry).addEntity(HistoriqueArticle.class);
+            if (check == 1 || check == 3) {
                 query.setParameter("debut", dateDebut);
             }
-            if(check == 2 || check == 3) {
+            if (check == 2 || check == 3) {
                 query.setParameter("fin", dateFin);
             }
             List<HistoriqueArticle> valiny = query.list();
@@ -243,13 +339,16 @@ public class UtilService {
                     + "    i.nombre, "
                     + "    i.valeur, "
                     + "    i.id_unite, "
-                    + "    u.designation AS unite "
+                    + "    u.designation AS unite, "
+                    + "    a.limite AS ss, "
+                    + "    a.sm, "
+                    + "    a.sa "
                     + "   FROM inventaire i "
                     + "     JOIN article a ON a.id = i.id_article "
                     + "     JOIN unite u ON u.id = i.id_unite "
                     + "     JOIN famille f ON f.id = a.id_famille "
-                    + "   WHERE a.limite >= i.nombre";            
-            Query query = session.createSQLQuery(qry).addEntity(VueInventaire.class);            
+                    + "   WHERE a.limite >= i.nombre";
+            Query query = session.createSQLQuery(qry).addEntity(VueInventaire.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();

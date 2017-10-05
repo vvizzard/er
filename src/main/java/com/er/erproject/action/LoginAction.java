@@ -6,9 +6,7 @@
 package com.er.erproject.action;
 
 import com.er.erproject.dao.HibernateDao;
-import com.er.erproject.modele.Departement;
-import com.er.erproject.modele.User;
-import com.er.erproject.service.UtilService;
+import com.er.erproject.service.UserService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.Map;
@@ -20,30 +18,31 @@ import java.util.logging.Logger;
  * @author vvizard
  */
 public class LoginAction extends BaseAction {
+    private UserService userService;
     private HibernateDao hbdao;
     private String id;
     private String pw;
-    private Map session;
     
+
     @Override
     public String execute() {
-        try {                      
+        try {
             findUser(id, pw);
-            if(!checkUser()) return Action.ERROR;               
-            Map session = ActionContext.getContext().getSession();
+            if (!checkUser()) {
+                return Action.ERROR;
+            }
+            session = ActionContext.getContext().getSession();
             session.put("user", user);
-//            List<Inventaire> alerte = UtilService.listeAlerte();
-//            session.put("alerte", alerte);
-        } catch(Exception exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
             return Action.ERROR;
         }
         return Action.SUCCESS;
     }
-    
+
     public String load() {
-        try {               
-            if(sessionCheck()) {
+        try {
+            if (sessionCheck()) {
                 return "noLog";
             } else {
                 return Action.SUCCESS;
@@ -52,17 +51,26 @@ public class LoginAction extends BaseAction {
             Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return Action.ERROR;
-        }        
+        }
     }
-    
-    private void findUser(String id, String pw) {        
+
+    public String logout() {
         try {
-            User tempUser = new User(1);
-            hbdao.findById(tempUser);
-            Departement temp = new Departement(tempUser.getIdDepartement());
-            hbdao.findById(temp);
-            tempUser.setDepartement(temp);
-            this.setUser(tempUser);
+            if (sessionCheck()) {
+                session = ActionContext.getContext().getSession();
+                session.clear();
+            }
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            Logger.getLogger(LoginAction.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+
+    private void findUser(String id, String pw) {
+        try {
+            this.setUser(userService.login(id, pw));
 //            hbdao.Soustraction();
 //            Departement t = new Departement(1);
 //            hbdao.findById(t);
@@ -98,19 +106,25 @@ public class LoginAction extends BaseAction {
 
     public void setPw(String pw) {
         this.pw = pw;
-    }      
-
-    private boolean sessionCheck() throws Exception {
-        session = ActionContext.getContext().getSession();
-        if (session == null || session.isEmpty()) {
-            return false;
-        }
-        user = (User) session.get("user");
-        if (user == null) {
-            return false;
-        }
-        boolean val = checkUser();
-        alertes = UtilService.listeAlerte(hbdao);
-        return val;
     }
+
+    
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public Map getSession() {
+        return session;
+    }
+
+    public void setSession(Map session) {
+        this.session = session;
+    }
+    
+    
 }

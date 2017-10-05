@@ -60,7 +60,7 @@
                         <div class="clearfix"></div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
+<!--                                <div class="x_panel">
                                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="addDepartement" method="POST" enctype="multipart/form-data">
                                         
                                         <div class="x_content" style="margin-top: -15px;">
@@ -89,17 +89,17 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                            <s:hidden name="idDepartement" value="%{idDepartement}"></s:hidden>
+                                                            <%--<s:hidden name="idDepartement" value="%{idDepartement}"></s:hidden>--%>
                                                             </div>
                                                             <button class="btn btn-primary col-md-offset-9" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="annulerDepartement"><button class="btn btn-danger" type="button">Annuler</button></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <br>
                                         </form>
-                                    </div>
+                                    </div>-->
                                     <div class="x_panel">                                    
                                         <div class="x_content" style="margin-top: -15px;">
                                             <br />
@@ -118,7 +118,7 @@
                                                                             <th class="column-title">Id </th>
                                                                             <th class="column-title">Designation</th>
                                                                             <th class="column-title">Niveau </th>                                                                            
-                                                                            <th></th>
+                                                                            <!--<th></th>-->
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -127,7 +127,7 @@
                                                                             <td class="clickable-row" data-href='loadDepartement?idDepartement=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&niveau=<s:property value="getNiveau()"></s:property>'><s:property value="getId()" /></td>
                                                                             <td class="clickable-row" data-href='loadDepartement?idDepartement=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&niveau=<s:property value="getNiveau()"></s:property>'><s:property value="getDesignation()" /></td>
                                                                             <td class="clickable-row" data-href='loadDepartement?idDepartement=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&niveau=<s:property value="getNiveau()"></s:property>'><s:property value="getNiveau()" /></td>                                                                            
-                                                                            <td style="padding: 0px;"><button class="btn btn-danger del" data-href="deleteDepartement?idDepartement=<s:property value="getId()"></s:property>" type="button">Supprimer</button></td>
+                                                                            <!--<td style="padding: 0px;"><button class="btn btn-danger del" data-href="deleteDepartement?idDepartement=<s:property value="getId()"></s:property>" type="button">Supprimer</button></td>-->
                                                                         </tr>
                                                                     </s:iterator>                                                                        
                                                                 </tbody>

@@ -16,5 +16,7 @@
         <property name="emplacement" column="emplacement" type="string"/>
         <property name="idUnite" column="id_unite" type="int"/>
         <property name="limite" column="limite" type="double"/>
+        <property name="sm" column="sm" type="double"/>
+        <property name="sa" column="sa" type="double"/>
     </class>
 </hibernate-mapping>

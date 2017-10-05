@@ -11,7 +11,6 @@ import com.er.erproject.modele.AssociationArticleUnite;
 import com.er.erproject.modele.Famille;
 import com.er.erproject.modele.Fournisseur;
 import com.er.erproject.modele.Unite;
-import com.er.erproject.modele.User;
 import com.er.erproject.modele.VueArticleFournisseur;
 import com.er.erproject.modele.VueListeArticle;
 import com.er.erproject.service.ArticleService;
@@ -19,7 +18,6 @@ import com.er.erproject.service.AssociationService;
 import com.er.erproject.service.UtilService;
 import com.er.erproject.service.VueArticleFournisseurService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +28,7 @@ import java.util.logging.Logger;
  *
  * @author vvizard
  */
-public class ArticleAction extends BaseAction {
-
-    private Map session;
+public class ArticleAction extends BaseAction {    
 
     private ArticleService articleService;
     private VueArticleFournisseurService vueArticleFournisseurService;
@@ -57,7 +53,7 @@ public class ArticleAction extends BaseAction {
     private List<Famille> familles;
     private double prix;
 
-    private Article article;    
+    private Article article;
     private List<VueArticleFournisseur> listeFournisseursPrix;
     private String fournisseurT;
     private double prixT;
@@ -68,9 +64,12 @@ public class ArticleAction extends BaseAction {
     private String critere;
     private String searchFamille;
     private String searchEmplacement;
-    
+
     private List<String> listeFamille;
     private List<String> listeEmplacement;
+    
+    private double sm;
+    private double sa;
 
     public String load() {
         try {
@@ -78,7 +77,7 @@ public class ArticleAction extends BaseAction {
             if (!sessionCheck()) {
                 return "tolog";
             }
-            listeArticle = (List<VueListeArticle>)(List<?>)hbdao.findAll(new VueListeArticle());
+            listeArticle = (List<VueListeArticle>) (List<?>) hbdao.findAll(new VueListeArticle());
             listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
             listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
             return Action.SUCCESS;
@@ -87,7 +86,7 @@ public class ArticleAction extends BaseAction {
             return Action.ERROR;
         }
     }
-    
+
     public String recherche() {
         try {
             //  check session
@@ -110,29 +109,35 @@ public class ArticleAction extends BaseAction {
             if (!sessionCheck()) {
                 return "tolog";
             }
+            if (!checkLevel(3)) {
+                return "access";
+            }
             article = new Article(idArticle);
             articleService.find(article);
             listeFournisseursPrix = vueArticleFournisseurService.findAll(article);
-            fournisseurs = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());
+            fournisseurs = (List<Fournisseur>) (List<?>) hbdao.findAll(new Fournisseur());
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
-    
+
     public String deleteFournisseur() {
         try {
-        //  check session
+            //  check session
             if (!sessionCheck()) {
                 return "tolog";
             }
+            if (!checkLevel(3)) {
+                return "acces";
+            }
             article = new Article(idArticle);
             articleService.find(article);
-            fournisseurs = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());                        
-            AssociationArticleFournisseur aaf = new AssociationArticleFournisseur(idFournisseurArticle);                  
-            associationService.delete(aaf);            
-            listeFournisseursPrix = vueArticleFournisseurService.findAll(article);            
+            fournisseurs = (List<Fournisseur>) (List<?>) hbdao.findAll(new Fournisseur());
+            AssociationArticleFournisseur aaf = new AssociationArticleFournisseur(idFournisseurArticle);
+            associationService.delete(aaf);
+            listeFournisseursPrix = vueArticleFournisseurService.findAll(article);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -142,31 +147,34 @@ public class ArticleAction extends BaseAction {
 
     public String addFournisseur() {
         try {
-        //  check session
+            //  check session
             if (!sessionCheck()) {
                 return "tolog";
             }
-            fournisseurs = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());
+            if (!checkLevel(3)) {
+                return "acces";
+            }
+            fournisseurs = (List<Fournisseur>) (List<?>) hbdao.findAll(new Fournisseur());
             article = new Article(idArticle);
             articleService.find(article);
             AssociationArticleFournisseur aaf = new AssociationArticleFournisseur();
-            aaf.setBm1(article);            
-            aaf.setMontant(prixT);   
-            aaf.setId1(idArticle);            
-            for(Fournisseur fr : fournisseurs) {
-                if(fr.getNom().compareToIgnoreCase(fournisseurT)==0) {
+            aaf.setBm1(article);
+            aaf.setMontant(prixT);
+            aaf.setId1(idArticle);
+            for (Fournisseur fr : fournisseurs) {
+                if (fr.getNom().compareToIgnoreCase(fournisseurT) == 0) {
                     aaf.setBm2(fr);
                     aaf.setId2(fr.getId());
                 }
-            }                        
-            associationService.save(aaf);            
-            listeFournisseursPrix = vueArticleFournisseurService.findAll(article);            
+            }
+            associationService.save(aaf);
+            listeFournisseursPrix = vueArticleFournisseurService.findAll(article);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
-    }        
+    }
 
     public String newArticle() {
         try {
@@ -174,23 +182,23 @@ public class ArticleAction extends BaseAction {
             if (!sessionCheck()) {
                 return "tolog";
             }
-            //  envoyer associations dans la session
-//            associationArticleUnite = new ArrayList<>();
-//            associationArticleFournisseur = new ArrayList<>();
-            //  bon.setListeArticle(listeArticle);
-            //session.put("unite", associationArticleUnite);
-            //session.put("fournisseur", associationArticleFournisseur);
-            //  load all fournisseur            
-            Article art = new Article(idArticle);
-            articleService.find(art);
-            codeArticle = art.getCode();
-            designation = art.getDesignation();
-//            idFamille = art.getIdFamille();
-            designationFamille = art.getFamille().getDesignation();
-            designationUnite = art.getUnite().getDesignation();
-            emplacement = art.getEmplacement();
-            limite = art.getLimite();
-            
+            if (!checkLevel(3)) {
+                return "access";
+            }
+                 
+            if (idArticle != 0) {
+                Article art = new Article(idArticle);
+                articleService.find(art);
+                codeArticle = art.getCode();
+                designation = art.getDesignation();
+                designationFamille = art.getFamille().getDesignation();
+                designationUnite = art.getUnite().getDesignation();
+                emplacement = art.getEmplacement();
+                limite = art.getLimite();
+                sa = art.getSa();
+                sm = art.getSm();
+            }
+
             fournisseurs = (List<Fournisseur>) (List<?>) hbdao.findAll(new Fournisseur());
             familles = (List<Famille>) (List<?>) hbdao.findAll(new Famille());
             unites = (List<Unite>) (List<?>) hbdao.findAll(new Unite());
@@ -207,6 +215,9 @@ public class ArticleAction extends BaseAction {
             if (!sessionCheck()) {
                 return "tolog";
             }
+            if (!checkLevel(3)) {
+                return "access";
+            }
             //  Instance of the Article
             Article toSave = new Article();
             //  Complete Article
@@ -215,15 +226,22 @@ public class ArticleAction extends BaseAction {
             toSave.setDesignation(designation);
             toSave.setEmplacement(emplacement);
             toSave.setLimite(limite);
+            toSave.setSm(sm);
+            toSave.setSa(sa);
             unites = (List<Unite>) (List<?>) hbdao.findAll(new Unite());
-            for(Unite u : unites) if(u.getDesignation().compareToIgnoreCase(designationUnite)==0)toSave.setIdUnite(u.getId());
+            for (Unite u : unites) {
+                if (u.getDesignation().compareToIgnoreCase(designationUnite) == 0) {
+                    toSave.setIdUnite(u.getId());
+                }
+            }
 //            setAssociationArticleFournisseur(toSave);
 //            setAssociationArticleUnite(toSave);
-            if(idArticle != 0) {
+            if (idArticle != 0) {
                 toSave.setId(idArticle);
                 articleService.update(toSave, "inventaire");
+            } else {
+                articleService.save(toSave, "inventaire");
             }
-            else articleService.save(toSave,"inventaire");
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
@@ -238,11 +256,14 @@ public class ArticleAction extends BaseAction {
             if (!sessionCheck()) {
                 return "tolog";
             }
+            if (!checkLevel(3)) {
+                return "access";
+            }
             //  Instance of the Unite            
             toSave.setId(idArticle);
             articleService.delete(toSave);
             //  load List Article
-            listeArticle = (List<VueListeArticle>)(List<?>)hbdao.findAll(new VueListeArticle());
+            listeArticle = (List<VueListeArticle>) (List<?>) hbdao.findAll(new VueListeArticle());
 //            for(Article u : listeArticle) if(u.getDesignation().compareToIgnoreCase("none")==0) listeArticle.remove(u);
         } catch (NullPointerException ex) {
             ex.printStackTrace();
@@ -260,20 +281,6 @@ public class ArticleAction extends BaseAction {
     }
 
     //  UTILS
-    private boolean sessionCheck() throws Exception {
-        session = ActionContext.getContext().getSession();
-        if (session == null || session.isEmpty()) {
-            return false;
-        }
-        user = (User) session.get("user");
-        if (user == null) {
-            return false;
-        }
-        boolean val = checkUser();
-        alertes = UtilService.listeAlerte(hbdao);
-        return val;
-    }
-
     private void setIdFamille(Article toSave) {
         try {
             familles = (List<Famille>) (List<?>) hbdao.findAll(new Famille());
@@ -491,7 +498,7 @@ public class ArticleAction extends BaseAction {
 
     public void setListeFournisseursPrix(List<VueArticleFournisseur> listeFournisseursPrix) {
         this.listeFournisseursPrix = listeFournisseursPrix;
-    }    
+    }
 
     public String getFournisseurT() {
         return fournisseurT;
@@ -523,7 +530,7 @@ public class ArticleAction extends BaseAction {
 
     public void setAssociationService(AssociationService associationService) {
         this.associationService = associationService;
-    }         
+    }
 
     public int getIdFournisseurArticle() {
         return idFournisseurArticle;
@@ -531,7 +538,7 @@ public class ArticleAction extends BaseAction {
 
     public void setIdFournisseurArticle(int idFournisseurArticle) {
         this.idFournisseurArticle = idFournisseurArticle;
-    }        
+    }
 
     public double getLimite() {
         return limite;
@@ -571,7 +578,7 @@ public class ArticleAction extends BaseAction {
 
     public void setSearchEmplacement(String searchEmplacement) {
         this.searchEmplacement = searchEmplacement;
-    }        
+    }
 
     public List<String> getListeFamille() {
         return listeFamille;
@@ -587,6 +594,22 @@ public class ArticleAction extends BaseAction {
 
     public void setListeEmplacement(List<String> listeEmplacement) {
         this.listeEmplacement = listeEmplacement;
+    }
+
+    public double getSm() {
+        return sm;
+    }
+
+    public void setSm(double sm) {
+        this.sm = sm;
+    }
+
+    public double getSa() {
+        return sa;
+    }
+
+    public void setSa(double sa) {
+        this.sa = sa;
     }
     
     

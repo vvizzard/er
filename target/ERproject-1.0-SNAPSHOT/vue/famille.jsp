@@ -95,7 +95,7 @@
                                                             <s:hidden name="idFamille" value="%{idFamille}"></s:hidden>
                                                             </div>
                                                             <button class="btn btn-primary col-md-offset-9" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="etatFamille"><button class="btn btn-danger" type="button">Annuler</button></a>
                                                         </div>
                                                     </div>
                                                 </div>

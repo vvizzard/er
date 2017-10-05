@@ -122,7 +122,7 @@
                                                     </div>
                                                 </div>-->
                                                             <div class="form-group" style="margin-bottom: -9px;">
-                                                                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unite <span class="">*</span></label>
+                                                                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Unité(Defaut) <span class="">*</span></label>
                                                                 <div class="col-md-10 col-sm-10 col-xs-12 input-group"> 
                                                                     <select id="first-name" class="form-control col-md-7 col-xs-12" name="designationUnite">
                                                                         <s:iterator value="getUnites()">
@@ -143,9 +143,21 @@
                                                                                                                             </div>
                                                                                                                         </div>                                                                                                                                   -->
                                                                 <div class="form-group" style="margin-bottom: -9px;">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Limite <span class="required">*</span></label>
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">SM <span class="required">*</span></label>
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="limite" value="<s:property value="%{limite}"></s:property>">                                                                            
+                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="sm" step="0.01" value="<s:property value="%{sm}"></s:property>">                                                                            
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">SA <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="sa" step="0.01" value="<s:property value="%{sa}"></s:property>">                                                                            
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" style="margin-bottom: -9px;">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">SS <span class="required">*</span></label>
+                                                                    <div class="col-md-10 col-sm-10 col-xs-12 input-group">
+                                                                        <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="limite" step="0.01" value="<s:property value="%{limite}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group" style="margin-bottom: -9px;">
@@ -158,7 +170,7 @@
                                                             </div>
 
                                                             <button class="btn btn-primary col-md-offset-9" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="listeArticle"><button class="btn btn-danger" type="button">Annuler</button></a>
 
 
                                                         </div>

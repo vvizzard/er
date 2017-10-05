@@ -11,6 +11,7 @@ import com.er.erproject.modele.AssociationArticleUnite;
 import com.er.erproject.modele.Unite;
 import com.er.erproject.modele.User;
 import com.er.erproject.service.ArticleService;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.util.ArrayList;
@@ -71,11 +72,7 @@ public class NouvelArticleAction extends BaseAction {
     }
     
     //  UTILS
-    private boolean sessionCheck() throws Exception {        
-        session = ActionContext.getContext().getSession();
-        user = (User) session.get("user");
-        return checkUser();
-    }
+    
     
 //  GETTERS AND SETTERS    
 

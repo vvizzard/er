@@ -25,11 +25,8 @@ public class ProjetAction extends BaseAction {
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }            
+            //  check session
+            if(!sessionCheck()) return Action.ERROR;
             else listeProjet = (List<Projet>)(List<?>) hbdao.findAll(new Projet());
             return Action.SUCCESS;
         } catch (Exception ex) {

@@ -9,7 +9,6 @@ import com.er.erproject.modele.Departement;
 import com.er.erproject.modele.User;
 import com.er.erproject.service.UserService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,112 +20,122 @@ import java.util.Map;
 public class UserAction extends BaseAction {
 
     private List<User> listeUser;
-    private UserService userService;
-    
-    private String nom, prenom, cin, matricule, identifiant, pw, dateNaissance, dateEmbauche, departement="", critere;
-    private Date dateDeNaissance, dateDEmbauche;       
+    private UserService userService;    
+
+    private String nom, prenom, cin, matricule, identifiant, pw="", dateNaissance, dateEmbauche, departement = "", critere;
+    private Date dateDeNaissance, dateDEmbauche;
     private List<Departement> departements;
     private int id = 0;
     private int type = 0;
+    private int mine = 0;
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
+            if(!sessionCheck()) return "tolog";
+            if (mine != 0 || id != 0) {
+                nom = user.getNom();
+                prenom = user.getPrenom();
+                cin = user.getCin();
+                matricule = user.getMatricule();
+                identifiant = user.getIdentifiant();
+                dateNaissance = user.getDateNaissanceString("yyyy-MM-dd");
+                dateEmbauche = user.getDateEmbaucheString("yyyy-MM-dd");
+                departement = user.getDepartement().getDesignation();                
             }
-            departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
+            departements = (List<Departement>) (List<?>) hbdao.findAll(new Departement());
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
-    
+
     public String save() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
+            if(!sessionCheck()) return "tolog";
+            if(mine==0) {
+                if (!checkLevel(4)) {
+                return "access";
             }
-            List<Departement> departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
-            User user = new User();            
-            user.setNom(nom);
-            user.setPrenom(prenom);
-            user.setDateNaissance(dateNaissance);
-            user.setDateEmbauche(dateEmbauche);
-            user.setCin(cin);
-            user.setMatricule(matricule);
-            user.setIdentifiant(identifiant);
-            user.setPw(pw);
-            for(Departement d : departements) if(d.getDesignation().compareToIgnoreCase(departement)==0) {
-                user.setDepartement(d);
-                user.setIdDepartement(d.getId());
-                break;
             }
-            if(id!=0) {
-                user.setId(id);
-                User userForPassword = new User(id);
-                hbdao.findById(userForPassword);
-                user.setPw(userForPassword.getPw());
-                hbdao.update(user);
-            } else hbdao.save(user);
+            departements = (List<Departement>) (List<?>) hbdao.findAll(new Departement());
+            User users = new User();
+            users.setNom(nom);
+            users.setPrenom(prenom);
+            users.setDateNaissance(dateNaissance);
+            users.setDateEmbauche(dateEmbauche);
+            users.setCin(cin);
+            users.setMatricule(matricule);
+            users.setIdentifiant(identifiant);
+            users.setPw(pw);
+            for (Departement d : departements) {
+                if (d.getDesignation().compareToIgnoreCase(departement) == 0) {
+                    users.setDepartement(d);
+                    users.setIdDepartement(d.getId());
+                    break;
+                }
+            }
+            if (id != 0) {
+                if(pw.compareTo("")==0) {
+                    User userTemp = new User(id);
+                    hbdao.findById(userTemp);
+                    users.setPw(userTemp.getPw());
+                    users.setIdentifiant(userTemp.getIdentifiant());
+                }
+                users.setId(id);
+                userService.update(users);
+            } else {
+                userService.save(users);
+            }
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
-    
+
     public String liste() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             listeUser = userService.findAll();
-            departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
+            departements = (List<Departement>) (List<?>) hbdao.findAll(new Departement());
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
-    
+
     public String recherche() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
-            listeUser = userService.recherche(critere,departement);
-            departements = (List<Departement>)(List<?>)hbdao.findAll(new Departement());
+            if(!sessionCheck()) return "tolog";
+            listeUser = userService.recherche(critere, departement);
+            departements = (List<Departement>) (List<?>) hbdao.findAll(new Departement());
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
-    
+
     public String delete() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
+            if(!sessionCheck()) return "tolog";
+            if (!checkLevel(4)) {
+                return "access";
             }
-            User userToDelete = new User(id);            
+            User userToDelete = new User(id);
             userService.delete(userToDelete);
+            this.id = 0;
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
             return Action.ERROR;
         }
     }
+
+    //  UTILS
+    
 
     public List<User> getListeUser() {
         return listeUser;
@@ -215,7 +224,7 @@ public class UserAction extends BaseAction {
     public void setDateEmbauche(String dateEmbauche) {
         this.dateEmbauche = dateEmbauche;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -264,5 +273,20 @@ public class UserAction extends BaseAction {
         this.critere = critere;
     }
 
-    
+    public Map getSession() {
+        return session;
+    }
+
+    public void setSession(Map session) {
+        this.session = session;
+    }
+
+    public int getMine() {
+        return mine;
+    }
+
+    public void setMine(int mine) {
+        this.mine = mine;
+    }
+
 }

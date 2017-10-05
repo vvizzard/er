@@ -19,5 +19,8 @@
         <property name = "code" column="code" type="string"/>
         <property name = "famille" column="famille" type="string"/>
         <property name = "emplacement" column="emplacement" type="string"/>
+        <property name="sm" column="sm" type="double"/>                 
+        <property name="sa" column="sa" type="double"/>   
+        <property name="ss" column="ss" type="double"/>                               
     </class>
 </hibernate-mapping>

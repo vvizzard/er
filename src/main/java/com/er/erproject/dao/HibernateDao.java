@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -113,6 +114,7 @@ public class HibernateDao {
         try {
             session = getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(obj.getClass());
+            criteria.addOrder(Order.asc("id"));
             List<BaseModele> valiny = criteria.list();
             return valiny;
         } catch (Exception ex) {

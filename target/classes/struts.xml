@@ -63,6 +63,11 @@
             <result name="error">login.jsp</result>
         </action>
         
+        <action name="logout" class="com.er.erproject.action.LoginAction" method="logout">                 
+            <result name="success">login.jsp</result>            
+            <result name="error">login.jsp</result>
+        </action>
+        
         <action name="lg" class="com.er.erproject.action.LoginAction" method="load">                 
             <result name="success">login.jsp</result>
             <result name="error">login.jsp</result>
@@ -256,9 +261,20 @@
             <result name="error">vue/journal.jsp</result>
         </action>
         
+        <action name="rechercherListeBon" class="com.er.erproject.action.JournalAction" method="recherche">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/journal.jsp</result>
+            <result name="error">vue/journal.jsp</result>
+        </action>
+        
         <action name="newArticle" class="com.er.erproject.action.ArticleAction" method="newArticle">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success">vue/nouvelArticle.jsp</result>
             <result name="error">vue/nouvelArticle.jsp</result>
@@ -268,6 +284,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/ficheArticle.jsp</result>
             <result name="error">vue/ficheArticle.jsp</result>
         </action>
@@ -276,6 +295,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/ficheArticle.jsp</result>
             <result name="error">vue/ficheArticle.jsp</result>
         </action>
@@ -283,6 +305,9 @@
         <action name="addArticle" class="com.er.erproject.action.ArticleAction" method="addArticle">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success" type = "redirectAction">
                 <param name="actionName">listeArticle</param>
@@ -294,6 +319,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success" type = "redirectAction">
                 <param name="actionName">listeArticle</param>
             </result>
@@ -303,6 +331,9 @@
           <action name="deleteFournisseurArticle" class="com.er.erproject.action.ArticleAction" method="deleteFournisseur">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success">vue/ficheArticle.jsp</result>
             <result name="error">vue/ficheArticle.jsp</result>
@@ -320,6 +351,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/famille.jsp</result>
             <result name="error">vue/famille.jsp</result>
         </action>
@@ -327,6 +361,9 @@
         <action name="deleteFamille" class="com.er.erproject.action.FamilleAction" method="deleteFamille">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success">vue/famille.jsp</result>
             <result name="error">vue/famille.jsp</result>
@@ -344,6 +381,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/unite.jsp</result>
             <result name="error">vue/unite.jsp</result>
         </action>
@@ -351,6 +391,9 @@
         <action name="deleteUnite" class="com.er.erproject.action.UniteAction" method="deleteUnite">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success">vue/unite.jsp</result>
             <result name="error">vue/unite.jsp</result>
@@ -367,6 +410,9 @@
         <action name="addUser" class="com.er.erproject.action.UserAction" method="save">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
             </result>
             <result name="success" type = "redirectAction">
                 <param name="actionName">listeUser</param>
@@ -393,7 +439,10 @@
         <action name="deleteUser" class="com.er.erproject.action.UserAction" method="delete">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
-            </result>            
+            </result> 
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>           
             <result name="success" type = "redirectAction">
                 <param name="actionName">listeUser</param>
             </result>            
@@ -404,6 +453,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/departement.jsp</result>
             <result name="error">vue/departement.jsp</result>
         </action>
@@ -412,11 +464,25 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/departement.jsp</result>
             <result name="error">vue/departement.jsp</result>
         </action>
         
         <action name="deleteDepartement" class="com.er.erproject.action.DepartementAction" method="deleteDepartement">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
+            <result name="success">vue/departement.jsp</result>
+            <result name="error">vue/departement.jsp</result>
+        </action>
+        
+        <action name="annulerDepartement" class="com.er.erproject.action.DepartementAction" method="annuler">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
@@ -436,6 +502,9 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/fournisseur.jsp</result>
             <result name="error">vue/fournisseur.jsp</result>
         </action>
@@ -444,11 +513,14 @@
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
+            <result name="access" type = "redirectAction">
+                <param name="actionName">etatInventaire</param>
+            </result>
             <result name="success">vue/fournisseur.jsp</result>
             <result name="error">vue/fournisseur.jsp</result>
         </action>
         
-        <action name="historiqueProjet" class="com.er.erproject.action.ListeHistoriqueAction" method="load">
+        <action name="historiqueProjet" class="com.er.erproject.action.ListeHistoriqueAction" method="historique">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>
@@ -478,6 +550,14 @@
             </result>
             <result name="success">vue/historiquearticle.jsp</result>
             <result name="error">vue/historiquearticle.jsp</result>
+        </action>
+        
+        <action name="historiqueArticleBon" class="com.er.erproject.action.HistoriqueArticleBonAction" method="load">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/listeArticleBon.jsp</result>
+            <result name="error">vue/listeArticleBon.jsp</result>
         </action>
         
     </package>

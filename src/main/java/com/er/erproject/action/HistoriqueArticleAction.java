@@ -6,13 +6,9 @@
 package com.er.erproject.action;
 
 import com.er.erproject.modele.HistoriqueArticle;
-import com.er.erproject.modele.User;
 import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -28,11 +24,7 @@ public class HistoriqueArticleAction extends BaseAction {
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
 //            List<String[]> critere = new ArrayList<>();
 //            String[] ss = new String[2];
 //            ss[0] = "idArticle";
@@ -48,11 +40,7 @@ public class HistoriqueArticleAction extends BaseAction {
     
     public String recherche() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             listeHistorique = UtilService.filtreHistoriqueArticle(debut, fin, hbdao);
             return Action.SUCCESS;
         } catch (Exception ex) {

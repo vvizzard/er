@@ -59,48 +59,121 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                            <div class="row">
-                                                <div class="col-sm-7 col-sm-offset-5">
-                                                    <div id="datatable_filter" class="dataTables_filter">                                                        
-                                                        de <input class="form-control input-sm" type="date" name="debut">                                                        
-                                                        à <input class="form-control input-sm" type="date" name="fin">
+                                        <form method="get" action="">
+                                            <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                                <div class="row">
+
+                                                    <div class="col-md-2">
+                                                        Reference bon
+                                                        <input type="text" value="refBon">
                                                     </div>
-                                                    <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable"></label></div>
+                                                    <div class="col-md-2">
+                                                        Demandeur
+                                                        <input type="text" value="demandeur">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Projet
+                                                        <input type="text" value="projet">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Type<br>
+                                                        <select name="type" style="width: 88%; height: 26px;" value="type">
+                                                            <option<s:if test="%{type==entree}"> selected="true" </s:if>>entree</option>
+                                                            <option<s:if test="%{type==sortie}"> selected="true" </s:if>>sortie</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Article
+                                                            <input type="text" value="article">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Facture
+                                                            <input type="text" value="facture">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">                                                
+                                                        <div class="col-md-2">
+                                                            Date entre
+                                                            <input type="date" value="debut">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            et<br>
+                                                            <input type="date" value="fin">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Nombre min
+                                                            <input type="number" step="0.01" value="nbrMin">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Nombre max
+                                                            <input type="number" step="0.01" value="nbrMax">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Valeur min
+                                                            <input type="number" step="0.01" value="valeurMin">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            Valeur max
+                                                            <input type="number" step="0.01" value="valeurMax">
+                                                        </div>                                                                                                
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-10"></div>
+                                                        <div class="col-md-2">
+                                                            <br>
+                                                            <input type="submit" value="Rechercher" style="width: 90%;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">                                                    
+                                                        <div class="x_title">                                                    
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <script>
+                                                            jQuery(document).ready(function ($) {
+                                                                $(".clickable-row").click(function () {
+                                                                    window.location = $(this).data("href");
+                                                                });
+                                                            });
+                                                        </script>
+                                                        <div class="col-sm-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped jambo_table bulk_action">
+                                                                    <thead>
+                                                                        <tr class="headings">
+                                                                            <th class="column-title">Id </th>
+                                                                            <th class="column-title">Demandeur</th>                                                                    
+                                                                            <th class="column-title">Projet</th>
+                                                                            <th class="column-title">Type</th>
+                                                                            <th class="column-title">Date</th>
+                                                                            <th class="column-title">Facture</th>
+                                                                            <th class="column-title">Article</th>
+                                                                            <th class="column-title">Nombre</th>
+                                                                            <th class="column-title">Valeur</th>
+                                                                            <th class="column-title">Justification</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <s:iterator value="listeHistorique">
+                                                                        <tr class="odd pointer clickable-row" data-href='listeBon?idProjet=<s:property value="getId()"></s:property>'>                                                                        
+                                                                            <td><s:property value="getId()" /></td>
+                                                                            <td><s:property value="getNom()+' '+getPrenom()" /></td>                                                                        
+                                                                            <td><s:if test="%{getType()!='entree'}"><s:property value="getProjet()" /></s:if></td>
+                                                                            <td><s:property value="getType()" /></td>                                                                        
+                                                                            <td><s:property value="getDateString()" /></td>
+                                                                            <td><s:property value="getFacture()" /></td>
+                                                                            <td><s:property value="getArticle()" /></td>
+                                                                            <td><s:property value="getNombre()" /></td>
+                                                                            <td><s:property value="getPrixt()" /></td>
+                                                                            <td><s:property value="getPhoto()" /></td>
+                                                                        </tr>
+                                                                    </s:iterator>                                                                        
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <script>
-                                                    jQuery(document).ready(function ($) {
-                                                        $(".clickable-row").click(function () {
-                                                            window.location = $(this).data("href");
-                                                        });
-                                                    });
-                                                </script>
-                                                <div class="col-sm-12">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped jambo_table bulk_action">
-                                                            <thead>
-                                                                <tr class="headings">
-                                                                    <th class="column-title">Id </th>
-                                                                    <th class="column-title">Projet</th>
-                                                                    <th class="column-title">Date dernière accès </th>                                                                    
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <s:iterator value="listeProjet">
-                                                                    <tr class="odd pointer clickable-row" data-href='listeBon?idProjet=<s:property value="getId()"></s:property>'>                                                                        
-                                                                        <td><s:property value="getId()" /></td>
-                                                                        <td><s:property value="getDesignation()" /></td>
-                                                                        <td><s:property value="getDateString()" /></td>                                                                                                                                               
-                                                                    </tr>
-                                                                </s:iterator>                                                                        
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                         <br>
                                     </div>
                                 </div>

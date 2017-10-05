@@ -119,7 +119,7 @@
                                                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Fournisseur <span class="required">*</span></label>
                                                                         <div class="col-md-10 col-sm-10 col-xs-12 input-group">                                                                        
                                                                             <input type="text" id="dernierFournisseur" onblur="updateIdFournisseur()" class="form-control col-md-7 col-xs-12 typeaheadd" name="dernierFournisseur" value="<s:property value="%{dernierFournisseur}"></s:property>">
-                                                                            <div class="input-group-btn">
+                                                                            <div class="input-group-btn" id="btnGoFournisseur">
                                                                                 <button class="btn goArticle" type="button" style="margin-right: 0px;" data-href='listeFournisseur?idDernierArticle=<s:property value="%{idDernierArticle}"></s:property>&type=1'>...</button>
                                                                             </div>
                                                                         </div>
@@ -142,13 +142,13 @@
                                                                 <div class="form-group" style="margin-bottom: -9px;">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Nombre <span class="">*</span></label>
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" step="0.1" id="first-name" class="form-control col-md-7 col-xs-12" name="nombre">
+                                                                        <input type="number" step="0.01" id="first-name" step="0.01" class="form-control col-md-7 col-xs-12" name="nombre">
                                                                     </div>
                                                                 </div>                              
                                                                 <div class="form-group" style="margin-bottom: -9px;">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Prix unitaire <span class="required">*</span></label>
                                                                     <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                        <input type="number" step="0.1" id="first-name" class="form-control col-md-7 col-xs-12" value="<s:property value="%{prixSelonFournisseur}" />" name="prixSelonFournisseur">
+                                                                        <input type="number" step="0.01" id="first-name" class="form-control col-md-7 col-xs-12" value="<s:property value="%{prixSelonFournisseur}" />" name="prixSelonFournisseur">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group" style="margin-bottom: -9px;">
@@ -289,99 +289,102 @@
     <script src="vendors/typeahead/typeahead.jquery.js"></script>
 
     <script>
-        jQuery(document).ready(function ($) {
-            $(".goArticle").click(function () {
-                window.location = $(this).data("href");
-            });
-            $(".add").click(function () {
-                window.location = "ajouter?codeDernierArticle=" + $('[name="codeDernierArticle"]').val() + "&dernierFournisseur=" + $('[name="dernierFournisseur"]').val() + "&unite=" + $('[name="unite"]').val() + "&nombre=" + $('[name="nombre"]').val() + "&prixSelonFournisseur=" + $('[name="prixSelonFournisseur"]').val() + "&coms=" + $('[name="coms"]').val() + "&idDernierArticle=" + $('[name="idDernierArticle"]').val() + "&idDernierFournisseur=" + $('[name="idDernierFournisseur"]').val();
-            });
-        });
-        (function ($) {
-            $.fn.fillValues = function (options) {
-                var settings = $.extend({
-                    datas: null,
-                    complete: null
-                }, options);
+                                                                                jQuery(document).ready(function ($) {
+                                                                                    $(".goArticle").click(function () {
+                                                                                        window.location = $(this).data("href");
+                                                                                    });
+                                                                                    $(".add").click(function () {
+                                                                                        window.location = "ajouter?codeDernierArticle=" + $('[name="codeDernierArticle"]').val() + "&dernierFournisseur=" + $('[name="dernierFournisseur"]').val() + "&unite=" + $('[name="unite"]').val() + "&nombre=" + $('[name="nombre"]').val() + "&prixSelonFournisseur=" + $('[name="prixSelonFournisseur"]').val() + "&coms=" + $('[name="coms"]').val() + "&idDernierArticle=" + $('[name="idDernierArticle"]').val() + "&idDernierFournisseur=" + $('[name="idDernierFournisseur"]').val();
+                                                                                    });
+                                                                                });
+                                                                                (function ($) {
+                                                                                    $.fn.fillValues = function (options) {
+                                                                                        var settings = $.extend({
+                                                                                            datas: null,
+                                                                                            complete: null
+                                                                                        }, options);
 
-                this.each(function () {
-                    var datas = settings.datas;
-                    if (datas != null) {
-                        $(this).empty();
-                        for (var key in datas) {
-                            $(this).append('<option value="' + key + '"+>' + datas[key] + '</option>');
-                        }
-                    }
-                    if ($.isFunction(settings.complete)) {
-                        settings.complete.call(this);
-                    }
-                });
-            };
-        }(jQuery));
-        $('.typeahead').typeahead({
-            hint: true,
-            highlight: true
-        },
-        {
-            source: function (query, processSync, processAsync) {
-                $.post("listeArticleAutocomplete",
-                        {
-                            debutArticle: "%" + document.getElementById("designationArticle").value + "%",
-                            dataType: JSON
-                        },
-                        function (json) {
-                            return processAsync(json);
-                        });
-            }
-        });
-        function updateIdArticle() {
-            console.log(document.getElementById("designationArticle").value);
-            $.post("idArticleJson",
-                    {
-                        designationArticle: document.getElementById("designationArticle").value,
-                        dataType: JSON
-                    },
-                    function (json) {
-                        console.log(json[0]);
-                        $('[name="idDernierArticle"]').val(json[0]);
-                        console.log($('[name="idDernierArticle"]').val());
-                        console.log(json[1]);
-                        $("#listeUnite").fillValues({datas:json[1]});
-                    });
-        }
-        $('.typeaheadd').typeahead({
-            hint: true,
-            highlight: true
-        },
-        {
-            source: function (query, processSync, processAsync) {
-                $.post("listeFournisseurAutocomplete",
-                    {
-                        debutArticle: "%" + document.getElementById("dernierFournisseur").value + "%",
-                        idDernierArticle: $('[name="idDernierArticle"]').val(),
-                        dataType: JSON
-                    },
-                    function (json) {
-                        return processAsync(json);
-                    });
-            }
-        });
-        function updateIdFournisseur() {
-            console.log(document.getElementById("designationArticle").value);
-            $.post("idFournisseurJson",
-                    {
-                        designationArticle: document.getElementById("dernierFournisseur").value,
-                        idDernierArticle: $('[name="idDernierArticle"]').val(),
-                        dataType: JSON
-                    },
-                    function (json) {
-                        console.log(json[0]);
-                        $('[name="idDernierFournisseur"]').val(json[0]);
-                        console.log($('[name="idDernierFournisseur"]').val());
-                        console.log(json[1]);
-                        $('[name="prixSelonFournisseur"]').val(json[1]);                        
-                    });
-        }
+                                                                                        this.each(function () {
+                                                                                            var datas = settings.datas;
+                                                                                            if (datas != null) {
+                                                                                                $(this).empty();
+                                                                                                for (var key in datas) {
+                                                                                                    $(this).append('<option value="' + datas[key] + '"+>' + datas[key] + '</option>');
+                                                                                                }
+                                                                                            }
+                                                                                            if ($.isFunction(settings.complete)) {
+                                                                                                settings.complete.call(this);
+                                                                                            }
+                                                                                        });
+                                                                                    };
+                                                                                }(jQuery));
+                                                                                $('.typeahead').typeahead({
+                                                                                    hint: true,
+                                                                                    highlight: true
+                                                                                },
+                                                                                        {
+                                                                                            source: function (query, processSync, processAsync) {
+                                                                                                $.post("listeArticleAutocomplete",
+                                                                                                        {
+                                                                                                            debutArticle: "%" + document.getElementById("designationArticle").value + "%",
+                                                                                                            dataType: JSON
+                                                                                                        },
+                                                                                                        function (json) {
+                                                                                                            return processAsync(json);
+                                                                                                        });
+                                                                                            }
+                                                                                        });
+                                                                                function updateIdArticle() {
+                                                                                    console.log(document.getElementById("designationArticle").value);
+                                                                                    $.post("idArticleJson",
+                                                                                            {
+                                                                                                designationArticle: document.getElementById("designationArticle").value,
+                                                                                                dataType: JSON
+                                                                                            },
+                                                                                            function (json) {
+                                                                                                console.log(json[0]);
+                                                                                                $('[name="idDernierArticle"]').val(json[0]);
+//                        $('#btnGoFournisseur').innerHtml="<button class='btn goArticle' type='button' style='margin-right: 0px;' data-href='listeFournisseur?idDernierArticle="+json[0]+"&type=1'>...</button>";
+                                                                                                document.getElementById('btnGoFournisseur').innerHTML = "<a href = 'listeFournisseur?idDernierArticle="+json[0]+"&type=1'><button class='btn goArticle' type='button' style='margin-right: 0px;' data-href='listeFournisseur?idDernierArticle="+json[0]+"&type=1'>...</button></a>";
+//                                                                                                $('#btnGoFournisseur').html = "<a href='#'>test</a>";
+                                                                                                console.log($('[name="idDernierArticle"]').val());
+                                                                                                console.log(json[1]);
+                                                                                                $("#listeUnite").fillValues({datas: json[1]});
+                                                                                            });
+                                                                                }
+                                                                                $('.typeaheadd').typeahead({
+                                                                                    hint: true,
+                                                                                    highlight: true
+                                                                                },
+                                                                                        {
+                                                                                            source: function (query, processSync, processAsync) {
+                                                                                                $.post("listeFournisseurAutocomplete",
+                                                                                                        {
+                                                                                                            debutArticle: "%" + document.getElementById("dernierFournisseur").value + "%",
+                                                                                                            idDernierArticle: $('[name="idDernierArticle"]').val(),
+                                                                                                            dataType: JSON
+                                                                                                        },
+                                                                                                        function (json) {
+                                                                                                            return processAsync(json);
+                                                                                                        });
+                                                                                            }
+                                                                                        });
+                                                                                function updateIdFournisseur() {
+                                                                                    console.log(document.getElementById("designationArticle").value);
+                                                                                    $.post("idFournisseurJson",
+                                                                                            {
+                                                                                                designationArticle: document.getElementById("dernierFournisseur").value,
+                                                                                                idDernierArticle: $('[name="idDernierArticle"]').val(),
+                                                                                                dataType: JSON
+                                                                                            },
+                                                                                            function (json) {
+                                                                                                console.log(json[0]);
+                                                                                                $('[name="idDernierFournisseur"]').val(json[0]);
+                                                                                                console.log($('[name="idDernierFournisseur"]').val());
+                                                                                                console.log(json[1]);
+                                                                                                $('[name="prixSelonFournisseur"]').val(json[1]);
+                                                                                            });
+                                                                                }
     </script>
 
 </body>

@@ -53,7 +53,7 @@
                     <div class="">
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Departement</h3>
+                                <h3>Utilisateur</h3>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -129,7 +129,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <s:if test="getId()==0">
+                                                            <%--<s:if test="getId()==0||getMine()!=0">--%>
                                                             <div class="clearfix"></div>
                                                             <div class="ln_solid"></div>
                                                             <div class="form-group">
@@ -144,13 +144,13 @@
                                                                         <input type="password" id="first-name" class="form-control col-md-7 col-xs-12" name="pw" value="<s:property value="%{pw}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
-                                                            </s:if>
+                                                            <%--</s:if>--%>
                                                             <s:hidden name="id" value="%{id}"></s:hidden>
                                                             </div>
                                                             <div class="clearfix"></div>
                                                             <div class="ln_solid"></div>
                                                             <button class="btn btn-primary col-md-offset-7" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="listeUser"><button class="btn btn-danger" type="button">Annuler</button></a>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -98,8 +98,7 @@
                                                                             </s:if>
                                                                             <s:else>
                                                                                 <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
-                                                                            </s:else>
-                                                                            <option value="<s:property value="getDesignation()" />"><s:property value="getDesignation()" /></option>
+                                                                            </s:else>                                                                            
                                                                         </s:iterator>                                                                                                                                                                    
                                                                     </select>
                                                                 </div>
@@ -107,13 +106,13 @@
                                                             <div class="form-group" style="margin-bottom: -9px;">
                                                                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" style="margin-left: 0px;width: 102px;padding-left: 0px;">Différence<span class="required"></span></label>
                                                                 <div class="col-md-10 col-sm-10 col-xs-12 input-group">
-                                                                    <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" name="difference" value="<s:property value="%{difference}"></s:property>">                                                                            
+                                                                    <input type="number" id="first-name" class="form-control col-md-7 col-xs-12" step="0.01" name="difference" value="<s:property value="%{difference}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
                                                             <s:hidden name="idUnite" value="%{idUnite}"></s:hidden>
                                                             </div>
                                                             <button class="btn btn-primary col-md-offset-9" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="etatUnite"><button class="btn btn-danger" type="button">Annuler</button></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,7 +147,7 @@
                                                                         <tr class="odd pointer">                                                                        
                                                                             <td class="clickable-row" data-href='etatUnite?idUnite=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idReference=<s:property value="getReference().getId()"></s:property>'><s:property value="getId()" /></td>
                                                                             <td class="clickable-row" data-href='etatUnite?idUnite=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idReference=<s:property value="getReference().getId()"></s:property>'><s:property value="getDesignation()" /></td>
-                                                                            <td class="clickable-row" data-href='etatUnite?idUnite=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idReference=<s:property value="getReference().getId()"></s:property>'><s:property value="getReference().getDescription()" /></td>
+                                                                            <td class="clickable-row" data-href='etatUnite?idUnite=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idReference=<s:property value="getReference().getId()"></s:property>'><s:property value="getReference().getDesignation()" /></td>
                                                                             <td class="clickable-row" data-href='etatUnite?idUnite=<s:property value="getId()"></s:property>&designation=<s:property value="getDesignation()"></s:property>&idReference=<s:property value="getReference().getId()"></s:property>'><s:property value="getDifference()" /></td>
                                                                             <td style="padding: 0px;"><button class="btn btn-danger del" data-href="deleteUnite?idUnite=<s:property value="getId()"></s:property>" type="button">Supprimer</button></td>
                                                                             </tr>

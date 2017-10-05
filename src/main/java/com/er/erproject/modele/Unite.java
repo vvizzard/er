@@ -63,6 +63,10 @@ public class Unite extends BaseModele {
     public double getDifference() {
         return difference;
     }
+    
+    public Double getDifferenceD() {
+        return difference;
+    }
 
     public void setDifference(Double difference) {
         if(difference!=null)this.difference = difference;

@@ -52,8 +52,8 @@ public class UniteService {
         try {
             session = hbdao.getSessionFactory().openSession();
             Criteria criteria = session.createCriteria(new Unite().getClass());
-            criteria.add(Restrictions.like("designation", name));
-            list = criteria.list(); 
+            criteria.add(Restrictions.ilike("designation", "%" + name + "%"));
+            list = criteria.list();
             Unite valiny = (Unite) list.get(0);
             Hibernate.initialize(valiny.getReference());
             return valiny;
@@ -78,7 +78,9 @@ public class UniteService {
             Criteria criteria = session.createCriteria(new Unite().getClass());
             criteria.add(Restrictions.sqlRestriction("this_.reference = " + uniteDefaut.getId()));
             list = criteria.list();
-            for(Unite u : list) u.setReference(uniteDefaut);
+            for (Unite u : list) {
+                u.setReference(uniteDefaut);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -89,7 +91,7 @@ public class UniteService {
         }
         return list;
     }
-    
+
     public List<Unite> getEquivalent(String uniteDefaut) {
         Session session = null;
         List<Unite> list = null;
@@ -105,7 +107,7 @@ public class UniteService {
             List<Unite> tempU = tempC.list();
             Criteria criteria = session.createCriteria(new Unite().getClass());
             criteria.add(Restrictions.sqlRestriction("this_.reference = " + tempU.get(0).getId()));
-            list = criteria.list();            
+            list = criteria.list();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -151,14 +153,44 @@ public class UniteService {
         }
     }
 
-    public void save(Unite obj) throws Exception {
+    public void findCompletLent(Unite obj) throws Exception {
+        Session session = null;
         try {
-            double temp = obj.getDifference();
-            hbdao.save(obj);
+            hbdao.findById(obj);
+//            session.load(obj, obj.getId());
+            if (obj.getIdReference() != 0) {
+                Unite ref = new Unite(obj.getIdReference());
+                hbdao.findById(ref);
+                obj.setReference(ref);
+            }
         } catch (NullPointerException npe) {
-            obj.setDifference(0.0);
-            hbdao.save(obj);
+            obj.setIdReference(0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+    }
+
+    public void save(Unite obj) throws Exception {
+        Unite db = null;
+        try {
+            db = findByName(obj.getDesignation());
+        } catch (IndexOutOfBoundsException i) {
+            try {
+                double temp = obj.getDifference();
+                hbdao.save(obj);
+            } catch (NullPointerException npe) {
+                obj.setDifference(0.0);
+                if (db == null) {
+                    hbdao.save(obj);
+                }
+            }
+        }
+
     }
 
     public List<String> findUniteStringByIdArticle(int idArticle) {
@@ -175,14 +207,41 @@ public class UniteService {
                     + "or unite.reference = ("
                     + "	select u.id as idunite from unite u "
                     + "	left join article a "
-                    + "	on a.id_unite = u.id " +
-            "	where a.id = :idArticle)";
-            Query query = session.createSQLQuery(qry);            
+                    + "	on a.id_unite = u.id "
+                    + "	where a.id = :idArticle)";
+            Query query = session.createSQLQuery(qry);
             query.setParameter("idArticle", idArticle);
             List<Object> val = query.list();
             List<String> farany = new ArrayList<>();
             for (Object o : val) {
                 farany.add(o.toString());
+            }
+            return farany;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public List<List<String>> findAllAffichage() {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select u.id, u.designation, u.defaut, e.designation as reference, u.difference from unite u "
+                    + "join unite e on e.id = u.reference";
+            Query query = session.createSQLQuery(qry);
+            List<Object> val = query.list();
+            List<List<String>> farany = new ArrayList<>();
+            for (Object o : val) {
+                List<String> temp = new ArrayList<>();
+                for (int i = 0; i < ((List) o).size(); i++) {
+                    temp.add(o.toString());
+                }
+                farany.add(temp);
             }
             return farany;
         } catch (Exception e) {

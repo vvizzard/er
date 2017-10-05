@@ -5,13 +5,11 @@
  */
 package com.er.erproject.action;
 
-import com.er.erproject.modele.User;
+import com.er.erproject.modele.VueHistoriqueBon;
 import com.er.erproject.modele.VueHistoriqueProjet;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,16 +20,27 @@ import java.util.logging.Logger;
 public class ListeHistoriqueAction extends BaseAction {
 
     private List<VueHistoriqueProjet> listeProjet;
+    
+//  list    
+    private List<VueHistoriqueBon> listeHistorique;
+    
+//  recherche    
+    private String refBon;
+    private String demandeur;
+    private String projet;
+    private String type;
+    private String article;
+    private String facture;    
     private String debut;
     private String fin;
+    private double nbrMin;
+    private double nbrMax;
+    private double valeurMin;
+    private double valeurMax;
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }            
+            if(!sessionCheck()) return "tolog";            
             completeListe();
             return Action.SUCCESS;
         } catch (Exception ex) {
@@ -52,6 +61,17 @@ public class ListeHistoriqueAction extends BaseAction {
             }
         } catch (Exception ex) {
             Logger.getLogger(ListeHistoriqueAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String historique() {
+        try {
+            if(!sessionCheck()) return "tolog";            
+            listeHistorique = (List<VueHistoriqueBon>)(List<?>) hbdao.findAll(new VueHistoriqueBon());
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
         }
     }
 
@@ -77,6 +97,94 @@ public class ListeHistoriqueAction extends BaseAction {
 
     public void setFin(String fin) {
         this.fin = fin;
+    }
+
+    public List<VueHistoriqueBon> getListeHistorique() {
+        return listeHistorique;
+    }
+
+    public void setListeHistorique(List<VueHistoriqueBon> listeHistorique) {
+        this.listeHistorique = listeHistorique;
+    }
+
+    public String getRefBon() {
+        return refBon;
+    }
+
+    public void setRefBon(String refBon) {
+        this.refBon = refBon;
+    }
+
+    public String getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(String demandeur) {
+        this.demandeur = demandeur;
+    }
+
+    public String getProjet() {
+        return projet;
+    }
+
+    public void setProjet(String projet) {
+        this.projet = projet;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public String getFacture() {
+        return facture;
+    }
+
+    public void setFacture(String facture) {
+        this.facture = facture;
+    }
+
+    public double getNbrMin() {
+        return nbrMin;
+    }
+
+    public void setNbrMin(double nbrMin) {
+        this.nbrMin = nbrMin;
+    }
+
+    public double getNbrMax() {
+        return nbrMax;
+    }
+
+    public void setNbrMax(double nbrMax) {
+        this.nbrMax = nbrMax;
+    }
+
+    public double getValeurMin() {
+        return valeurMin;
+    }
+
+    public void setValeurMin(double valeurMin) {
+        this.valeurMin = valeurMin;
+    }
+
+    public double getValeurMax() {
+        return valeurMax;
+    }
+
+    public void setValeurMax(double valeurMax) {
+        this.valeurMax = valeurMax;
     }
     
     

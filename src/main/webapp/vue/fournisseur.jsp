@@ -97,7 +97,7 @@
                                                             <s:hidden name="idFournisseur" value="%{idFournisseur}"></s:hidden>
                                                             </div>
                                                             <button class="btn btn-primary col-md-offset-9" type="submit" >Enregistrer</button>
-                                                            <button class="btn btn-danger" type="button">Annuler</button>
+                                                            <a href="etatFournisseur"><button class="btn btn-danger" type="button">Annuler</button></a>
                                                         </div>
                                                     </div>
                                                 </div>

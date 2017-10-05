@@ -19,6 +19,9 @@ public class VueInventaire extends BaseModele {
     private int idUnite;
     private String unite;
     private String emplacement;
+    private double sm;
+    private double sa;
+    private double ss;
 
     public VueInventaire() {
     }
@@ -98,5 +101,30 @@ public class VueInventaire extends BaseModele {
     public void setEmplacement(String emplacement) {
         this.emplacement = emplacement;
     }
+
+    public double getSm() {
+        return sm;
+    }
+
+    public void setSm(double sm) {
+        this.sm = sm;
+    }
+
+    public double getSa() {
+        return sa;
+    }
+
+    public void setSa(double sa) {
+        this.sa = sa;
+    }
+
+    public double getSs() {
+        return ss;
+    }
+
+    public void setSs(double ss) {
+        this.ss = ss;
+    }
         
+    
 }

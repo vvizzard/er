@@ -10,5 +10,6 @@
     
     <bean id="loginAction" class="com.er.erproject.action.LoginAction">
         <property name="hbdao" ref="hbdao" />
+        <property name="userService" ref="userService" />
     </bean>
 </beans>

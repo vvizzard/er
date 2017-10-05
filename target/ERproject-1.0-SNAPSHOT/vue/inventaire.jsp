@@ -55,11 +55,33 @@
                         <div class="clearfix"></div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_title">
-                                        <h2>Etat de stock</h2>
-                                        <div class="clearfix"></div>
-                                    </div>
+                                <div class="x_panel">                                    
+                                    <div class="row tile_count" style="margin-bottom: 20px; margin-top: 20px;">
+                                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" >
+                                            <h2>Etat de stock</h2>
+                                        </div>                                        
+                                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
+                                            <span class="count_top"> Stock minimal</span>
+                                            <s:if test="%{nbrSM!=0}"><a href="rechercheInventaire?typeFiltreS=sm&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></s:else>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
+                                                <span class="count_top"> Stock d'alerte</span>
+                                            <s:if test="%{nbrSA!=0}"><a href="rechercheInventaire?typeFiltreS=sa&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></s:else>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
+                                                <span class="count_top"> Stock de sécurité</span>
+                                            <s:if test="%{nbrSS!=0}"><a href="rechercheInventaire?typeFiltreS=ss&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></s:else>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
+                                                <span class="count_top"> Nombre totale</span>
+                                                <a href="etatInventaire"><div class="count" style="text-align: right;"><s:property value="%{totalArticle}"/></div></a>
+                                        </div>
+                                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
+                                            <span class="count_top"><i class="fa fa-usd" aria-hidden="true"></i> Valeur de stock</span>
+                                            <div class="count" style="text-align: right;"><s:property value="%{totalValeur}"/></div>
+                                        </div>
+                                    </div>   
+
                                     <div class="x_content">
                                         <form method="get" action="rechercheInventaire">
                                             <br />
@@ -106,7 +128,7 @@
                                                             <table id="table" class="table table-striped jambo_table bulk_action">
                                                                 <thead>
                                                                     <tr class="headings">
-                                                                        <th class="column-title">Id </th>
+                                                                        <th class="column-title"> </th>
                                                                         <th class="column-title">Reference</th>
                                                                         <th class="column-title">Designation </th>
                                                                         <th class="column-title">Famille</th>
@@ -119,7 +141,7 @@
                                                                 <tbody>
                                                                     <s:iterator value="listeInventaire">
                                                                         <tr class="odd pointer" id="tr<s:property value="getId()" />">                                                                        
-                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getId()" /></td>
+                                                                            <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:if test="%{getNombre()<getSm()&&getNombre()>getSa()}"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:rgb(191, 178, 0);"></i></s:if><s:if test="%{getNombre()<getSa()&&getNombre()>getSs()}"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:#FF5722;"></i></s:if><s:if test="%{getNombre()<getSs()}"><i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="font-size: 20px; color:#F44336;"></i></s:if></td>
                                                                             <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getCode()" /></td> 
                                                                             <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getArticle()" /></td>  
                                                                             <td class="clickable-row" data-href='historiqueArticle?idArticle=<s:property value="getId()"></s:property>&article=<s:property value="getArticle()" />'><s:property value="getFamille()"/></td>

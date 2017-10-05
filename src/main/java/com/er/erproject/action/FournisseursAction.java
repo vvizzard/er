@@ -5,12 +5,10 @@
  */
 package com.er.erproject.action;
 
-import com.er.erproject.modele.User;
 import com.er.erproject.modele.Fournisseur;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -23,11 +21,7 @@ public class FournisseursAction extends BaseAction {
     
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             listeFournisseur = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());
             return Action.SUCCESS;
         } catch (Exception ex) {
@@ -45,11 +39,10 @@ public class FournisseursAction extends BaseAction {
     
     public String save() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }            
+            if(!sessionCheck()) return "tolog";     
+            if (!checkLevel(3)) {
+                return "access";
+            }
             Fournisseur fournisseur = new Fournisseur();            
             fournisseur.setNom(nom);
             fournisseur.setEmplacement(emplacement);
@@ -57,7 +50,10 @@ public class FournisseursAction extends BaseAction {
             if(idFournisseur!=0) {
                 fournisseur.setId(idFournisseur);                                                
                 hbdao.update(fournisseur);
-            } else hbdao.save(fournisseur);
+            } else {
+                if(UtilService.checkDoublonFournisseur(fournisseur, hbdao))
+                hbdao.save(fournisseur);
+            }
             listeFournisseur = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());
             clean();
             return Action.SUCCESS;
@@ -69,14 +65,14 @@ public class FournisseursAction extends BaseAction {
     
     public String delete() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
+            if(!sessionCheck()) return "tolog";
+            if (!checkLevel(3)) {
+                return "access";
             }
             Fournisseur fournisseurToDelete = new Fournisseur(idFournisseur);            
             hbdao.delete(fournisseurToDelete);
             listeFournisseur = (List<Fournisseur>)(List<?>)hbdao.findAll(new Fournisseur());
+            this.idFournisseur = 0;
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();

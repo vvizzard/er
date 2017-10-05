@@ -7,12 +7,9 @@ package com.er.erproject.action;
 
 import com.er.erproject.modele.Bon;
 import com.er.erproject.modele.Projet;
-import com.er.erproject.modele.User;
 import com.er.erproject.service.BonService;
 import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -23,15 +20,25 @@ public class JournalAction extends BaseAction {
     private List<Bon> listeBon;
     private BonService bonService;
     private int idProjet;
+    private int valueId;
+    private String valueDemandeur;
+    private String valueDate;    
 
     public String load() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             listeBon = bonService.findAll();
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+    
+    public String recherche() {
+        try {
+            if(!sessionCheck()) return "tolog";
+            listeBon = bonService.rechercher(valueId, valueDemandeur, valueDate);
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -41,11 +48,7 @@ public class JournalAction extends BaseAction {
     
     public String listeBon() {
         try {
-            Map session = ActionContext.getContext().getSession();
-            user = (User)session.get("user");
-            if (!checkUser()) {
-                return "tolog";
-            }
+            if(!sessionCheck()) return "tolog";
             Projet projetTemp = new Projet(idProjet);
             listeBon = bonService.rechercher(projetTemp);
             return Action.SUCCESS;
@@ -77,6 +80,30 @@ public class JournalAction extends BaseAction {
 
     public void setIdProjet(int idProjet) {
         this.idProjet = idProjet;
+    }
+
+    public int getValueId() {
+        return valueId;
+    }
+
+    public void setValueId(int valueId) {
+        this.valueId = valueId;
+    }
+
+    public String getValueDemandeur() {
+        return valueDemandeur;
+    }
+
+    public void setValueDemandeur(String valueDemandeur) {
+        this.valueDemandeur = valueDemandeur;
+    }
+
+    public String getValueDate() {
+        return valueDate;
+    }
+
+    public void setValueDate(String valueDate) {
+        this.valueDate = valueDate;
     }
     
     

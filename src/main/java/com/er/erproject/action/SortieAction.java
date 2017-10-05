@@ -19,6 +19,7 @@ import com.er.erproject.service.CodeBarreService;
 import com.er.erproject.service.InventaireService;
 import com.er.erproject.service.PdfService;
 import com.er.erproject.service.UniteService;
+import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
@@ -35,8 +36,7 @@ import org.apache.commons.io.FilenameUtils;
  * @author vvizard
  */
 public class SortieAction extends BaseAction {
-
-    private Map session;
+    
     private Bon bon;
     private int idDernierArticle;
     private String codeDernierArticle = "";
@@ -68,7 +68,7 @@ public class SortieAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             //  envoyer bon dans la session
             bon = new Bon();
@@ -76,6 +76,7 @@ public class SortieAction extends BaseAction {
             bon.setDate(Calendar.getInstance().getTime());
             bon.setDemandeur(user);
             //bon.setListeArticle(listeArticle);
+            session = ActionContext.getContext().getSession();
             session.put("bon", bon);
             return Action.SUCCESS;
         } catch (Exception ex) {
@@ -85,15 +86,30 @@ public class SortieAction extends BaseAction {
     }
     
     public String annuler() {
-        clean();
-        return Action.SUCCESS;
+        try {
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            clean();
+            session = ActionContext.getContext().getSession();
+            bon = (Bon) session.get("bon");
+            bon = new Bon();
+            bon.setType("sortie");
+            bon.setDate(Calendar.getInstance().getTime());
+            bon.setDemandeur(user);
+            session.put("bon", bon);
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            Logger.getLogger(SortieAction.class.getName()).log(Level.SEVERE, null, ex);
+            return Action.ERROR;
+        }
     }
 
     public String ajoutDemandeur() {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  load demandeur
@@ -124,13 +140,13 @@ public class SortieAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  loadProjet
             loadProjet();
             //  load article en cours
-            loadArticleEnCours();
+//            loadArticleEnCours();
             //  demandeur
             demandeur();
             //  listeArticle
@@ -160,7 +176,7 @@ public class SortieAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             bon = (Bon) session.get("bon");
             //  load article en cours
@@ -190,7 +206,7 @@ public class SortieAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
 
             Article temp = new Article();
@@ -230,7 +246,7 @@ public class SortieAction extends BaseAction {
         try {
             //  check session
             if (!sessionCheck()) {
-                return Action.ERROR;
+                return "tolog";
             }
             //  get bon
             bon = (Bon) session.get("bon");
@@ -287,11 +303,7 @@ public class SortieAction extends BaseAction {
     }
 
 //  UTILS
-    private boolean sessionCheck() throws Exception {
-        session = ActionContext.getContext().getSession();
-        user = (User) session.get("user");
-        return checkUser();
-    }
+    
 
     private void loadArticleEnCours() {
         articleEnCours = new ArticleBon();
@@ -349,13 +361,11 @@ public class SortieAction extends BaseAction {
     }
 
     private void setUnites(ArticleBon ab) throws Exception {
-        int idu = ab.getIdUnite();
-        Unite tp = new Unite(ab.getIdUnite());
-        hbdao.findById(tp);
-        List<Unite> temp = uniteService.getEquivalent(tp);
-        temp.add(tp);
+        List<Unite> temp = uniteService.getEquivalent(ab.getUnite());
+        temp.add(ab.getUnite());
         for (Unite u : temp) {
             if (u.getDesignation().compareToIgnoreCase(unite) == 0) {
+                uniteService.findCompletLent(u);
                 ab.setUnite(u);
                 break;
             }
@@ -369,7 +379,7 @@ public class SortieAction extends BaseAction {
         this.codeDernierArticle = "";
         this.coms = "";
         this.dernierProjet = "";
-        this.prixSelonProjet = 0;
+        this.prixSelonProjet = 0;        
     }
 
 //  GETTERS AND SETTERS    

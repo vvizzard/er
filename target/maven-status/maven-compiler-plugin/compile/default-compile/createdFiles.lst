@@ -39,6 +39,7 @@ com\er\erproject\action\HistoriqueArticleAction.class
 com\er\erproject\modele\User.class
 com\er\erproject\service\PdfService.class
 com\er\erproject\modele\Inventaire.class
+com\er\erproject\modele\VueHistoriqueBon.class
 com\er\erproject\modele\Famille.class
 com\er\erproject\modele\Fournisseur.class
 com\er\erproject\action\ListeHistoriqueAction.class
@@ -49,6 +50,7 @@ com\er\erproject\action\FournisseurAction.class
 com\er\erproject\service\PdfService$1.class
 com\er\erproject\action\InventaireAction.class
 com\er\erproject\action\FournisseursAction.class
+com\er\erproject\action\HistoriqueArticleBonAction.class
 com\er\erproject\action\UniteAction.class
 com\er\erproject\modele\HistoriqueArticle.class
 com\er\erproject\action\LoginAction.class

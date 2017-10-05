@@ -41,43 +41,86 @@ public class ArticleService extends BaseService {
     }
 
     public void save(Article a) throws Exception {
-        hbdao.save(a);
-        for (AssociationArticleFournisseur aaf : a.getAssociationArticleFournisseur()) {
-            aaf.setId1(a.getId());
-            hbdao.save(aaf);
-        }
-        for (AssociationArticleUnite aau : a.getAssociationArticleUnite()) {
-            aau.setId1(a.getId());
-            hbdao.save(aau);
+        Article verif = new Article();
+        try {
+            verif = this.findByName(a.getDesignation());
+            if (verif.getIdUnite() != 0 && verif.getIdFamille() != 0 && verif.getLimite() != 0) {
+                throw new Exception("Redondance d'article");
+            }
+        } catch (IndexOutOfBoundsException i) {
+            hbdao.save(a);
+            for (AssociationArticleFournisseur aaf : a.getAssociationArticleFournisseur()) {
+                aaf.setId1(a.getId());
+                hbdao.save(aaf);
+            }
+            for (AssociationArticleUnite aau : a.getAssociationArticleUnite()) {
+                aau.setId1(a.getId());
+                hbdao.save(aau);
+            }
         }
     }
 
     public void save(Article a, String inventaire) throws Exception {
-        hbdao.save(a);
-        Inventaire iTemp = new Inventaire();
-        iTemp.setArticle(a);
-//        Unite uTemp = new Unite(a.getIdUnite());
-//        hbdao.findById(uTemp);
-        iTemp.setId1(a.getId());
-        iTemp.setId2(a.getIdUnite());
-        iTemp.setValeur(0);
-        iTemp.setMontant(0);
-        inventaireService.save(iTemp);
+        Article verif = new Article();
+        try {
+            verif = this.findByName(a.getDesignation());
+            if (verif.getIdUnite() != 0 && verif.getIdFamille() != 0 && verif.getLimite() != 0) {
+                throw new Exception("Redondance d'article");
+            }
+        } catch (IndexOutOfBoundsException i) {
+            hbdao.save(a);
+            Inventaire iTemp = new Inventaire();
+            iTemp.setArticle(a);
+            iTemp.setId1(a.getId());
+            iTemp.setId2(a.getIdUnite());
+            iTemp.setValeur(0);
+            iTemp.setMontant(0);
+            inventaireService.save(iTemp);
+        }
+    }
+
+    public Inventaire findInventaire(int idArticle) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from inventaire "
+                    + "where id_article = :idArticle ";
+            Query query = session.createSQLQuery(qry).addEntity(Inventaire.class);
+            query.setParameter("idArticle", idArticle);
+            List<Inventaire> val = query.list();
+            return val.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public void delete(Article a) throws Exception {
         find(a);
-        List<AssociationArticleFournisseur> aaf = a.getAssociationArticleFournisseur();
-        for (AssociationArticleFournisseur aafT : aaf) {
-            hbdao.delete(aafT);
+
+        try {
+            List<AssociationArticleFournisseur> aaf = a.getAssociationArticleFournisseur();
+            for (AssociationArticleFournisseur aafT : aaf) {
+                hbdao.delete(aafT);
+            }
+        } catch (NullPointerException npe) {
+        }
+        try {
+            List<Unite> listeU = a.getUnites();
+
+            List<AssociationArticleUnite> aau = a.getAssociationArticleUnite();
+            for (AssociationArticleUnite aafT : aau) {
+                hbdao.delete(aafT);
+            }
+        } catch (NullPointerException npe) {
         }
 
-        List<Unite> listeU = a.getUnites();
-
-        List<AssociationArticleUnite> aau = a.getAssociationArticleUnite();
-        for (AssociationArticleUnite aafT : aau) {
-            hbdao.delete(aafT);
-        }
+        Inventaire i = findInventaire(a.getId());
+        hbdao.delete(i);
         hbdao.delete(a);
     }
 
@@ -142,7 +185,7 @@ public class ArticleService extends BaseService {
 
     public List<String> find(String nom) {
         Session session = null;
-        try {            
+        try {
             session = hbdao.getSessionFactory().openSession();
             String qry = "select designation from article where designation ilike :aa order by designation asc";
             Query query = session.createSQLQuery(qry);
@@ -157,13 +200,34 @@ public class ArticleService extends BaseService {
             e.printStackTrace();
             throw e;
         } finally {
-            if(session != null) session.close();
-        }        
+            if (session != null) {
+                session.close();
+            }
+        }
     }
-    
+
+    public Article findByName(String nom) {
+        Session session = null;
+        try {
+            session = hbdao.getSessionFactory().openSession();
+            String qry = "select * from article where designation = :aa";
+            Query query = session.createSQLQuery(qry).addEntity(Article.class);
+            query.setParameter("aa", nom);
+            List<Article> val = query.list();
+            return val.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public String findNombreDisponible(int idArticle) {
         Session session = null;
-        try {            
+        try {
             session = hbdao.getSessionFactory().openSession();
             String qry = "select nombre from inventaire where id_article = :aa";
             Query query = session.createSQLQuery(qry);
@@ -174,10 +238,12 @@ public class ArticleService extends BaseService {
             e.printStackTrace();
             throw e;
         } finally {
-            if(session != null) session.close();
-        }        
+            if (session != null) {
+                session.close();
+            }
+        }
     }
-    
+
     public List<VueListeArticle> filtreArticle(String critere, String famille, String emplacement) {
         Session session = null;
         int check = 0;
@@ -189,18 +255,22 @@ public class ArticleService extends BaseService {
             if (famille.compareTo("Famille") != 0) {
                 qryP1 += " and famille = :fm";
                 qryP2 += " and famille = :fm";
-                check+=1;
+                check += 1;
             }
             if (emplacement.compareTo("Emplacement") != 0) {
                 qryP1 += " and emplacement = :ep";
                 qryP2 += " and emplacement = :ep";
-                check+=2;
+                check += 2;
             }
-            String qry = qryP1+qryP2;
+            String qry = qryP1 + qryP2;
             Query query = session.createSQLQuery(qry).addEntity(VueListeArticle.class);
             query.setParameter("critere", "%" + critere + "%");
-            if(check == 1 || check == 3)query.setParameter("fm", famille);
-            if(check == 2 || check == 3)query.setParameter("ep", emplacement);
+            if (check == 1 || check == 3) {
+                query.setParameter("fm", famille);
+            }
+            if (check == 2 || check == 3) {
+                query.setParameter("ep", emplacement);
+            }
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
