@@ -23,31 +23,34 @@
         <br />
 
         <!-- sidebar menu -->
-        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">            
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
                     <li><a href="etatInventaire"><i class="fa fa-list-alt" aria-hidden="true"></i> Stock </a></li>
-                    <li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Entrée </a></li>
-                    <li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Sortie </a></li>
-                    <li><a href="historiqueProjet"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
+                    <s:if test="%{getUser().getDepartement().getNiveau()>1}"><li><a href="entree"><i class="fa fa-sign-in" aria-hidden="true"></i> Entrée </a></li></s:if>
+                    <s:if test="%{getUser().getDepartement().getNiveau()>1}"><li><a href="loadSortie"><i class="fa fa-sign-out" aria-hidden="true"></i> Sortie </a></li></s:if>
+                    <li><a href="rechercheHistoriqueProjet?refBon=&demandeur=&projet=&type=Tout&article=&facture=&debut=&fin=&nbrMin=0.0&nbrMax=0.0&valeurMin=0.0&valeurMax=0.0&page=1"><i class="fa fa-history" aria-hidden="true"></i> Historiques </a></li>
                 </ul>
             </div>
-            <div class="menu_section">
-                <h3>Modification</h3>
-                <ul class="nav side-menu">
-                    <!--<li><a href="newArticle"><i class="fa fa-ticket" aria-hidden="true"></i> Articles </a></li>-->
-                    <li><a><i class="fa fa-ticket" aria-hidden="true"></i> Articles <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="newArticle">Ajouter un nouveau</a></li>
-                            <li><a href="listeArticle">liste</a></li>                            
-                        </ul>
-                    </li>
-                    <li><a href="etatFournisseur"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Fournisseurs </a></li>
-                    <li><a href="etatUnite"><i class="fa fa-gg-circle" aria-hidden="true"></i> Unités </a></li>
-                    <li><a href="etatFamille"><i class="fa fa-object-group" aria-hidden="true"></i> Familles </a></li>
-                </ul>
-            </div>
+            <s:if test="%{getUser().getDepartement().getNiveau()>2}">
+                <div class="menu_section">
+                    <h3>Modification</h3>
+                    <ul class="nav side-menu">
+                        <!--<li><a href="newArticle"><i class="fa fa-ticket" aria-hidden="true"></i> Articles </a></li>-->
+                        <li><a><i class="fa fa-ticket" aria-hidden="true"></i> Articles <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="newArticle">Ajouter un nouveau</a></li>
+                                <li><a href="listeArticle">liste</a></li>                            
+                            </ul>
+                        </li>
+                        <li><a href="etatFournisseur"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Fournisseurs </a></li>
+                        <li><a href="etatUnite"><i class="fa fa-gg-circle" aria-hidden="true"></i> Unités </a></li>
+                        <li><a href="etatFamille"><i class="fa fa-object-group" aria-hidden="true"></i> Familles </a></li>
+                    </ul>
+                </div>
+            </s:if>
+            <s:if test="%{getUser().getDepartement().getNiveau()>3}">
             <div class="menu_section">
                 <h3>Personnels</h3>
                 <ul class="nav side-menu">
@@ -61,6 +64,7 @@
                     <li><a href="loadDepartement"><i class="fa fa-building-o" aria-hidden="true"></i> Départements </a></li>                    
                 </ul>
             </div>
+            </s:if>
         </div>
         <!-- /sidebar menu -->
 

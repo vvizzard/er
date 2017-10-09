@@ -89,7 +89,7 @@ public class BonService extends BaseService {
             if (check - 1 >= 0) {
                 query.setParameter("ppj", id);
             }
-            List<Bon> valiny = query.list();            
+            List<Bon> valiny = query.list();
             return valiny;
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,13 +102,13 @@ public class BonService extends BaseService {
     }
 
     public void save(Bon bon) throws Exception {
-        String cheminPhoto = "E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/";
+        String cheminPhoto = "preuveEntree/";
         hbdao.save(bon);
         if (bon.getFilePhoto() != null) {
             UtilService.saveImg(bon.getFilePhoto(), cheminPhoto, "photo" + bon.getId() + ".jpg");
+            bon.setPhoto("preuveEntree/photo" + bon.getId() + ".jpg");
+            hbdao.update(bon);
         }
-        bon.setPhoto("preuveEntree/photo" + bon.getId() + ".jpg");
-        hbdao.update(bon);
         List<ArticleBon> bonTemp = bon.getListeArticle();
         for (ArticleBon ab : bonTemp) {
             AssociationArticleBon temporaire = new AssociationArticleBon();

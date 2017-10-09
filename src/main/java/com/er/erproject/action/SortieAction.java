@@ -23,6 +23,7 @@ import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,7 +37,7 @@ import org.apache.commons.io.FilenameUtils;
  * @author vvizard
  */
 public class SortieAction extends BaseAction {
-    
+
     private Bon bon;
     private int idDernierArticle;
     private String codeDernierArticle = "";
@@ -62,6 +63,7 @@ public class SortieAction extends BaseAction {
     private String facture = "";
     private UniteService uniteService;
     private List<Unite> listeU;
+    FileInputStream fileInputStream;
     //private final String cheminPhoto = "E:/vvizard/Projet en cours/preuveEntree/";
 
     public String load() {
@@ -84,7 +86,7 @@ public class SortieAction extends BaseAction {
             return Action.ERROR;
         }
     }
-    
+
     public String annuler() {
         try {
             if (!sessionCheck()) {
@@ -252,11 +254,16 @@ public class SortieAction extends BaseAction {
             bon = (Bon) session.get("bon");
             //  add demandeur to bon
             User demandeur = null;
-            if (idDemandeur != 0) demandeur = new User(idDemandeur);
-            else if(nomPrenomDemandeur.compareTo("")!=0) {
+            if (idDemandeur != 0) {
+                demandeur = new User(idDemandeur);
+            } else if (nomPrenomDemandeur.compareTo("") != 0) {
                 String[] np = nomPrenomDemandeur.split(" ");
-                List<User> listeUs = (List<User>)(List<?>)hbdao.findAll(new User());
-                for(User u : listeUs) if(u.getNom().compareTo(np[0])==0&&u.getPrenom().compareTo(np[1])==0) demandeur = u;
+                List<User> listeUs = (List<User>) (List<?>) hbdao.findAll(new User());
+                for (User u : listeUs) {
+                    if (u.getNom().compareTo(np[0]) == 0 && u.getPrenom().compareTo(np[1]) == 0) {
+                        demandeur = u;
+                    }
+                }
             }
 //            hbdao.findById(demandeur);
             bon.setDemandeur(demandeur);
@@ -288,6 +295,13 @@ public class SortieAction extends BaseAction {
 //            }
 
             PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(), "er", "telma");
+            try {
+                File fileToDownload = new File("E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/bonDeSortie.pdf");
+                String fileName = fileToDownload.getName();
+                fileInputStream = new FileInputStream(fileToDownload);
+            } catch (Exception e) {
+                return Action.ERROR;
+            }
             clean();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -302,9 +316,52 @@ public class SortieAction extends BaseAction {
         return Action.SUCCESS;
     }
 
-//  UTILS
-    
+    public String download() {
+        try {
+            //  check session
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            //  get bon
+            bon = (Bon) session.get("bon");
+            //  add demandeur to bon
+            User demandeur = null;
+            if (idDemandeur != 0) {
+                demandeur = new User(idDemandeur);
+                hbdao.findById(demandeur);
+            } else if (nomPrenomDemandeur.compareTo("") != 0) {
+                String[] np = nomPrenomDemandeur.split(" ");
+                List<User> listeUs = (List<User>) (List<?>) hbdao.findAll(new User());
+                for (User u : listeUs) {
+                    if (u.getNom().compareTo(np[0]) == 0 && u.getPrenom().compareTo(np[1]) == 0) {
+                        demandeur = u;
+                    }
+                }
+            } else demandeur = user;
+//            hbdao.findById(demandeur);
+            bon.setDemandeur(demandeur);
+            //  add date to bon
+            if (dateToday.compareTo("") != 0) {
+                bon.setDate(dateToday);
+            }
+            //  add projet to bon
+            setProjet(bon);
+            //  add photos to bon
+//            bon.setFilePhoto(photos);
+//            String extension = FilenameUtils.getExtension(photos.getName());              
+            
+            bon.setFacture(facture);
+            PdfService tester = new PdfService(bon, Calendar.getInstance().getTime(), "er", "telma");
+            File fileToDownload = new File("preuveEntree/bonDeSortie.pdf");
+            String fileName = fileToDownload.getName();
+            fileInputStream = new FileInputStream(fileToDownload);
+            return Action.SUCCESS;
+        } catch (Exception e) {
+            return Action.ERROR;
+        }
+    }
 
+//  UTILS
     private void loadArticleEnCours() {
         articleEnCours = new ArticleBon();
         Article temporaire = new Article();
@@ -379,7 +436,7 @@ public class SortieAction extends BaseAction {
         this.codeDernierArticle = "";
         this.coms = "";
         this.dernierProjet = "";
-        this.prixSelonProjet = 0;        
+        this.prixSelonProjet = 0;
     }
 
 //  GETTERS AND SETTERS    
@@ -589,6 +646,14 @@ public class SortieAction extends BaseAction {
 
     public void setListeU(List<Unite> listeU) {
         this.listeU = listeU;
+    }
+
+    public FileInputStream getFileInputStream() {
+        return fileInputStream;
+    }
+
+    public void setFileInputStream(FileInputStream fileInputStream) {
+        this.fileInputStream = fileInputStream;
     }
 
 }

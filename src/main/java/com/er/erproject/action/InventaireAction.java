@@ -13,6 +13,9 @@ import com.er.erproject.service.UniteService;
 import com.er.erproject.service.UtilService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,7 @@ import java.util.Map;
  */
 public class InventaireAction extends BaseAction {
 //    private Map session;
+
     private List<VueInventaire> listeInventaire;
     private InventaireService inventaireService;
     private UniteService uniteService;
@@ -32,10 +36,13 @@ public class InventaireAction extends BaseAction {
     private List<String> listeEmplacement;
     private String totalValeur;
     private String nbrSM = "0", nbrSA = "0", nbrSS = "0", typeFiltreS = "0", totalArticle = "0";
+    private FileInputStream fileInputStream;
 
     public String load() {
-        try {                        
-            if(!sessionCheck()) return "tolog";
+        try {
+            if (!sessionCheck()) {
+                return "tolog";
+            }
             listeInventaire = UtilService.listeVueInventaire(hbdao);
             listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
             listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
@@ -52,11 +59,28 @@ public class InventaireAction extends BaseAction {
             return Action.ERROR;
         }
     }
-    
+
+    public String download() {
+        try {
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            File fileToDownload = new File("E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/Inventaire.pdf");
+            String fileName = fileToDownload.getName();
+            fileInputStream = new FileInputStream(fileToDownload);
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+
     public String recherche() {
         try {
-            if(!sessionCheck()) return "tolog";
-            listeInventaire = (List<VueInventaire>)(List<?>)UtilService.filtreInventaire(critere, famille, emplacement, typeFiltreS, hbdao);
+            if (!sessionCheck()) {
+                return "tolog";
+            }
+            listeInventaire = (List<VueInventaire>) (List<?>) UtilService.filtreInventaire(critere, famille, emplacement, typeFiltreS, hbdao);
             listeFamille = UtilService.listeString("vueinventaire", "famille", hbdao);
             listeEmplacement = UtilService.listeString("vueinventaire", "emplacement", hbdao);
             totalValeur = inventaireService.findValeurTotal();
@@ -70,8 +94,6 @@ public class InventaireAction extends BaseAction {
             return Action.ERROR;
         }
     }
-    
-    
 
     public List<VueInventaire> getListeInventaire() {
         return listeInventaire;
@@ -87,7 +109,7 @@ public class InventaireAction extends BaseAction {
 
     public void setInventaireService(InventaireService inventaireService) {
         this.inventaireService = inventaireService;
-    }        
+    }
 
     public UniteService getUniteService() {
         return uniteService;
@@ -111,7 +133,7 @@ public class InventaireAction extends BaseAction {
 
     public void setEmplacement(String emplacement) {
         this.emplacement = emplacement;
-    }        
+    }
 
     public String getCritere() {
         return critere;
@@ -119,7 +141,7 @@ public class InventaireAction extends BaseAction {
 
     public void setCritere(String critere) {
         this.critere = critere;
-    }        
+    }
 
     public List<String> getListeFamille() {
         return listeFamille;
@@ -192,6 +214,14 @@ public class InventaireAction extends BaseAction {
     public void setTotalArticle(String totalArticle) {
         this.totalArticle = totalArticle;
     }
-        
+
+    public FileInputStream getFileInputStream() {
+        return fileInputStream;
+    }
+
+    public void setFileInputStream(FileInputStream fileInputStream) {
+        this.fileInputStream = fileInputStream;
+    }
+    
     
 }

@@ -71,13 +71,14 @@
                                                             <div class="clearfix"></div>
                                                         </div>
                                                         <div class="x_content" style="margin-top: -15px;">
-                                                            <br />                                                            
-                                                            <div class="clearfix"></div>
-                                                            <div class="ln_solid"></div>
-                                                            <div class="form-group">
-                                                                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" >Nom <span class="required">*</span></label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="nom" value="<s:property value="%{nom}"></s:property>">                                                                            
+                                                            <br />  
+                                                            <s:if test="%{getError()!=''}"><p style="color: red;" class="form-control">Compte existant!</p></s:if>
+                                                                <div class="clearfix"></div>
+                                                                <div class="ln_solid"></div>
+                                                                <div class="form-group">
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" >Nom <span class="required">*</span></label>
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="nom" value="<s:property value="%{nom}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -115,11 +116,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" >Département <span class="required"></span></label>
+                                                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12" >Accès <span class="required"></span></label>
                                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                                         <select id="first-name" class="form-control col-md-7 col-xs-12" name="departement">                                                                            
                                                                         <s:iterator value="departements">
-                                                                            <s:if test="getDesignation()==#getDepartement()">
+                                                                            <s:if test="getDesignation()==getDepartement()">
                                                                                 <option value="<s:property value="getDesignation()" />" selected ><s:property value="getDesignation()" /></option>
                                                                             </s:if>
                                                                             <s:else>
@@ -135,13 +136,13 @@
                                                             <div class="form-group">
                                                                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Identifiant <span class="required"></span></label>
                                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="identifiant" value="<s:property value="%{identifiant}"></s:property>">                                                                            
+                                                                    <input type="text" id="first-name" <s:if test="%{getError()!=''}">style = "border-color: red;"</s:if> class="form-control col-md-7 col-xs-12" name="identifiant" value="<s:property value="%{identifiant}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Mot de passe <span class="required"></span></label>
                                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                        <input type="password" id="first-name" class="form-control col-md-7 col-xs-12" name="pw" value="<s:property value="%{pw}"></s:property>">                                                                            
+                                                                            <input type="password" <s:if test="%{getError()!=''}">style = "border-color: red;"</s:if> id="first-name" class="form-control col-md-7 col-xs-12" name="pw" value="<s:property value="%{pw}"></s:property>">                                                                            
                                                                     </div>
                                                                 </div>
                                                             <%--</s:if>--%>

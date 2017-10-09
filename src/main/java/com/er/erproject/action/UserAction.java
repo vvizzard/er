@@ -22,7 +22,7 @@ public class UserAction extends BaseAction {
     private List<User> listeUser;
     private UserService userService;    
 
-    private String nom, prenom, cin, matricule, identifiant, pw="", dateNaissance, dateEmbauche, departement = "", critere;
+    private String nom, prenom, cin, matricule, identifiant, pw="", dateNaissance, dateEmbauche, departement = "", critere, error="";
     private Date dateDeNaissance, dateDEmbauche;
     private List<Departement> departements;
     private int id = 0;
@@ -90,6 +90,7 @@ public class UserAction extends BaseAction {
             return Action.SUCCESS;
         } catch (Exception ex) {
             ex.printStackTrace();
+            error = ex.getMessage();
             return Action.ERROR;
         }
     }
@@ -289,4 +290,12 @@ public class UserAction extends BaseAction {
         this.mine = mine;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+    
 }

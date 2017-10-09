@@ -118,9 +118,20 @@ public class UserService {
         }
     }
 
-    public void save(User obj) throws Exception {        
-        obj.setPw(UtilService.crypterHashage(obj.getPw()));
-        hbdao.save(obj);        
+    public void save(User obj) throws Exception {                
+        try {
+            User temp = login(obj.getIdentifiant(), obj.getPw());
+            if(temp == null) {
+                obj.setPw(UtilService.crypterHashage(obj.getPw()));
+                hbdao.save(obj);
+            }
+            else throw new Exception("compte deja existant");
+        } catch(IndexOutOfBoundsException i) {
+            obj.setPw(UtilService.crypterHashage(obj.getPw()));
+            hbdao.save(obj);        
+        } catch(Exception e) {
+            throw e;
+        }
     }
     
     public void update(User obj) throws Exception {

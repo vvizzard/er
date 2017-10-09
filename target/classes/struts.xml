@@ -177,6 +177,16 @@
             <result name="error">vue/inventaire.jsp</result>
         </action>
         
+        <action name="downloadInventaire" class="com.er.erproject.action.InventaireAction" method="download">
+            <result name="success" type="stream">
+                <param name="contentDisposition">attachment;filename=${fileName}</param>
+                <param name="contentType">application/pdf</param>
+                <param name="inputName">fileInputStream</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="error" type="redirect">vue/inventaire.jsp</result>            
+        </action>
+        
         <action name="rechercheInventaire" class="com.er.erproject.action.InventaireAction" method="recherche">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
@@ -243,6 +253,16 @@
             <result name="input">vue/sortieArticle.jsp</result>
             <result name="success">vue/sortieArticle.jsp</result>
             <result name="error">vue/sortieArticle.jsp</result>
+        </action>
+        
+        <action name="download" class="com.er.erproject.action.SortieAction" method="download">
+            <result name="success" type="stream">
+                <param name="contentDisposition">attachment;filename=${fileName}</param>
+                <param name="contentType">application/pdf</param>
+                <param name="inputName">fileInputStream</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="error" type="redirect">vue/sortieArticle.jsp</result>            
         </action>
         
         <action name="ajoutDemandeurSortie" class="com.er.erproject.action.SortieAction" method="ajoutDemandeur">
@@ -521,6 +541,14 @@
         </action>
         
         <action name="historiqueProjet" class="com.er.erproject.action.ListeHistoriqueAction" method="historique">
+            <result name="tolog" type = "redirectAction">
+                <param name="actionName">lg</param>
+            </result>
+            <result name="success">vue/historiqueProjet.jsp</result>
+            <result name="error">vue/historiqueProjet.jsp</result>
+        </action>
+        
+        <action name="rechercheHistoriqueProjet" class="com.er.erproject.action.ListeHistoriqueAction" method="recherche">
             <result name="tolog" type = "redirectAction">
                 <param name="actionName">lg</param>
             </result>

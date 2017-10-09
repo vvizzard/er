@@ -10,5 +10,11 @@
     
     <bean id="utilService" class="com.er.erproject.service.UtilService">
         <property name="inventaireService" ref="inventaireService" />        
+    </bean>
+    <bean id="vueHistoriqueBonService" class="com.er.erproject.service.VueHistoriqueBonService">
+        <property name="hbdao" ref="hbdao" />        
+    </bean>  
+    <bean id="listeHistoriqueAction" class="com.er.erproject.action.ListeHistoriqueAction">
+        <property name="vueHistoriqueBonService" ref="vueHistoriqueBonService" />        
     </bean>            
 </beans>

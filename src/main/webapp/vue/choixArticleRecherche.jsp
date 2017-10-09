@@ -64,32 +64,39 @@
                                             <br />
                                             <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                                 <div class="row">
-                                                    <div class="col-sm-6 col-sm-offset-6">
-                                                        <div id="datatable_filter" class="dataTables_filter">
-                                                            <select class="form-control input-sm" name="searchFamille" placeholder="Categorie" aria-controls="datatable">
-                                                                <option>Famille</option>
-                                                                <s:iterator value="listeFamille" status="inc">
-                                                                    <s:if test="%{searchFamille==listeFamille.get(#inc.index)}">
-                                                                        <option selected="true"><s:property/></option>
-                                                                    </s:if>
-                                                                    <s:else>
-                                                                        <option><s:property/></option>
-                                                                    </s:else>
-                                                                </s:iterator>
-                                                            </select>
-                                                            <select class="form-control input-sm" name="searchEmplacement" placeholder="Emplacement" aria-controls="datatable">
-                                                                <option>Emplacement</option>
-                                                                <s:iterator value="listeEmplacement" status="inc">
-                                                                    <s:if test="%{searchEmplacement==listeEmplacement.get(#inc.index)}">
-                                                                        <option selected="true"><s:property/></option>
-                                                                    </s:if>
-                                                                    <s:else>
-                                                                        <option><s:property/></option>
-                                                                    </s:else>
-                                                                </s:iterator>
-                                                            </select>
+                                                    <div class="col-sm-8 col-sm-offset-4">
+                                                        <div id="datatable_filter" class="dataTables_filter">                                                            
+                                                            <div class="col-md-5">
+                                                                Famille :
+                                                                <select class="form-control input-sm" name="searchFamille" placeholder="Categorie" aria-controls="datatable">
+                                                                    <option>Tout</option>
+                                                                    <s:iterator value="listeFamille" status="inc">
+                                                                        <s:if test="%{famille==listeFamille.get(#inc.index)}">
+                                                                            <option selected="true"><s:property/></option>
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                            <option><s:property/></option>
+                                                                        </s:else>
+                                                                    </s:iterator>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                Emplacement: 
+                                                                <select class="form-control input-sm" style="width:90%;" name="searchEmplacement" placeholder="Emplacement" aria-controls="datatable">
+                                                                    <option>Tout</option>
+                                                                    <s:iterator value="listeEmplacement" status="inc">
+                                                                        <s:if test="%{emplacement==listeEmplacement.get(#inc.index)}">
+                                                                            <option selected="true"><s:property/></option>
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                            <option><s:property/></option>
+                                                                        </s:else>
+                                                                    </s:iterator>
+                                                                </select>                                                            
+                                                            </div>
+                                                            <div class="col-md-2"><br><input style="height: 29px;" type="submit"></div>
                                                         </div>
-                                                        <div id="datatable_filter" class="dataTables_filter"><label><input type="search" name="critere" class="form-control input-sm" value="<s:property value="critere"/>" placeholder="Rechercher" aria-controls="datatable"></label></div>
+                                                        <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <br><input type="search" class="form-control input-sm" placeholder="" name="critere" aria-controls="datatable" value="<s:property value="critere"/>"></label></div>                                                                                                                
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -168,7 +175,7 @@
                                             </div>
                                             <br>
                                             <s:hidden name="type" value="%{type}"></s:hidden>
-                                            <input type="submit" style="display: none">
+                                            <!--<input type="submit" style="display: none">-->
                                         </form>
                                     </div>
                                 </div>

@@ -62,19 +62,19 @@
                                         </div>                                        
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
                                             <span class="count_top"> Stock minimal</span>
-                                            <s:if test="%{nbrSM!=0}"><a href="rechercheInventaire?typeFiltreS=sm&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></s:else>
+                                            <s:if test="%{nbrSM!=0}"><a href="rechercheInventaire?typeFiltreS=sm&famille=Tout&emplacement=Tout&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSM()"/></div></s:else>
                                             </div>
                                             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
                                                 <span class="count_top"> Stock d'alerte</span>
-                                            <s:if test="%{nbrSA!=0}"><a href="rechercheInventaire?typeFiltreS=sa&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></s:else>
+                                            <s:if test="%{nbrSA!=0}"><a href="rechercheInventaire?typeFiltreS=sa&famille=Tout&emplacement=Tout&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSA()"/></div></s:else>
                                             </div>
                                             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count " style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
                                                 <span class="count_top"> Stock de sécurité</span>
-                                            <s:if test="%{nbrSS!=0}"><a href="rechercheInventaire?typeFiltreS=ss&famille=Famille&emplacement=Emplacement&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></s:else>
+                                            <s:if test="%{nbrSS!=0}"><a href="rechercheInventaire?typeFiltreS=ss&famille=Tout&emplacement=Tout&critere="><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></a></s:if><s:else><div class="count" style="text-align: right;"><s:property value="getNbrSS()"/></div></s:else>
                                             </div>
                                             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
                                                 <span class="count_top"> Nombre totale</span>
-                                                <a href="etatInventaire"><div class="count" style="text-align: right;"><s:property value="%{totalArticle}"/></div></a>
+                                                    <a href="etatInventaire"><div class="count" style="text-align: right;"><s:property value="%{totalArticle}"/></div></a>
                                         </div>
                                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="margin-bottom: 0px; padding-bottom: 0px;text-align: right;">
                                             <span class="count_top"><i class="fa fa-usd" aria-hidden="true"></i> Valeur de stock</span>
@@ -87,32 +87,42 @@
                                             <br />
                                             <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                                 <div class="row">
-                                                    <div class="col-sm-6 col-sm-offset-6">
-                                                        <div id="datatable_filter" class="dataTables_filter">
-                                                            <select class="form-control input-sm" name="famille" placeholder="Categorie" aria-controls="datatable">
-                                                                <option>Famille</option>
-                                                                <s:iterator value="listeFamille" status="inc">
-                                                                    <s:if test="%{famille==listeFamille.get(#inc.index)}">
-                                                                        <option selected="true"><s:property/></option>
-                                                                    </s:if>
-                                                                    <s:else>
-                                                                        <option><s:property/></option>
-                                                                    </s:else>
-                                                                </s:iterator>
-                                                            </select>
-                                                            <select class="form-control input-sm" name="emplacement" placeholder="Emplacement" aria-controls="datatable">
-                                                                <option>Emplacement</option>
-                                                                <s:iterator value="listeEmplacement" status="inc">
-                                                                    <s:if test="%{emplacement==listeEmplacement.get(#inc.index)}">
-                                                                        <option selected="true"><s:property/></option>
-                                                                    </s:if>
-                                                                    <s:else>
-                                                                        <option><s:property/></option>
-                                                                    </s:else>
-                                                                </s:iterator>
-                                                            </select>
+                                                    <div class="col-sm-4">                                                        
+                                                        <a href="downloadInventaire"><button class="btn btn-app" type="button"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button></a>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <div id="datatable_filter" class="dataTables_filter">                                                            
+                                                            <div class="col-md-5">
+                                                                Famille :
+                                                                <select class="form-control input-sm" name="famille" placeholder="Categorie" aria-controls="datatable">
+                                                                    <option>Tout</option>
+                                                                    <s:iterator value="listeFamille" status="inc">
+                                                                        <s:if test="%{famille==listeFamille.get(#inc.index)}">
+                                                                            <option selected="true"><s:property/></option>
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                            <option><s:property/></option>
+                                                                        </s:else>
+                                                                    </s:iterator>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                Emplacement: 
+                                                                <select class="form-control input-sm" style="width:90%;" name="emplacement" placeholder="Emplacement" aria-controls="datatable">
+                                                                    <option>Tout</option>
+                                                                    <s:iterator value="listeEmplacement" status="inc">
+                                                                        <s:if test="%{emplacement==listeEmplacement.get(#inc.index)}">
+                                                                            <option selected="true"><s:property/></option>
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                            <option><s:property/></option>
+                                                                        </s:else>
+                                                                    </s:iterator>
+                                                                </select>                                                            
+                                                            </div>
+                                                            <div class="col-md-2"><br><input style="height: 29px;" type="submit"></div>
                                                         </div>
-                                                        <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <input type="search" class="form-control input-sm" placeholder="" name="critere" aria-controls="datatable" value="<s:property value="critere"/>"></label></div>                                                        
+                                                        <div id="datatable_filter" class="dataTables_filter"><label>Rechercher: <br><input type="search" class="form-control input-sm" placeholder="" name="critere" aria-controls="datatable" value="<s:property value="critere"/>"></label></div>                                                                                                                
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -167,8 +177,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <br>
-                                            <input type="submit" style="display: none">
+                                            <br>                                            
                                         </form>
                                     </div>
                                 </div>

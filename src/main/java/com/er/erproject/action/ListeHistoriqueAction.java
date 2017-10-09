@@ -7,9 +7,12 @@ package com.er.erproject.action;
 
 import com.er.erproject.modele.VueHistoriqueBon;
 import com.er.erproject.modele.VueHistoriqueProjet;
+import com.er.erproject.service.VueHistoriqueBonService;
 import com.opensymphony.xwork2.Action;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +23,7 @@ import java.util.logging.Logger;
 public class ListeHistoriqueAction extends BaseAction {
 
     private List<VueHistoriqueProjet> listeProjet;
-    
+    private VueHistoriqueBonService vueHistoriqueBonService;
 //  list    
     private List<VueHistoriqueBon> listeHistorique;
     
@@ -28,7 +31,7 @@ public class ListeHistoriqueAction extends BaseAction {
     private String refBon;
     private String demandeur;
     private String projet;
-    private String type;
+    private String type = "";
     private String article;
     private String facture;    
     private String debut;
@@ -37,6 +40,8 @@ public class ListeHistoriqueAction extends BaseAction {
     private double nbrMax;
     private double valeurMin;
     private double valeurMax;
+    private String page = "1";
+    private List<String> nbrPage;
 
     public String load() {
         try {
@@ -73,6 +78,46 @@ public class ListeHistoriqueAction extends BaseAction {
             ex.printStackTrace();
             return Action.ERROR;
         }
+    }
+    
+    public String recherche() {
+        try {
+            if(!sessionCheck()) return "tolog";            
+            Map critere = new HashMap<>();
+            if(refBon.compareTo("")==0) critere.putIfAbsent("refBon", null);
+            if(refBon.compareTo("")!=0) critere.putIfAbsent("refBon", refBon);
+            critere.putIfAbsent("demandeur", demandeur);
+            critere.putIfAbsent("projet", projet);
+            critere.putIfAbsent("type", type);
+            critere.putIfAbsent("article", article);
+            critere.putIfAbsent("facture", facture);
+            critere.putIfAbsent("debut", debut);
+            critere.putIfAbsent("fin", fin);
+            critere.putIfAbsent("nbrMin", nbrMin);
+            critere.putIfAbsent("nbrMax", nbrMax);
+            critere.putIfAbsent("valeurMin", valeurMin);
+            critere.putIfAbsent("valeurMax", valeurMax);
+            critere.putIfAbsent("page", Integer.parseInt(page));
+            listeHistorique = vueHistoriqueBonService.find(critere);
+            fillPagination(critere);
+            return Action.SUCCESS;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.ERROR;
+        }
+    }
+    
+    private void fillPagination(Map critere) throws Exception {
+        long total = vueHistoriqueBonService.rowNumber(critere);
+        List<Integer> val = new ArrayList<>();
+        int i;
+        long finPas = total/10;
+        for(i = 1; i <= finPas; i++) {
+            val.add(i);
+        }
+        if(total - (i - 1) > 0)val.add(i);  
+        nbrPage = new ArrayList<>();
+        for(Integer temp : val) nbrPage.add(temp.toString());        
     }
 
     public List<VueHistoriqueProjet> getListeProjet() {
@@ -186,6 +231,29 @@ public class ListeHistoriqueAction extends BaseAction {
     public void setValeurMax(double valeurMax) {
         this.valeurMax = valeurMax;
     }
-    
+
+    public VueHistoriqueBonService getVueHistoriqueBonService() {
+        return vueHistoriqueBonService;
+    }
+
+    public void setVueHistoriqueBonService(VueHistoriqueBonService vueHistoriqueBonService) {
+        this.vueHistoriqueBonService = vueHistoriqueBonService;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public List<String> getNbrPage() {
+        return nbrPage;
+    }
+
+    public void setNbrPage(List<String> nbrPage) {
+        this.nbrPage = nbrPage;
+    }
     
 }

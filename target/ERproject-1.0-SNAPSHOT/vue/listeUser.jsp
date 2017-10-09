@@ -100,7 +100,7 @@
                                                                         <th class="column-title">Prenom </th>
                                                                         <th class="column-title">Date de naissance</th>
                                                                         <th class="column-title">CIN</th>
-                                                                        <th class="column-title">Departement</th>       
+                                                                        <th class="column-title">Acces</th>       
                                                                         <th></th>
                                                                     </tr>
                                                                 </thead>
@@ -113,7 +113,7 @@
                                                                                 <td class="odd pointer clickable-row" data-href='ajoutDemandeur?idDemandeur=<s:property value="getId()" />'><s:property value="getPrenom()" /></td>  
                                                                                 <td class="odd pointer clickable-row" data-href='ajoutDemandeur?idDemandeur=<s:property value="getId()" />'><s:property value="getDateNaissanceString()"/></td>
                                                                                 <td class="odd pointer clickable-row" data-href='ajoutDemandeur?idDemandeur=<s:property value="getId()" />'><s:property value="getCin()"/></td>
-                                                                                <td class="odd pointer clickable-row" data-href='ajoutDemandeur?idDemandeur=<s:property value="getId()" />'><s:property value="getDepartement().getDesignation()" /></td>                                                                        
+                                                                                <td class="odd pointer clickable-row" data-href='ajoutDemandeur?idDemandeur=<s:property value="getId()" />'><s:property value="getDepartement().getDesignation()" /></td>                                                                                
                                                                             </tr>
                                                                         </s:iterator>                                                                        
                                                                     </s:if>
@@ -138,6 +138,7 @@
                                                                                 <td class="odd pointer clickable-row" data-href='loadUser?id=<s:property value="getId()" />'><s:property value="getDateNaissanceString()"/></td>
                                                                                 <td class="odd pointer clickable-row" data-href='loadUser?id=<s:property value="getId()" />'><s:property value="getCin()"/></td>
                                                                                 <td class="odd pointer clickable-row" data-href='loadUser?id=<s:property value="getId()" />'><s:property value="getDepartement().getDesignation()" /></td>                                                                        
+                                                                                <td style="padding: 0px;"><i class=" btn btn-xs fa fa-trash-o fa-2x del clickable-row" data-href="deleteUser?id=<s:property value="getId()"></s:property>"></i></td>
                                                                                 </tr>
                                                                         </s:iterator>
                                                                     </s:else>

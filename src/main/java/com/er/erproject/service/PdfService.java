@@ -85,7 +85,7 @@ public class PdfService {
     public PdfService(Bon bon,Date date, String er, String telma) throws Exception {
         this.bon = bon;
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("E:/vvizard/Projet en cours/ERproject/src/main/webapp/preuveEntree/bonDeSortie.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("preuveEntree/bonDeSortie.pdf"));
         setNumberPage(writer);
         document.open();
         addMetaData(document);
@@ -129,7 +129,7 @@ public class PdfService {
 
         PdfPCell cell;
 
-        cell = new PdfPCell(new Phrase(20, "BON DE SORTIEjhlkhljkh", boltTableFont)/**Image.getInstance("C:/Users/diary/Documents/Develeppoment/Logo/telma.jpg")*/);
+        cell = new PdfPCell(new Phrase(20, "ER", boltTableFont)/**Image.getInstance("C:/Users/diary/Documents/Develeppoment/Logo/telma.jpg")*/);
         cell.setRowspan(5);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);

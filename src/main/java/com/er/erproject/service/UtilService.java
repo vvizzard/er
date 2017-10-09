@@ -246,12 +246,12 @@ public class UtilService {
             String qryP1 = "select * from vueinventaire "
                     + " where article ilike :critere ";
             String qryP2 = " or code ilike :critere ";
-            if (famille.compareTo("Famille") != 0) {
+            if (famille.compareTo("Tout") != 0) {
                 qryP1 += " and famille = :fm";
                 qryP2 += " and famille = :fm";
                 check += 1;
             }
-            if (emplacement.compareTo("Emplacement") != 0) {
+            if (emplacement.compareTo("Tout") != 0) {
                 qryP1 += " and emplacement = :ep";
                 qryP2 += " and emplacement = :ep";
                 check += 2;

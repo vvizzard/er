@@ -59,100 +59,101 @@
                                     </div>
                                     <div class="x_content">
                                         <br />
-                                        <form method="get" action="">
+                                        <form method="get" action="rechercheHistoriqueProjet">
                                             <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                                 <div class="row">
 
                                                     <div class="col-md-2">
                                                         Reference bon
-                                                        <input type="text" value="refBon">
+                                                        <input type="text" name="refBon" value="<s:property value="%{refBon}"/>">
                                                     </div>
                                                     <div class="col-md-2">
                                                         Demandeur
-                                                        <input type="text" value="demandeur">
+                                                        <input type="text" name="demandeur" value="<s:property value="%{demandeur}"/>">
                                                     </div>
                                                     <div class="col-md-2">
                                                         Projet
-                                                        <input type="text" value="projet">
+                                                        <input type="text" name="projet" value="<s:property value="%{projet}"/>">
                                                     </div>
                                                     <div class="col-md-2">
                                                         Type<br>
-                                                        <select name="type" style="width: 88%; height: 26px;" value="type">
-                                                            <option<s:if test="%{type==entree}"> selected="true" </s:if>>entree</option>
-                                                            <option<s:if test="%{type==sortie}"> selected="true" </s:if>>sortie</option>
+                                                        <select name="type" style="width: 88%; height: 26px;">
+                                                            <option<s:if test="%{type!=entree&&type!=sortie}"> selected="true" </s:if>>Tout</option>
+                                                            <option<s:if test="%{type==entree}"> selected="true" </s:if>>Entree</option>
+                                                            <option<s:if test="%{type==sortie}"> selected="true" </s:if>>Sortie</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-2">
                                                             Article
-                                                            <input type="text" value="article">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            Facture
-                                                            <input type="text" value="facture">
-                                                        </div>
+                                                            <input type="text" name="article" value="<s:property value="%{article}"/>">
                                                     </div>
-                                                    <div class="row">                                                
-                                                        <div class="col-md-2">
-                                                            Date entre
-                                                            <input type="date" value="debut">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            et<br>
-                                                            <input type="date" value="fin">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            Nombre min
-                                                            <input type="number" step="0.01" value="nbrMin">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            Nombre max
-                                                            <input type="number" step="0.01" value="nbrMax">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            Valeur min
-                                                            <input type="number" step="0.01" value="valeurMin">
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            Valeur max
-                                                            <input type="number" step="0.01" value="valeurMax">
-                                                        </div>                                                                                                
+                                                    <div class="col-md-2">
+                                                        Facture
+                                                        <input type="text" name="facture" value="<s:property value="%{facture}"/>">
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-10"></div>
-                                                        <div class="col-md-2">
-                                                            <br>
-                                                            <input type="submit" value="Rechercher" style="width: 90%;">
-                                                        </div>
+                                                </div>
+                                                <div class="row">                                                
+                                                    <div class="col-md-2">
+                                                        Date entre
+                                                        <input type="date" name="debut" value="<s:property value="%{debut}"/>">
                                                     </div>
-                                                    <div class="row">                                                    
-                                                        <div class="x_title">                                                    
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <script>
-                                                            jQuery(document).ready(function ($) {
-                                                                $(".clickable-row").click(function () {
-                                                                    window.location = $(this).data("href");
-                                                                });
-                                                            });
-                                                        </script>
-                                                        <div class="col-sm-12">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-striped jambo_table bulk_action">
-                                                                    <thead>
-                                                                        <tr class="headings">
-                                                                            <th class="column-title">Id </th>
-                                                                            <th class="column-title">Demandeur</th>                                                                    
-                                                                            <th class="column-title">Projet</th>
-                                                                            <th class="column-title">Type</th>
-                                                                            <th class="column-title">Date</th>
-                                                                            <th class="column-title">Facture</th>
-                                                                            <th class="column-title">Article</th>
-                                                                            <th class="column-title">Nombre</th>
-                                                                            <th class="column-title">Valeur</th>
-                                                                            <th class="column-title">Justification</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
+                                                    <div class="col-md-2">
+                                                        et<br>
+                                                        <input type="date" name="fin" value="<s:property value="%{fin}"/>">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Nombre min
+                                                        <input type="number" step="0.01" name="nbrMin" value="<s:property value="%{nbrMin}"/>">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Nombre max
+                                                        <input type="number" step="0.01" name="nbrMax" value="<s:property value="%{nbrMax}"/>">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Valeur min
+                                                        <input type="number" step="0.01" name="valeurMin" value="<s:property value="%{valeurMin}"/>">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Valeur max
+                                                        <input type="number" step="0.01" name="valeurMax" value="<s:property value="%{valeurMax}"/>">
+                                                    </div>                                                                                                
+                                                </div>                                                
+                                                <div class="row">
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+                                                        <br>
+                                                        <input type="submit" value="Rechercher" style="width: 90%;">
+                                                    </div>
+                                                </div>
+                                                <div class="row">                                                    
+                                                    <div class="x_title">                                                    
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <!--                                                        <script>
+                                                                                                                jQuery(document).ready(function ($) {
+                                                                                                                    $(".clickable-row").click(function () {
+                                                                                                                        window.location = $(this).data("href");
+                                                                                                                    });
+                                                                                                                });
+                                                                                                            </script>-->
+                                                    <div class="col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped jambo_table bulk_action">
+                                                                <thead>
+                                                                    <tr class="headings">
+                                                                        <th class="column-title">Id </th>
+                                                                        <th class="column-title">Demandeur</th>                                                                    
+                                                                        <th class="column-title">Projet</th>
+                                                                        <th class="column-title">Type</th>
+                                                                        <th class="column-title">Date</th>
+                                                                        <th class="column-title">Facture</th>
+                                                                        <th class="column-title">Article</th>
+                                                                        <th class="column-title">Nombre</th>
+                                                                        <th class="column-title">Valeur</th>
+                                                                        <th class="column-title">Justification</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
                                                                     <s:iterator value="listeHistorique">
                                                                         <tr class="odd pointer clickable-row" data-href='listeBon?idProjet=<s:property value="getId()"></s:property>'>                                                                        
                                                                             <td><s:property value="getId()" /></td>
@@ -168,12 +169,23 @@
                                                                         </tr>
                                                                     </s:iterator>                                                                        
                                                                 </tbody>
-                                                            </table>
+                                                            </table>                                                            
+                                                            <ul class="pagination">                                                                
+                                                                <s:iterator value="nbrPage" status="inc">
+                                                                    <s:if test="%{page==nbrPage.get(#inc.index)}">
+                                                                        <li class="active"><a href="rechercheHistoriqueProjet?refBon=<s:property value="%{refBon}"/>&demandeur=<s:property value="%{demandeur}"/>&projet=<s:property value="%{projet}"/>&type=<s:property value="%{type}"/>&article=<s:property value="%{article}"/>&facture=<s:property value="%{facture}"/>&debut=<s:property value="%{debut}"/>&fin=<s:property value="%{fin}"/>&nbrMin=<s:property value="%{nbrMin}"/>&nbrMax=<s:property value="%{nbrMax}"/>&valeurMin=<s:property value="%{valeurMin}"/>&valeurMax=<s:property value="%{valeurMax}"/>&page=<s:property/>"><s:property/></a></li>
+                                                                        </s:if>
+                                                                        <s:else>
+                                                                        <li><a href="rechercheHistoriqueProjet?refBon=<s:property value="%{refBon}"/>&demandeur=<s:property value="%{demandeur}"/>&projet=<s:property value="%{projet}"/>&type=<s:property value="%{type}"/>&article=<s:property value="%{article}"/>&facture=<s:property value="%{facture}"/>&debut=<s:property value="%{debut}"/>&fin=<s:property value="%{fin}"/>&nbrMin=<s:property value="%{nbrMin}"/>&nbrMax=<s:property value="%{nbrMax}"/>&valeurMin=<s:property value="%{valeurMin}"/>&valeurMax=<s:property value="%{valeurMax}"/>&page=<s:property/>"><s:property/></a></li>
+                                                                        </s:else> 
+                                                                    </s:iterator>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
+                                        <input type="hidden" name="page" value="<s:property value="%{page}"/>">
                                         <br>
                                     </div>
                                 </div>

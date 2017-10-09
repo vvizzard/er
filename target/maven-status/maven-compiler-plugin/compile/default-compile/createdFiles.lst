@@ -45,6 +45,7 @@ com\er\erproject\modele\Fournisseur.class
 com\er\erproject\action\ListeHistoriqueAction.class
 com\er\erproject\modele\Projet.class
 com\er\erproject\service\ArticleService.class
+com\er\erproject\service\VueHistoriqueBonService.class
 com\er\erproject\action\NouvelArticleAction.class
 com\er\erproject\action\FournisseurAction.class
 com\er\erproject\service\PdfService$1.class
